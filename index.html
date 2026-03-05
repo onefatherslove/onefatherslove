@@ -1,1 +1,511 @@
+Here it is — select all and replace everything in your index.html with this:
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>One Father's Love — Sacramento Resource Directory</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  :root {
+    --crimson: #800000;
+    --crimson-mid: rgba(128,0,0,0.25);
+    --crimson-light: rgba(128,0,0,0.1);
+    --gold: #c9a84c;
+    --black: #060606;
+    --white: #fff;
+    --gray: #999;
+    --light-gray: #ccc;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  #hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a0000;
+  }
+
+  #hero iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 177.78vh;
+    height: 56.25vw;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    border: 0;
+    pointer-events: none;
+  }
+
+  #hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      rgba(0,0,0,0.4) 0%,
+      rgba(0,0,0,0.15) 40%,
+      rgba(0,0,0,0.75) 100%);
+    z-index: 1;
+  }
+
+  #hero-title {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  #hero-title h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.8rem, 9vw, 7rem);
+    font-weight: 300;
+    color: var(--white);
+    text-shadow: 0 2px 40px rgba(0,0,0,0.9);
+    line-height: 1.05;
+    letter-spacing: 0.05em;
+  }
+
+  #hero-title .tagline {
+    margin-top: 14px;
+    font-size: clamp(0.65rem, 1.8vw, 0.85rem);
+    letter-spacing: 0.4em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+
+  #hero-title .mission {
+    margin-top: 20px;
+    color: rgba(255,255,255,0.75);
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.7;
+    font-style: italic;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    opacity: 0.55;
+    animation: bounce 2.2s infinite;
+  }
+
+  .scroll-hint span {
+    font-size: 0.6rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(9px); }
+  }
+
+  #about-strip {
+    background: var(--crimson);
+    padding: 28px 30px;
+    text-align: center;
+  }
+
+  #about-strip p {
+    font-size: 0.82rem;
+    line-height: 1.8;
+    color: rgba(255,255,255,0.88);
+    max-width: 800px;
+    margin: 0 auto;
+    letter-spacing: 0.03em;
+  }
+
+  #about-strip strong { color: var(--white); font-weight: 500; }
+
+  #directory-section {
+    padding: 70px 20px 40px;
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.62rem;
+    letter-spacing: 0.45em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 50px;
+    color: var(--white);
+  }
+
+  .nav-item {
+    height: 62px;
+    overflow: hidden;
+    transition: height 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
+                opacity 0.4s ease,
+                background 0.3s ease;
+    opacity: 0.3;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    cursor: pointer;
+  }
+
+  .nav-item:first-of-type { border-top: 1px solid rgba(255,255,255,0.08); }
+
+  .nav-item.active {
+    height: 110px;
+    opacity: 1;
+    background: var(--crimson-light);
+  }
+
+  .nav-item-inner { padding: 16px 20px; }
+
+  .nav-item h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 8px;
+  }
+
+  .nav-item h3 .num {
+    font-size: 0.65rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    font-family: 'Montserrat', sans-serif;
+    min-width: 24px;
+  }
+
+  .nav-item h3::after {
+    content: '›';
+    margin-left: auto;
+    color: var(--gold);
+    font-size: 1.4rem;
+    transition: transform 0.3s;
+  }
+
+  .nav-item.active h3::after { transform: rotate(90deg); }
+
+  .nav-item p {
+    font-size: 0.78rem;
+    color: var(--gray);
+    line-height: 1.6;
+    padding-left: 38px;
+  }
+
+  .nav-item a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  footer {
+    background: #0d0000;
+    border-top: 1px solid rgba(128,0,0,0.4);
+    padding: 40px 20px;
+    margin-top: 60px;
+    text-align: center;
+  }
+
+  footer .footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 24px;
+    margin-bottom: 20px;
+  }
+
+  footer .footer-links a {
+    color: var(--gray);
+    text-decoration: none;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+
+  footer .footer-links a:hover { color: var(--gold); }
+  footer .copy { font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; }
+  footer .license { margin-top: 8px; font-size: 0.65rem; color: rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+
+<section id="hero">
+  <iframe
+    src="https://www.youtube.com/embed/VYSIYQ5v4YY?autoplay=1&muted=1&loop=1&playlist=VYSIYQ5v4YY&controls=0&showinfo=0&modestbranding=1&rel=0"
+    allow="autoplay; encrypted-media"
+    allowfullscreen>
+  </iframe>
+  <div id="hero-overlay"></div>
+  <div id="hero-title">
+    <h1>One Father's Love</h1>
+    <p class="tagline">Sacramento Community Resource Directory</p>
+    <p class="mission">"Helping Individuals and Families Achieve Self-Sufficiency"</p>
+  </div>
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<div id="about-strip">
+  <p>
+    <strong>OneFathersLove.com</strong> is maintained by <strong>Victor Stark</strong>, a Certified Social Worker, connecting individuals with resources to overcome health challenges while prioritizing privacy. Over <strong>140 categories</strong> of Sacramento resources — updated daily.
+  </p>
+</div>
+
+<section id="directory-section">
+  <p class="section-label">Browse Resources</p>
+  <h2 class="section-title">Sacramento Directory</h2>
+
+  <div id="acc">
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/Vaccination_for_dog_cat_animal_in_sacramento" target="_blank">
+          <h3><span class="num">—</span> Pet Vaccinations</h3>
+          <p>Low-cost and free pet vaccination resources in Sacramento.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/sacramentoaffodablehousing.aspx" target="_blank">
+          <h3><span class="num">01</span> Apts · Mental Health · Senior & Disability</h3>
+          <p>Subsidized apartments based on income, mental health housing, senior and disability housing options.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/Sacramento_Low_Income_Housing_for_Rent.aspx" target="_blank">
+          <h3><span class="num">02</span> Section 8 · HUD · Transitional Housing</h3>
+          <p>Section 8 vouchers, HUD housing, and transitional housing programs in Sacramento.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/Sacramentoemergencyshelters.aspx" target="_blank">
+          <h3><span class="num">03</span> Shelters and Vouchers</h3>
+          <p>Emergency shelters and housing voucher programs for individuals and families.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/Energy_Utility_Assistance_Programs_Sacramento.aspx" target="_blank">
+          <h3><span class="num">04</span> Rent · Utility · Furniture</h3>
+          <p>Rental assistance, utility payment help, and free furniture resources.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/medicaldentalsacramento.aspx" target="_blank">
+          <h3><span class="num">05</span> FREE Clinics & All Medical</h3>
+          <p>Free clinics open weekends, prenatal care, women's clinics, and all medical services.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/sacramentofreelowcostdental.aspx" target="_blank">
+          <h3><span class="num">06</span> FREE & Low Cost Dental</h3>
+          <p>Free and sliding-scale dental care providers throughout Sacramento County.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/FoodandMealServices.aspx" target="_blank">
+          <h3><span class="num">08</span> Food Banks & Soup Kitchens</h3>
+          <p>Emergency food, mobile food banks, soup kitchens, and free meal services.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/sacramentoparentingclasses.aspx" target="_blank">
+          <h3><span class="num">09</span> Parenting Classes · Resource Centers</h3>
+          <p>Free parenting classes and family resource centers across Sacramento.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/sacramentopregnancy.aspx" target="_blank">
+          <h3><span class="num">10</span> FREE Ultrasound · Diapers · WIC</h3>
+          <p>Free ultrasound services, diaper banks, and WIC office locations and phone numbers.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/singleparentservices.aspx" target="_blank">
+          <h3><span class="num">11</span> Counseling · Anger & Youth · Fathers Resources</h3>
+          <p>Free counseling, anger management, youth classes, and dedicated fathers' resources.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/Job_fairs_and_career_fairs_in_sacramento" target="_blank">
+          <h3><span class="num">12</span> Job Fairs & Felon Resources</h3>
+          <p>Job fairs, career fairs, and employment resources for those with criminal records.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/daycare.aspx" target="_blank">
+          <h3><span class="num">13</span> Free Child Care</h3>
+          <p>Free and subsidized child care and daycare options in Sacramento County.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/clothingservices.aspx" target="_blank">
+          <h3><span class="num">14</span> Free Clothes</h3>
+          <p>Free clothing services, thrift resources, and clothing banks for families in need.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/seniorprogramssacramento.aspx" target="_blank">
+          <h3><span class="num">15</span> Senior Services</h3>
+          <p>Programs and services dedicated to seniors including meals, transport, and care.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/State_Disability_Rights_Benifits_and_Resources_Sacramento_CA.aspx" target="_blank">
+          <h3><span class="num">16</span> Disability Benefits</h3>
+          <p>State disability rights, benefits, and resources for Sacramento residents.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/MentalHealthSacramento.aspx" target="_blank">
+          <h3><span class="num">17</span> Mental Health</h3>
+          <p>Mental health services, crisis support, and counseling resources in Sacramento.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/veteranservicessacramento.aspx" target="_blank">
+          <h3><span class="num">18</span> Veterans Resources</h3>
+          <p>Housing, healthcare, employment, and support services for Sacramento veterans.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/specialeducation.aspx" target="_blank">
+          <h3><span class="num">19</span> Special Needs</h3>
+          <p>Special education and disability support resources for children and adults.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/sacramentocommunityservices" target="_blank">
+          <h3><span class="num">—</span> Free Stuff, Gas & More</h3>
+          <p>Free household items, gas vouchers, and additional community services.</p>
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-item">
+      <div class="nav-item-inner">
+        <a href="https://onefatherslove.com/sacramentodrugandalcoholprograms.aspx" target="_blank">
+          <h3><span class="num">—</span> Drug & Alcohol Rehab — Sacramento</h3>
+          <p>California substance abuse treatment facility locator for Sacramento and surrounding areas.</p>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="aboutus.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+  <p class="copy">&copy; 2026 One Father's Love &nbsp;|&nbsp; All Rights Reserved</p>
+  <p class="license">License No. 156051 &nbsp;·&nbsp; Sacramento, CA 95816 &nbsp;·&nbsp; EIN: 27-2427226</p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('active', entry.isIntersecting);
+    });
+  }, { threshold: 0.4, rootMargin: "-25% 0px -25% 0px" });
+
+  document.querySelectorAll('.nav-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
+Paste that in, commit, and check https://onefatherslove.github.io/onefatherslove in your browser.
