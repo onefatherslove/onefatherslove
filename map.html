@@ -1,32 +1,86 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Sacramento Resource Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        #map { height: 600px; width: 100%; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: Arial, sans-serif; }
+        #map { height: 100%; width: 100%; }
+        /* Fix for the magnifying glass issue - making text BIG and CLEAR */
+        .leaflet-popup-content {
+            font-size: 18px !important;
+            line-height: 1.5;
+            font-weight: bold;
+            padding: 10px;
+        }
+        .dir-btn {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
-    <div id="map"></div>
 
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script>
-        // 1. Center map on Sacramento
-        const map = L.map('map').setView([38.5816, -121.4944], 11);
+<div id="map"></div>
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+    const map = L.map('map').setView([38.5816, -121.4944], 12);
 
-        // 2. The "Bridge" - Fetching your JSON data
-        fetch('sacramento_food.json')
-            .then(response => response.json())
-            .then(data => {
-                data.forEach(location => {
-                    L.marker([location.lat, location.lng])
-                        .addTo(map)
-                        .bindPopup(`<b>${location.name}</b><br>${location.address}<br>${location.hours}`);
-                });
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // DYNAMIC "YOU ARE HERE" FEATURE
+    map.locate({setView: false, watch: true, enableHighAccuracy: true});
+
+    let userMarker;
+    map.on('locationfound', function(e) {
+        if (!userMarker) {
+            userMarker = L.circleMarker(e.latlng, {
+                radius: 10,
+                color: '#fff',
+                fillColor: '#007bff',
+                fillOpacity: 0.9,
+                weight: 3
+            }).addTo(map).bindPopup("<b>You are here</b>").openPopup();
+        } else {
+            userMarker.setLatLng(e.latlng);
+        }
+    });
+
+    map.on('locationerror', function() {
+        console.log("Location access denied.");
+    });
+
+    // LOADING YOUR DATA
+    fetch('sacramento_food.json')
+        .then(response => response.json())
+        .then(data => {
+            data.forEach(place => {
+                const marker = L.marker([place.lat, place.lng]).addTo(map);
+                
+                // The blue line directions button
+                const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking`;
+                
+                marker.bindPopup(`
+                    <div style="min-width: 200px;">
+                        ${place.name}<br>
+                        <small>${place.address}</small><br>
+                        <small>Hours: ${place.hours}</small><br>
+                        <a href="${directionsUrl}" target="_blank" class="dir-btn">Get Directions (Blue Line)</a>
+                    </div>
+                `);
             });
-    </script>
+        });
+</script>
 </body>
 </html>
