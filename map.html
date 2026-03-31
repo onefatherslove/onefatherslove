@@ -8,22 +8,25 @@
     <style>
         body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: Arial, sans-serif; }
         #map { height: 100%; width: 100%; }
-        /* Fix for the magnifying glass issue - making text BIG and CLEAR */
+        
+        /* Fix for readability - BIG and CLEAR */
         .leaflet-popup-content {
             font-size: 18px !important;
-            line-height: 1.5;
-            font-weight: bold;
+            line-height: 1.4;
             padding: 10px;
         }
+        
         .dir-btn {
             display: block;
-            margin-top: 10px;
-            padding: 10px;
-            background: #007bff;
-            color: white;
+            margin-top: 12px;
+            padding: 12px;
+            background-color: #ff8c00; /* High-contrast Orange */
+            color: white !important;
             text-align: center;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
         }
     </style>
 </head>
@@ -67,16 +70,21 @@
         .then(data => {
             data.forEach(place => {
                 const marker = L.marker([place.lat, place.lng]).addTo(map);
-                
-                // The blue line directions button
+
+                // Open Google Maps in a NEW TAB (target="_blank") to keep your site open
                 const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking`;
-                
+
                 marker.bindPopup(`
-                    <div style="min-width: 200px;">
-                        ${place.name}<br>
-                        <small>${place.address}</small><br>
-                        <small>Hours: ${place.hours}</small><br>
-                        <a href="${directionsUrl}" target="_blank" class="dir-btn">Get Directions (Blue Line)</a>
+                    <div style="min-width: 220px;">
+                        <strong style="font-size: 20px;">${place.name}</strong><br>
+                        <span style="font-size: 16px; color: #333;">${place.address}</span><br>
+                        <span style="font-size: 16px; color: #333;">Hours: ${place.hours}</span><br>
+                        <a href="${directionsUrl}" target="_blank" class="dir-btn">
+                            Get Directions
+                        </a>
+                        <p style="font-size: 12px; color: #666; margin-top: 8px; font-weight: normal;">
+                            (Opens in new tab to keep map active)
+                        </p>
                     </div>
                 `);
             });
