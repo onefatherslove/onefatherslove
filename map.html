@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sacramento Resource Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        #map { height: 600px; width: 100%; }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // 1. Center map on Sacramento
+        const map = L.map('map').setView([38.5816, -121.4944], 11);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // 2. The "Bridge" - Fetching your JSON data
+        fetch('sacramento_food.json')
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(location => {
+                    L.marker([location.lat, location.lng])
+                        .addTo(map)
+                        .bindPopup(`<b>${location.name}</b><br>${location.address}<br>${location.hours}`);
+                });
+            });
+    </script>
+</body>
+</html>
