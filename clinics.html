@@ -6,7 +6,7 @@
     <style>
         body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
         .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        iframe { border: none; width: 100%; height: 700px; }
+        iframe { border: none; width: 100%; height: 1000px; } /* Increased height for better visibility */
         .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007bff; }
     </style>
 </head>
@@ -16,8 +16,7 @@
         <h1>Sacramento Area Free Clinics</h1>
         <p>Live data provided by Sacramento County GIS.</p>
         
-        <iframe src="https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0/query?where=1%3D1&outFields=USER_PRVDR_BUSNS_NAME,USER_PHYS_ST_1_ADR,USER_PHYS_CITY_NAME,USER_Phone&f=html"></iframe>
+        <iframe src="https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0/query?where=USER_PHYS_CITY_NAME='Sacramento'&outFields=USER_PRVDR_BUSNS_NAME,USER_PHYS_ST_1_ADR,USER_PHYS_CITY_NAME,USER_Phone&f=html"></iframe>
     </div>
 </body>
 </html>
-
