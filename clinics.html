@@ -2,54 +2,110 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Community Resources | Free Clinics Map</title>
-    
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sacramento Resource Map | Clinics</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
-        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        #map { height: 600px; width: 100%; border-radius: 8px; margin-top: 10px; }
-        .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007bff; }
+        body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: Arial, sans-serif; }
+        #map { height: 100%; width: 100%; }
+        
+        .leaflet-popup-content {
+            font-size: 18px !important;
+            line-height: 1.4;
+            padding: 10px;
+        }
+        
+        .dir-btn {
+            display: block;
+            margin-top: 12px;
+            padding: 12px;
+            background-color: #ff8c00; 
+            color: white !important;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .back-nav {
+            position: absolute;
+            top: 10px;
+            left: 50px;
+            z-index: 1000;
+            background: white;
+            padding: 10px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            color: #007bff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <a href="index.html" class="back-link">← Back to Home</a>
-        <h1>Sacramento Area Free Clinics</h1>
-        <p>Tap a pin on the map to see clinic details. Data provided by Sacramento County.</p>
+<a href="index.html" class="back-nav">← Back</a>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+
+<script>
+    const map = L.map('map').setView([38.5816, -121.4944], 12);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors'
+    }).addTo(map);
+
+    // DYNAMIC "YOU ARE HERE" 
+    map.locate({setView: false, watch: true, enableHighAccuracy: true});
+
+    let userMarker;
+    map.on('locationfound', function(e) {
+        if (!userMarker) {
+            userMarker = L.circleMarker(e.latlng, {
+                radius: 10,
+                color: '#fff',
+                fillColor: '#007bff',
+                fillOpacity: 0.9,
+                weight: 3
+            }).addTo(map).bindPopup("<b>You are here</b>").openPopup();
+        } else {
+            userMarker.setLatLng(e.latlng);
+        }
+    });
+
+    // CONNECTING THE ARCGIS LIVE FEED
+    const clinicLayer = L.esri.featureLayer({
+        url: 'https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0',
+        where: "USER_PHYS_CITY_NAME = 'Sacramento'"
+    }).addTo(map);
+
+    // POPUP LOGIC USING LIVE DATA
+    clinicLayer.bindPopup(function (layer) {
+        const props = layer.feature.properties;
+        const lat = layer.feature.geometry.coordinates[1];
+        const lng = layer.feature.geometry.coordinates[0];
         
-        <div id="map"></div>
-    </div>
+        // Directions URL for walking mode
+        const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
 
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+        return `
+            <div style="min-width: 220px;">
+                <strong style="font-size: 20px;">${props.USER_PRVDR_BUSNS_NAME}</strong><br>
+                <span style="font-size: 16px; color: #333;">${props.USER_PHYS_ST_1_ADR}</span><br>
+                <span style="font-size: 16px; color: #333;">Phone: ${props.USER_Phone}</span><br>
+                <a href="${directionsUrl}" target="_blank" class="dir-btn">
+                    Get Directions
+                </a>
+                <p style="font-size: 12px; color: #666; margin-top: 8px; font-weight: normal;">
+                    (Walking directions)
+                </p>
+            </div>
+        `;
+    });
 
-    <script>
-        // Initialize the map and center it on Sacramento
-        var map = L.map('map').setView([38.5816, -121.4944], 12);
-
-        // Add the visual street map tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap'
-        }).addTo(map);
-
-        // Connect to the ArcGIS County Data
-        var clinics = L.esri.featureLayer({
-            url: 'https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0',
-            where: "USER_PHYS_CITY_NAME = 'Sacramento'"
-        }).addTo(map);
-
-        // Create the "Pop-up" bubble for when someone taps a pin
-        clinics.bindPopup(function (layer) {
-            return L.Util.template(
-                '<strong>{USER_PRVDR_BUSNS_NAME}</strong><br>' +
-                'Address: {USER_PHYS_ST_1_ADR}<br>' +
-                'Phone: <a href="tel:{USER_Phone}">{USER_Phone}</a>', 
-                layer.feature.properties
-            );
-        });
-    </script>
-
+</script>
 </body>
 </html>
