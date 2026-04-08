@@ -2,21 +2,54 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Community Resources | Free Clinics</title>
+    <title>Community Resources | Free Clinics Map</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
     <style>
         body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
-        .container { max-width: 900px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        iframe { border: none; width: 100%; height: 1000px; } /* Increased height for better visibility */
+        .container { max-width: 1000px; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        #map { height: 600px; width: 100%; border-radius: 8px; margin-top: 10px; }
         .back-link { display: inline-block; margin-bottom: 20px; text-decoration: none; color: #007bff; }
     </style>
 </head>
 <body>
+
     <div class="container">
         <a href="index.html" class="back-link">← Back to Home</a>
         <h1>Sacramento Area Free Clinics</h1>
-        <p>Live data provided by Sacramento County GIS.</p>
+        <p>Tap a pin on the map to see clinic details. Data provided by Sacramento County.</p>
         
-        <iframe src="https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0/query?where=USER_PHYS_CITY_NAME='Sacramento'&outFields=USER_PRVDR_BUSNS_NAME,USER_PHYS_ST_1_ADR,USER_PHYS_CITY_NAME,USER_Phone&f=html"></iframe>
+        <div id="map"></div>
     </div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+
+    <script>
+        // Initialize the map and center it on Sacramento
+        var map = L.map('map').setView([38.5816, -121.4944], 12);
+
+        // Add the visual street map tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap'
+        }).addTo(map);
+
+        // Connect to the ArcGIS County Data
+        var clinics = L.esri.featureLayer({
+            url: 'https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0',
+            where: "USER_PHYS_CITY_NAME = 'Sacramento'"
+        }).addTo(map);
+
+        // Create the "Pop-up" bubble for when someone taps a pin
+        clinics.bindPopup(function (layer) {
+            return L.Util.template(
+                '<strong>{USER_PRVDR_BUSNS_NAME}</strong><br>' +
+                'Address: {USER_PHYS_ST_1_ADR}<br>' +
+                'Phone: <a href="tel:{USER_Phone}">{USER_Phone}</a>', 
+                layer.feature.properties
+            );
+        });
+    </script>
+
 </body>
 </html>
