@@ -224,54 +224,47 @@
 </style>
 <style>
   #survival-hud {
-    position: fixed;
-    bottom: 20px;
+    position: fixed; /* Keep it on the screen regardless of scroll */
+    bottom: 25px;    /* Distance from the very bottom of the screen */
     left: 50%;
     transform: translateX(-50%);
-    width: 90%;
+    width: 92%;
     max-width: 400px;
-    background: rgba(20, 20, 20, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 15px;
-    z-index: 9999;
+    background: #111111; /* Solid dark background to pop against the red */
+    border: 2px solid var(--gold); /* Uses your gold variable for the border */
+    border-radius: 15px;
+    padding: 12px 5px;
+    z-index: 99999; /* Force it on top of everything */
     display: flex;
     justify-content: space-around;
     align-items: center;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 0 20px rgba(0,0,0,0.8);
     color: white;
-    font-family: sans-serif;
   }
 
   .hud-item {
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
     cursor: pointer;
-    transition: transform 0.2s;
-  }
-
-  .hud-item:active {
-    transform: scale(0.9);
   }
 
   .hud-icon {
-    font-size: 24px;
-    margin-bottom: 5px;
+    font-size: 20px;
+    margin-bottom: 4px;
   }
 
   .hud-label {
-    font-size: 10px;
+    font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #aaa;
+    color: var(--gold);
+    font-family: 'Montserrat', sans-serif;
   }
 
-  /* Status Colors */
-  .status-clear { color: #4CAF50; } /* Green */
-  .status-hot { color: #F44336; }   /* Red */
-  .status-ghost { color: #9E9E9E; } /* Gray */
+  .status-clear { color: #00ff00; } 
+  .status-hot { color: #ff0000; font-weight: bold; }
 </style>
 </head>
 <body>
