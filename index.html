@@ -222,6 +222,57 @@
   footer .copy { font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; }
   footer .license { margin-top: 8px; font-size: 0.65rem; color: rgba(255,255,255,0.2); }
 </style>
+<style>
+  #survival-hud {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+    background: rgba(20, 20, 20, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 15px;
+    z-index: 9999;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    color: white;
+    font-family: sans-serif;
+  }
+
+  .hud-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .hud-item:active {
+    transform: scale(0.9);
+  }
+
+  .hud-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+
+  .hud-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #aaa;
+  }
+
+  /* Status Colors */
+  .status-clear { color: #4CAF50; } /* Green */
+  .status-hot { color: #F44336; }   /* Red */
+  .status-ghost { color: #9E9E9E; } /* Gray */
+</style>
 </head>
 <body>
 
@@ -322,5 +373,58 @@
   document.querySelectorAll('.nav-item').forEach(el => observer.observe(el));
 </script>
 
+<div id="survival-hud">
+  <div class="hud-item" onclick="toggleStatus()">
+    <span class="hud-icon status-clear" id="status-dot">●</span>
+    <span class="hud-label">Status</span>
+  </div>
+  
+  <div class="hud-item" onclick="openIntel()">
+    <span class="hud-icon">📡</span>
+    <span class="hud-label">Intel</span>
+  </div>
+  
+  <div class="hud-item" onclick="toggleResources()">
+    <span class="hud-icon">🏥</span>
+    <span class="hud-label">Survival</span>
+  </div>
+  
+  <div class="hud-item" onclick="switchPersona()">
+    <span class="hud-icon">👤</span>
+    <span class="hud-label">Ghost</span>
+  </div>
+</div>
+
+<script>
+  let currentStatus = 'clear';
+
+  function toggleStatus() {
+    const dot = document.getElementById('status-dot');
+    if (currentStatus === 'clear') {
+      currentStatus = 'hot';
+      dot.className = 'hud-icon status-hot';
+      alert("Status set to HOT. Use caution.");
+    } else {
+      currentStatus = 'clear';
+      dot.className = 'hud-icon status-clear';
+      alert("Status set to CLEAR.");
+    }
+  }
+
+  function openIntel() {
+    // This will link to your Intel Submission Form later
+    alert("Intel Feed: Recording current location patterns...");
+  }
+
+  function toggleResources() {
+    // This can show/hide your clinic pins on the map
+    alert("Toggling Survival Resources...");
+  }
+
+  function switchPersona() {
+    // This will eventually cycle through random handles
+    alert("Persona masked. New Ghost ID generated.");
+  }
+</script>
 </body>
 </html>
