@@ -224,17 +224,17 @@
 </style>
 <style>
   #survival-hud {
-    position: fixed; /* Keep it on the screen regardless of scroll */
-    bottom: 25px;    /* Distance from the very bottom of the screen */
+    position: fixed;
+    bottom: 25px;
     left: 50%;
     transform: translateX(-50%);
     width: 92%;
     max-width: 400px;
-    background: #111111; /* Solid dark background to pop against the red */
-    border: 2px solid var(--gold); /* Uses your gold variable for the border */
+    background: #111111;
+    border: 2px solid var(--gold);
     border-radius: 15px;
     padding: 12px 5px;
-    z-index: 99999; /* Force it on top of everything */
+    z-index: 99999;
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -266,8 +266,73 @@
   .status-clear { color: #00ff00; } 
   .status-hot { color: #ff0000; font-weight: bold; }
 </style>
+<style>
+  /* OFL Progress Bar - Step 1 & 2 */
+  #ofl-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: var(--crimson);
+    color: var(--white);
+    z-index: 9998;
+    display: flex;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 400;
+    padding: 0 16px;
+    padding-top: env(safe-area-inset-top);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    transform: translateY(-100%);
+    transition: transform 0.4s ease;
+  }
+  #ofl-progress-bar.visible {
+    transform: translateY(0);
+  }
+  #ofl-progress-bar .ofl-bar-text {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 12px;
+  }
+  #ofl-progress-bar .ofl-bar-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+    opacity: 0.9;
+  }
+  #ofl-progress-bar .ofl-bar-action:hover {
+    opacity: 1;
+  }
+  #ofl-progress-bar .ofl-bar-line {
+    width: 28px;
+    height: 1px;
+    background: var(--white);
+  }
+  #ofl-progress-bar .ofl-bar-arrow {
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+  body.ofl-bar-active {
+    padding-top: calc(40px + env(safe-area-inset-top));
+  }
+</style>
 </head>
 <body>
+
+<!-- OFL Progress Bar -->
+<div id="ofl-progress-bar" aria-live="polite">
+  <div class="ofl-bar-text" id="ofl-bar-text"></div>
+  <div class="ofl-bar-action" id="ofl-bar-action">
+    <div class="ofl-bar-line"></div>
+    <div class="ofl-bar-arrow">→</div>
+  </div>
+</div>
 
 <section id="hero">
   <iframe
@@ -320,139 +385,4 @@
 
     <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/sacramentopregnancy.aspx" target="_blank"><h3><span class="num">10</span> FREE Ultrasound · Diapers · WIC</h3><p>Free ultrasound services, diaper banks, and WIC office locations and phone numbers.</p></a></div></div>
 
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/singleparentservices.aspx" target="_blank"><h3><span class="num">11</span> Counseling · Anger & Youth · Fathers Resources</h3><p>Free counseling, anger management, youth classes, and dedicated fathers' resources.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/Job_fairs_and_career_fairs_in_sacramento" target="_blank"><h3><span class="num">12</span> Job Fairs & Felon Resources</h3><p>Job fairs, career fairs, and employment resources for those with criminal records.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/daycare.aspx" target="_blank"><h3><span class="num">13</span> Free Child Care</h3><p>Free and subsidized child care and daycare options in Sacramento County.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/clothingservices.aspx" target="_blank"><h3><span class="num">14</span> Free Clothes</h3><p>Free clothing services, thrift resources, and clothing banks for families in need.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/seniorprogramssacramento.aspx" target="_blank"><h3><span class="num">15</span> Senior Services</h3><p>Programs and services dedicated to seniors including meals, transport, and care.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/State_Disability_Rights_Benifits_and_Resources_Sacramento_CA.aspx" target="_blank"><h3><span class="num">16</span> Disability Benefits</h3><p>State disability rights, benefits, and resources for Sacramento residents.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/MentalHealthSacramento.aspx" target="_blank"><h3><span class="num">17</span> Mental Health</h3><p>Mental health services, crisis support, and counseling resources in Sacramento.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/veteranservicessacramento.aspx" target="_blank"><h3><span class="num">18</span> Veterans Resources</h3><p>Housing, healthcare, employment, and support services for Sacramento veterans.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/specialeducation.aspx" target="_blank"><h3><span class="num">19</span> Special Needs</h3><p>Special education and disability support resources for children and adults.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/sacramentocommunityservices" target="_blank"><h3><span class="num">—</span> Free Stuff, Gas & More</h3><p>Free household items, gas vouchers, and additional community services.</p></a></div></div>
-
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/sacramentodrugandalcoholprograms.aspx" target="_blank"><h3><span class="num">—</span> Drug & Alcohol Rehab — Sacramento</h3><p>California substance abuse treatment facility locator for Sacramento and surrounding areas.</p></a></div></div>
-
-  </div>
-</section>
-
-<footer>
-  <div class="footer-links">
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact</a>
-    <a href="privacy.html">Privacy Policy</a>
-  </div>
-  <p class="copy">&copy; 2026 One Father's Love &nbsp;|&nbsp; All Rights Reserved</p>
-  <p class="license">License No. 156051 &nbsp;·&nbsp; Sacramento, CA 95816 &nbsp;·&nbsp; EIN: 27-2427226</p>
-</footer>
-
-<script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      entry.target.classList.toggle('active', entry.isIntersecting);
-    });
-  }, { threshold: 0.4, rootMargin: "-25% 0px -25% 0px" });
-  document.querySelectorAll('.nav-item').forEach(el => observer.observe(el));
-</script>
-
-<style>
-#survival-hud {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 20px;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 10px 20px;
-  border-radius: 12px;
-  z-index: 9999;
-}
-
-.hud-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  cursor: pointer;
-  color: #fff;
-  font-size: 14px;
-}
-
-.hud-icon {
-  font-size: 20px;
-}
-
-.hud-label {
-  font-size: 12px;
-  margin-top: 4px;
-}
-
-.status-clear {
-  color: #00ff88;
-}
-</style>
-
-<div id="survival-hud">
-  <div class="hud-item" onclick="toggleStatus()">
-    <span class="hud-icon status-clear" id="status-dot">●</span>
-    <span class="hud-label">Status</span>
-  </div>
-  
-  <div class="hud-item" onclick="openIntel()">
-    <span class="hud-icon">📡</span>
-    <span class="hud-label">Intel</span>
-  </div>
-  
-  <div class="hud-item" onclick="toggleResources()">
-    <span class="hud-icon">🏥</span>
-    <span class="hud-label">Survival</span>
-  </div>
-  
-  <div class="hud-item" onclick="switchPersona()">
-    <span class="hud-icon">👤</span>
-    <span class="hud-label">Ghost</span>
-  </div>
-</div>
-
-<script>
-  let currentStatus = 'clear';
-
-  function toggleStatus() {
-    const dot = document.getElementById('status-dot');
-    if (currentStatus === 'clear') {
-      currentStatus = 'hot';
-      dot.className = 'hud-icon status-hot';
-      alert("Status set to HOT. Use caution.");
-    } else {
-      currentStatus = 'clear';
-      dot.className = 'hud-icon status-clear';
-      alert("Status set to CLEAR.");
-    }
-  }
-
-  function openIntel() {
-    // This will link to your Intel Submission Form later
-    alert("Intel Feed: Recording current location patterns...");
-  }
-
-  function toggleResources() {
-    // This can show/hide your clinic pins on the map
-    alert("Toggling Survival Resources...");
-  }
-
-  function switchPersona() {
-    // This will eventually cycle through random handles
-    alert("Persona masked. New Ghost ID generated.");
-  }
-</script>
-</body>
-</html>
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/singleparentservices.aspx" target="_blank"><h3><span class="num">11</span> Counseling · Anger & Youth · Fathers Resources</h3><p>Free counseling, anger management, youth classes, and dedicated fathers
