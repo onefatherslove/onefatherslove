@@ -68,14 +68,14 @@
     line-height: 1.05;
     letter-spacing: 0.05em;
   }
-  #hero-title .tagline {
+  #hero-title.tagline {
     margin-top: 14px;
     font-size: clamp(0.65rem, 1.8vw, 0.85rem);
     letter-spacing: 0.4em;
     color: var(--gold);
     text-transform: uppercase;
   }
-  #hero-title .mission {
+  #hero-title.mission {
     margin-top: 20px;
     color: rgba(255,255,255,0.75);
     max-width: 540px;
@@ -86,7 +86,7 @@
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.1rem;
   }
-  .scroll-hint {
+ .scroll-hint {
     position: absolute;
     bottom: 28px;
     left: 50%;
@@ -99,7 +99,7 @@
     opacity: 0.55;
     animation: bounce 2.2s infinite;
   }
-  .scroll-hint span {
+ .scroll-hint span {
     font-size: 0.6rem;
     letter-spacing: 0.35em;
     text-transform: uppercase;
@@ -123,11 +123,11 @@
   }
   #about-strip strong { color: var(--white); font-weight: 500; }
   #directory-section {
-    padding: 70px 20px 40px;
+    padding: 70px 20px 100px;
     max-width: 720px;
     margin: 0 auto;
   }
-  .section-label {
+ .section-label {
     font-size: 0.62rem;
     letter-spacing: 0.45em;
     text-transform: uppercase;
@@ -135,7 +135,7 @@
     margin-bottom: 10px;
     text-align: center;
   }
-  .section-title {
+ .section-title {
     font-family: 'Cormorant Garamond', serif;
     font-size: clamp(1.6rem, 4vw, 2.4rem);
     font-weight: 300;
@@ -143,7 +143,7 @@
     margin-bottom: 50px;
     color: var(--white);
   }
-  .nav-item {
+ .nav-item {
     height: 62px;
     overflow: hidden;
     transition: height 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55),
@@ -153,14 +153,14 @@
     border-bottom: 1px solid rgba(255,255,255,0.08);
     cursor: pointer;
   }
-  .nav-item:first-of-type { border-top: 1px solid rgba(255,255,255,0.08); }
-  .nav-item.active {
+ .nav-item:first-of-type { border-top: 1px solid rgba(255,255,255,0.08); }
+ .nav-item.active {
     height: 110px;
     opacity: 1;
     background: var(--crimson-light);
   }
-  .nav-item-inner { padding: 16px 20px; }
-  .nav-item h3 {
+ .nav-item-inner { padding: 16px 20px; }
+ .nav-item h3 {
     font-family: 'Cormorant Garamond', serif;
     font-size: 1.25rem;
     font-weight: 400;
@@ -170,28 +170,28 @@
     gap: 14px;
     margin-bottom: 8px;
   }
-  .nav-item h3 .num {
+ .nav-item h3.num {
     font-size: 0.65rem;
     color: var(--gold);
     letter-spacing: 0.1em;
     font-family: 'Montserrat', sans-serif;
     min-width: 24px;
   }
-  .nav-item h3::after {
+ .nav-item h3::after {
     content: '›';
     margin-left: auto;
     color: var(--gold);
     font-size: 1.4rem;
     transition: transform 0.3s;
   }
-  .nav-item.active h3::after { transform: rotate(90deg); }
-  .nav-item p {
+ .nav-item.active h3::after { transform: rotate(90deg); }
+ .nav-item p {
     font-size: 0.78rem;
     color: var(--gray);
     line-height: 1.6;
     padding-left: 38px;
   }
-  .nav-item a {
+ .nav-item a {
     display: block;
     text-decoration: none;
     color: inherit;
@@ -199,18 +199,18 @@
   footer {
     background: #0d0000;
     border-top: 1px solid rgba(128,0,0,0.4);
-    padding: 40px 20px;
+    padding: 40px 20px 120px;
     margin-top: 60px;
     text-align: center;
   }
-  footer .footer-links {
+  footer.footer-links {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 24px;
     margin-bottom: 20px;
   }
-  footer .footer-links a {
+  footer.footer-links a {
     color: var(--gray);
     text-decoration: none;
     font-size: 0.75rem;
@@ -218,9 +218,9 @@
     text-transform: uppercase;
     transition: color 0.2s;
   }
-  footer .footer-links a:hover { color: var(--gold); }
-  footer .copy { font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; }
-  footer .license { margin-top: 8px; font-size: 0.65rem; color: rgba(255,255,255,0.2); }
+  footer.footer-links a:hover { color: var(--gold); }
+  footer.copy { font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; }
+  footer.license { margin-top: 8px; font-size: 0.65rem; color: rgba(255,255,255,0.2); }
 </style>
 <style>
   #survival-hud {
@@ -242,7 +242,7 @@
     color: white;
   }
 
-  .hud-item {
+ .hud-item {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -250,12 +250,12 @@
     cursor: pointer;
   }
 
-  .hud-icon {
+ .hud-icon {
     font-size: 20px;
     margin-bottom: 4px;
   }
 
-  .hud-label {
+ .hud-label {
     font-size: 9px;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -263,8 +263,8 @@
     font-family: 'Montserrat', sans-serif;
   }
 
-  .status-clear { color: #00ff00; } 
-  .status-hot { color: #ff0000; font-weight: bold; }
+ .status-clear { color: #00ff00; }
+ .status-hot { color: #ff0000; font-weight: bold; }
 </style>
 <style>
   /* OFL Progress Bar - Step 1 & 2 */
@@ -291,14 +291,14 @@
   #ofl-progress-bar.visible {
     transform: translateY(0);
   }
-  #ofl-progress-bar .ofl-bar-text {
+  #ofl-progress-bar.ofl-bar-text {
     flex: 1;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     padding-right: 12px;
   }
-  #ofl-progress-bar .ofl-bar-action {
+  #ofl-progress-bar.ofl-bar-action {
     display: flex;
     align-items: center;
     gap: 8px;
@@ -306,15 +306,15 @@
     flex-shrink: 0;
     opacity: 0.9;
   }
-  #ofl-progress-bar .ofl-bar-action:hover {
+  #ofl-progress-bar.ofl-bar-action:hover {
     opacity: 1;
   }
-  #ofl-progress-bar .ofl-bar-line {
+  #ofl-progress-bar.ofl-bar-line {
     width: 28px;
     height: 1px;
     background: var(--white);
   }
-  #ofl-progress-bar .ofl-bar-arrow {
+  #ofl-progress-bar.ofl-bar-arrow {
     font-size: 1.1rem;
     line-height: 1;
   }
@@ -385,4 +385,145 @@
 
     <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/sacramentopregnancy.aspx" target="_blank"><h3><span class="num">10</span> FREE Ultrasound · Diapers · WIC</h3><p>Free ultrasound services, diaper banks, and WIC office locations and phone numbers.</p></a></div></div>
 
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/singleparentservices.aspx" target="_blank"><h3><span class="num">11</span> Counseling · Anger & Youth · Fathers Resources</h3><p>Free counseling, anger management, youth classes, and dedicated fathers
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/singleparentservices.aspx" target="_blank"><h3><span class="num">11</span> Counseling · Anger & Youth · Fathers Resources</h3><p>Free counseling, anger management, youth classes, and dedicated fathers' resources.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/Job_fairs_and_career_fairs_in_sacramento" target="_blank"><h3><span class="num">12</span> Job Fairs & Felon Resources</h3><p>Job fairs, career fairs, and employment resources for those with criminal records.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/daycare.aspx" target="_blank"><h3><span class="num">13</span> Free Child Care</h3><p>Free and subsidized child care and daycare options in Sacramento County.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/clothingservices.aspx" target="_blank"><h3><span class="num">14</span> Free Clothes</h3><p>Free clothing services, thrift resources, and clothing banks for families in need.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/seniorprogramssacramento.aspx" target="_blank"><h3><span class="num">15</span> Senior Services</h3><p>Programs and services dedicated to seniors including meals, transport, and care.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/State_Disability_Rights_Benifits_and_Resources_Sacramento_CA.aspx" target="_blank"><h3><span class="num">16</span> Disability Benefits</h3><p>State disability rights, benefits, and resources for Sacramento residents.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/MentalHealthSacramento.aspx" target="_blank"><h3><span class="num">17</span> Mental Health</h3><p>Mental health services, crisis support, and counseling resources in Sacramento.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/veteranservicessacramento.aspx" target="_blank"><h3><span class="num">18</span> Veterans Resources</h3><p>Housing, healthcare, employment, and support services for Sacramento veterans.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/specialeducation.aspx" target="_blank"><h3><span class="num">19</span> Special Needs</h3><p>Special education and disability support resources for children and adults.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/sacramentocommunityservices" target="_blank"><h3><span class="num">—</span> Free Stuff, Gas & More</h3><p>Free household items, gas vouchers, and additional community services.</p></a></div></div>
+
+    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/sacramentodrugandalcoholprograms.aspx" target="_blank"><h3><span class="num">—</span> Drug & Alcohol Rehab — Sacramento</h3><p>California substance abuse treatment facility locator for Sacramento and surrounding areas.</p></a></div></div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-links">
+    <a href="about.html">About Us</a>
+    <a href="contact.html">Contact</a>
+    <a href="privacy.html">Privacy Policy</a>
+  </div>
+  <p class="copy">&copy; 2026 One Father's Love &nbsp;|&nbsp; All Rights Reserved</p>
+  <p class="license">License No. 156051 &nbsp;·&nbsp; Sacramento, CA 95816 &nbsp;·&nbsp; EIN: 27-2427226</p>
+</footer>
+
+<div id="survival-hud">
+  <div class="hud-item" onclick="toggleStatus()">
+    <span class="hud-icon status-clear" id="status-dot">●</span>
+    <span class="hud-label">Status</span>
+  </div>
+
+  <div class="hud-item" onclick="openIntel()">
+    <span class="hud-icon">📡</span>
+    <span class="hud-label">Intel</span>
+  </div>
+
+  <div class="hud-item" onclick="toggleResources()">
+    <span class="hud-icon">🏥</span>
+    <span class="hud-label">Survival</span>
+  </div>
+
+  <div class="hud-item" onclick="switchPersona()">
+    <span class="hud-icon">👤</span>
+    <span class="hud-label">Ghost</span>
+  </div>
+</div>
+
+<script>
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('active', entry.isIntersecting);
+    });
+  }, { threshold: 0.4, rootMargin: "-25% 0px -25% 0px" });
+  document.querySelectorAll('.nav-item').forEach(el => observer.observe(el));
+</script>
+
+<script>
+  let currentStatus = 'clear';
+
+  function toggleStatus() {
+    const dot = document.getElementById('status-dot');
+    if (currentStatus === 'clear') {
+      currentStatus = 'hot';
+      dot.className = 'hud-icon status-hot';
+      alert("Status set to HOT. Use caution.");
+    } else {
+      currentStatus = 'clear';
+      dot.className = 'hud-icon status-clear';
+      alert("Status set to CLEAR.");
+    }
+  }
+
+  function openIntel() {
+    alert("Intel Feed: Recording current location patterns...");
+  }
+
+  function toggleResources() {
+    alert("Toggling Survival Resources...");
+  }
+
+  function switchPersona() {
+    alert("Persona masked. New Ghost ID generated.");
+  }
+</script>
+
+<script>
+  // OFL Progress Bar Logic - Step 1 & 2
+  (function() {
+    const bar = document.getElementById('ofl-progress-bar');
+    const barText = document.getElementById('ofl-bar-text');
+    const barAction = document.getElementById('ofl-bar-action');
+
+    const STEP_1_TEXT = 'Welcome. Glad you’re here. Take your time';
+    const STEP_2_TEXT = (need) => `Step 2: ${need}. Check time, location, and how to get there`;
+
+    // Map URL paths to human names
+    const NEED_MAP = {
+      'food': 'Food',
+      'foodandmealservices': 'Food',
+      'sacramentofreelowcostdental': 'Dental',
+      'sacramentoemergencyshelters': 'Shelter',
+      'clinics': 'Medical',
+      'sacramentoaffodablehousing': 'Housing',
+      'energy_utility_assistance_programs_sacramento': 'Utilities',
+      'sacramentoparentingclasses': 'Parenting',
+      'sacramentopregnancy': 'Pregnancy Resources',
+      'singleparentservices': 'Counseling & Support',
+      'job_fairs_and_career_fairs_in_sacramento': 'Jobs',
+      'daycare': 'Child Care',
+      'clothingservices': 'Clothing',
+      'seniorprogramssacramento': 'Senior Services',
+      'state_disability_rights_benifits_and_resources_sacramento_ca': 'Disability Benefits',
+      'mentalhealthsacramento': 'Mental Health',
+      'veteranservicessacramento': 'Veterans Resources',
+      'specialeducation': 'Special Needs',
+      'sacramentodrugandalcoholprograms': 'Recovery',
+      'sacramentocommunityservices': 'Community Services',
+      'vaccination_for_dog_cat_animal_in_sacramento': 'Pet Vaccinations'
+    };
+
+    function getNeedFromPath() {
+      const path = window.location.pathname.toLowerCase();
+      const file = path.split('/').pop().replace('.html','').replace('.aspx','');
+      return NEED_MAP[file] || null;
+    }
+
+    function showStep1() {
+      barText.textContent = STEP_1_TEXT;
+      bar.classList.add('visible');
+      document.body.classList.add('ofl-bar-active');
+      sessionStorage.setItem('ofl-current-step', '1');
+      sessionStorage.removeItem('ofl-current-need
