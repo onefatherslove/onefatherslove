@@ -43,7 +43,60 @@
         }
     </style>
 </head>
-<body>
+<body data-need="Medical">
+
+    <div id="ofl-progress-bar" aria-live="polite">
+  <div class="ofl-bar-text" id="ofl-bar-text">Welcome. Glad you’re here. Take your time</div>
+  <div class="ofl-bar-action" id="ofl-bar-action">
+    <div class="ofl-bar-line"></div>
+    <div class="ofl-bar-arrow">→</div>
+  </div>
+</div>
+<style>
+  body { padding-top: 40px; }
+  #ofl-progress-bar {
+    position: fixed; top: 0; left: 0; right: 0; height: 40px;
+    background: #800000; color: #fff; z-index: 9998; display: flex; align-items: center;
+    font-family: 'Montserrat', sans-serif; font-size: 0.78rem; padding: 0 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+  #ofl-progress-bar.ofl-bar-text { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 12px; }
+  #ofl-progress-bar.ofl-bar-action { display: flex; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; opacity: 0.9; }
+  #ofl-progress-bar.ofl-bar-action:hover { opacity: 1; }
+  #ofl-progress-bar.ofl-bar-line { width: 28px; height: 1px; background: #fff; }
+  #ofl-progress-bar.ofl-bar-arrow { font-size: 1.1rem; line-height: 1; }
+</style>
+<script>
+(function(){
+  const bar = document.getElementById('ofl-progress-bar');
+  const barText = document.getElementById('ofl-bar-text');
+  if (!bar ||!barText) return;
+
+  const STEP_1_TEXT = 'Welcome. Glad you’re here. Take your time';
+  const STEP_2_TEXT = (need) => `Step 2: ${need}. Check time, location, and how to get there`;
+
+  // Add data-need="Food" to the <body> tag of each page to force Step 2
+  // Example: <body data-need="Medical">
+  const forcedNeed = document.body.dataset.need;
+  const savedNeed = sessionStorage.getItem('ofl-current-need');
+
+  if (forcedNeed) {
+    barText.textContent = STEP_2_TEXT(forcedNeed);
+    sessionStorage.setItem('ofl-current-need', forcedNeed);
+    sessionStorage.setItem('ofl-current-step', '2');
+  } else if (savedNeed) {
+    barText.textContent = STEP_2_TEXT(savedNeed);
+  } else {
+    barText.textContent = STEP_1_TEXT;
+  }
+
+  document.getElementById('ofl-bar-action').onclick = () => {
+    if (sessionStorage.getItem('ofl-current-step') === '2') {
+      alert('Step 3 coming next: Download your plan');
+    }
+  };
+})();
+</script>
 
 <a href="index.html" class="back-nav">← Back</a>
 <div id="map"></div>
