@@ -4,523 +4,203 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>One Father's Love — Sacramento Resource Directory</title>
+
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --crimson: #800000;
-    --crimson-mid: rgba(128,0,0,0.25);
-    --crimson-light: rgba(128,0,0,0.1);
-    --gold: #c9a84c;
-    --black: #060606;
-    --white: #fff;
-    --gray: #999;
-    --light-gray: #ccc;
-  }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 300;
-    overflow-x: hidden;
-    padding-top: 40px;
-  }
-  #hero {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #1a0000;
-  }
-  #hero iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 177.78vh;
-    height: 56.25vw;
-    min-width: 100%;
-    min-height: 100%;
-    transform: translate(-50%, -50%);
-    border: 0;
-    pointer-events: none;
-  }
-  #hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.15) 40%, rgba(0,0,0,0.75) 100%);
-    z-index: 1;
-  }
-  #hero-title {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 0 20px;
-  }
-  #hero-title h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2.8rem, 9vw, 7rem);
-    font-weight: 300;
-    color: var(--white);
-    text-shadow: 0 2px 40px rgba(0,0,0,0.9);
-    line-height: 1.05;
-    letter-spacing: 0.05em;
-  }
-  #hero-title.tagline {
-    margin-top: 14px;
-    font-size: clamp(0.65rem, 1.8vw, 0.85rem);
-    letter-spacing: 0.4em;
-    color: var(--gold);
-    text-transform: uppercase;
-  }
-  #hero-title.mission {
-    margin-top: 20px;
-    color: rgba(255,255,255,0.75);
-    max-width: 540px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.7;
-    font-style: italic;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem;
-  }
-.scroll-hint {
-    position: absolute;
-    bottom: 28px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    opacity: 0.55;
-    animation: bounce 2.2s infinite;
-  }
-.scroll-hint span {
-    font-size: 0.6rem;
-    letter-spacing: 0.35em;
-    text-transform: uppercase;
-  }
-  @keyframes bounce {
-    0%, 100% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(9px); }
-  }
-  #about-strip {
-    background: var(--crimson);
-    padding: 28px 30px;
-    text-align: center;
-  }
-  #about-strip p {
-    font-size: 0.82rem;
-    line-height: 1.8;
-    color: rgba(255,255,255,0.88);
-    max-width: 800px;
-    margin: 0 auto;
-    letter-spacing: 0.03em;
-  }
-  #about-strip strong { color: var(--white); font-weight: 500; }
-  #directory-section {
-    padding: 70px 20px 100px;
-    max-width: 720px;
-    margin: 0 auto;
-  }
-.section-label {
-    font-size: 0.62rem;
-    letter-spacing: 0.45em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 10px;
-    text-align: center;
-  }
-.section-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(1.6rem, 4vw, 2.4rem);
-    font-weight: 300;
-    text-align: center;
-    margin-bottom: 50px;
-    color: var(--white);
-  }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --crimson: #800000;
+  --crimson-light: rgba(128,0,0,0.1);
+  --gold: #c9a84c;
+  --black: #060606;
+  --white: #fff;
+  --gray: #999;
+}
+
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* HERO */
+#hero {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a0000;
+}
+#hero iframe {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  border: 0;
+}
+#hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.4), rgba(0,0,0,.8));
+}
+#hero-title {
+  position: relative;
+  text-align: center;
+}
+#hero-title h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+
+/* DIRECTORY */
+#directory-section {
+  padding: 60px 20px;
+  max-width: 720px;
+  margin: auto;
+}
+
 .nav-item {
-    transition: opacity 0.4s ease, background 0.3s ease;
-    opacity: 0.3;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    cursor: pointer;
-  }
-.nav-item:first-of-type { border-top: 1px solid rgba(255,255,255,0.08); }
+  height: 62px;
+  overflow: hidden;
+  transition: all .4s ease;
+  opacity: .3;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
 .nav-item.active {
-    opacity: 1;
-    background: var(--crimson-light);
-  }
-.nav-item-inner {
-    padding: 16px 20px;
-  }
+  height: 110px;
+  opacity: 1;
+  background: var(--crimson-light);
+}
+.nav-item-inner { padding: 16px 20px; }
+
 .nav-item h3 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 8px;
-  }
-.nav-item h3.num {
-    font-size: 0.65rem;
-    color: var(--gold);
-    letter-spacing: 0.1em;
-    font-family: 'Montserrat', sans-serif;
-    min-width: 24px;
-  }
-.nav-item h3::after {
-    content: '›';
-    margin-left: auto;
-    color: var(--gold);
-    font-size: 1.4rem;
-    transition: transform 0.3s;
-  }
-.nav-item.active h3::after { transform: rotate(90deg); }
+  display: flex;
+  gap: 10px;
+  font-family: 'Cormorant Garamond', serif;
+}
+
 .nav-item p {
-    font-size: 0.78rem;
-    color: var(--gray);
-    line-height: 1.6;
-    padding-left: 38px;
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-height 0.5s ease, opacity 0.4s ease, margin 0.4s ease;
-  }
-.nav-item.active p {
-    max-height: 100px;
-    opacity: 1;
-    margin-top: 8px;
-  }
+  font-size: 12px;
+  color: var(--gray);
+  padding-left: 30px;
+}
+
 .nav-item a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-  }
-  footer {
-    background: #0d0000;
-    border-top: 1px solid rgba(128,0,0,0.4);
-    padding: 40px 20px 120px;
-    margin-top: 60px;
-    text-align: center;
-  }
-  footer.footer-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 24px;
-    margin-bottom: 20px;
-  }
-  footer.footer-links a {
-    color: var(--gray);
-    text-decoration: none;
-    font-size: 0.75rem;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    transition: color 0.2s;
-  }
-  footer.footer-links a:hover { color: var(--gold); }
-  footer.copy { font-size: 0.7rem; color: rgba(255,255,255,0.3); letter-spacing: 0.15em; }
-  footer.license { margin-top: 8px; font-size: 0.65rem; color: rgba(255,255,255,0.2); }
-</style>
-<style>
-  #survival-hud {
-    position: fixed;
-    bottom: 25px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 92%;
-    max-width: 400px;
-    background: #111111;
-    border: 2px solid var(--gold);
-    border-radius: 15px;
-    padding: 12px 5px;
-    z-index: 99999;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
-    color: white;
-  }
+  color: inherit;
+  text-decoration: none;
+}
+
+/* HUD */
+#survival-hud {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 20px;
+  background: #111;
+  padding: 10px 20px;
+  border-radius: 12px;
+  z-index: 9999;
+}
 
 .hud-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex: 1;
-    cursor: pointer;
-  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
 
-.hud-icon {
-    font-size: 20px;
-    margin-bottom: 4px;
-  }
+.hud-icon { font-size: 20px; }
+.hud-label { font-size: 10px; color: var(--gold); }
 
-.hud-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: var(--gold);
-    font-family: 'Montserrat', sans-serif;
-  }
-
-.status-clear { color: #00ff00; }
-.status-hot { color: #ff0000; font-weight: bold; }
-</style>
-<style>
-  /* OFL Progress Bar */
-  #ofl-progress-bar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 40px;
-    background: var(--crimson);
-    color: var(--white);
-    z-index: 9998;
-    display: flex;
-    align-items: center;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 400;
-    padding: 0 16px;
-    padding-top: env(safe-area-inset-top);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-  }
-  #ofl-progress-bar.ofl-bar-text {
-    flex: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-right: 12px;
-  }
-  #ofl-progress-bar.ofl-bar-action {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    flex-shrink: 0;
-    opacity: 0.9;
-  }
-  #ofl-progress-bar.ofl-bar-action:hover {
-    opacity: 1;
-  }
-  #ofl-progress-bar.ofl-bar-line {
-    width: 28px;
-    height: 1px;
-    background: var(--white);
-  }
-  #ofl-progress-bar.ofl-bar-arrow {
-    font-size: 1.1rem;
-    line-height: 1;
-  }
+.status-clear { color: #00ff88; }
+.status-hot { color: red; }
 </style>
 </head>
+
 <body>
 
-<!-- OFL Progress Bar -->
-<div id="ofl-progress-bar" aria-live="polite">
-  <div class="ofl-bar-text" id="ofl-bar-text">Welcome. Glad you’re here. Take your time</div>
-  <div class="ofl-bar-action" id="ofl-bar-action">
-    <div class="ofl-bar-line"></div>
-    <div class="ofl-bar-arrow">→</div>
-  </div>
-</div>
-
 <section id="hero">
-  <iframe
-    src="https://www.youtube.com/embed/VYSIYQ5v4YY?autoplay=1&muted=1&loop=1&playlist=VYSIYQ5v4YY&controls=0&showinfo=0&modestbranding=1&rel=0"
-    allow="autoplay; encrypted-media"
-    allowfullscreen>
-  </iframe>
+  <iframe src="https://www.youtube.com/embed/VYSIYQ5v4YY?autoplay=1&muted=1&loop=1&playlist=VYSIYQ5v4YY"></iframe>
   <div id="hero-overlay"></div>
   <div id="hero-title">
     <h1>One Father's Love</h1>
-    <p class="tagline">Sacramento Community Resource Directory</p>
-    <p class="mission">"Helping Individuals and Families Achieve Self-Sufficiency"</p>
-  </div>
-  <div class="scroll-hint">
-    <span>Scroll</span>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-      <path d="M12 5v14M5 12l7 7 7-7"/>
-    </svg>
   </div>
 </section>
-
-<div id="about-strip">
-  <p>
-    <strong>OneFathersLove.com</strong> is maintained by <strong>Victor Stark</strong>, a Certified Social Worker, connecting individuals with resources to overcome health challenges while prioritizing privacy. Over <strong>140 categories</strong> of Sacramento resources — updated daily.
-  </p>
-</div>
 
 <section id="directory-section">
-  <p class="section-label">Browse Resources</p>
-  <h2 class="section-title">Sacramento Directory</h2>
-  <div id="acc">
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/FoodandMealServices.aspx"><h3><span class="num">08</span> Food Banks & Soup Kitchens</h3><p>Emergency food, mobile food banks, soup kitchens, and free meal services.</p></a></div></div>
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.com/Sacramentoemergencyshelters.aspx"><h3><span class="num">03</span> Shelters and Vouchers</h3><p>Emergency shelters and housing voucher programs for individuals and families.</p></a></div></div>
-    <div class="nav-item"><div class="nav-item-inner"><a href="https://onefatherslove.github.io/onefatherslove/clinics.html"><h3><span class="num">05</span> FREE Clinics & All Medical</h3><p>Free clinics open weekends, prenatal care, women's clinics, and all medical services.</p></a></div></div>
-  </div>
+
+<div class="nav-item"><div class="nav-item-inner">
+<a href="#"><h3>01 Housing</h3><p>Affordable housing resources.</p></a>
+</div></div>
+
+<div class="nav-item"><div class="nav-item-inner">
+<a href="#"><h3>02 Shelters</h3><p>Emergency shelters.</p></a>
+</div></div>
+
+<div class="nav-item"><div class="nav-item-inner">
+<a href="#"><h3>03 Utilities</h3><p>Utility assistance.</p></a>
+</div></div>
+
+<div class="nav-item"><div class="nav-item-inner">
+<a href="#"><h3>04 FREE Clinics</h3><p>Medical services.</p></a>
+</div></div>
+
+<div class="nav-item"><div class="nav-item-inner">
+<a href="#"><h3>05 Dental</h3><p>Dental services.</p></a>
+</div></div>
+
 </section>
 
-<footer>
-  <div class="footer-links">
-    <a href="about.html">About Us</a>
-    <a href="contact.html">Contact</a>
-    <a href="privacy.html">Privacy Policy</a>
-  </div>
-  <p class="copy">&copy; 2026 One Father's Love &nbsp;|&nbsp; All Rights Reserved</p>
-  <p class="license">License No. 156051 &nbsp;·&nbsp; Sacramento, CA 95816 &nbsp;·&nbsp; EIN: 27-2427226</p>
-</footer>
-
+<!-- HUD -->
 <div id="survival-hud">
   <div class="hud-item" onclick="toggleStatus()">
-    <span class="hud-icon status-clear" id="status-dot">●</span>
+    <span id="status-dot" class="hud-icon status-clear">●</span>
     <span class="hud-label">Status</span>
-  </div>
-  <div class="hud-item" onclick="openIntel()">
-    <span class="hud-icon">📡</span>
-    <span class="hud-label">Intel</span>
-  </div>
-  <div class="hud-item" onclick="toggleResources()">
-    <span class="hud-icon">🏥</span>
-    <span class="hud-label">Survival</span>
-  </div>
-  <div class="hud-item" onclick="switchPersona()">
-    <span class="hud-icon">👤</span>
-    <span class="hud-label">Ghost</span>
   </div>
 </div>
 
 <script>
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      entry.target.classList.toggle('active', entry.isIntersecting);
-    });
-  }, { threshold: 0.4, rootMargin: "-25% 0px -25% 0px" });
-  document.querySelectorAll('.nav-item').forEach(el => observer.observe(el));
-</script>
+/* NAVIGATION */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    entry.target.classList.toggle('active', entry.isIntersecting);
+  });
+}, { threshold: 0.4 });
 
-<script>
-  let currentStatus = 'clear';
-  function toggleStatus() {
-    const dot = document.getElementById('status-dot');
-    if (currentStatus === 'clear') {
-      currentStatus = 'hot';
-      dot.className = 'hud-icon status-hot';
-      alert("Status set to HOT. Use caution.");
-    } else {
-      currentStatus = 'clear';
-      dot.className = 'hud-icon status-clear';
-      alert("Status set to CLEAR.");
-    }
+document.querySelectorAll('.nav-item').forEach(el => observer.observe(el));
+
+/* HUD */
+let currentStatus = 'clear';
+
+function toggleStatus() {
+  const dot = document.getElementById('status-dot');
+  if (currentStatus === 'clear') {
+    currentStatus = 'hot';
+    dot.className = 'hud-icon status-hot';
+  } else {
+    currentStatus = 'clear';
+    dot.className = 'hud-icon status-clear';
   }
-  function openIntel() { alert("Intel Feed: Recording current location patterns..."); }
-  function toggleResources() { alert("Toggling Survival Resources..."); }
-  function switchPersona() { alert("Persona masked. New Ghost ID generated."); }
+}
+
+/* SCROLL PROGRESS EFFECT */
+window.addEventListener('scroll', () => {
+  const progress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+  const dot = document.getElementById('status-dot');
+
+  if (progress > 0.7) {
+    dot.className = 'hud-icon status-hot';
+  } else {
+    dot.className = 'hud-icon status-clear';
+  }
+});
 </script>
 
-<script>
-  // OFL Progress Bar Logic - Step 1 & 2
-  (function() {
-    const bar = document.getElementById('ofl-progress-bar');
-    const barText = document.getElementById('ofl-bar-text');
-    const barAction = document.getElementById('ofl-bar-action');
-    if (!bar ||!barText ||!barAction) return;
-
-    const STEP_1_TEXT = 'Welcome. Glad you’re here. Take your time';
-    const STEP_2_TEXT = (need) => `Step 2: ${need}. Check time, location, and how to get there`;
-
-    const NEED_MAP = {
-      'food': 'Food',
-      'foodandmealservices': 'Food',
-      'sacramentofreelowcostdental': 'Dental',
-      'sacramentoemergencyshelters': 'Shelter',
-      'clinics': 'Medical',
-      'sacramentoaffodablehousing': 'Housing',
-      'energy_utility_assistance_programs_sacramento': 'Utilities',
-      'sacramentoparentingclasses': 'Parenting',
-      'sacramentopregnancy': 'Pregnancy Resources',
-      'singleparentservices': 'Counseling & Support',
-      'job_fairs_and_career_fairs_in_sacramento': 'Jobs',
-      'daycare': 'Child Care',
-      'clothingservices': 'Clothing',
-      'seniorprogramssacramento': 'Senior Services',
-      'state_disability_rights_benifits_and_resources_sacramento_ca': 'Disability Benefits',
-      'mentalhealthsacramento': 'Mental Health',
-      'veteranservicessacramento': 'Veterans Resources',
-      'specialeducation': 'Special Needs',
-      'sacramentodrugandalcoholprograms': 'Recovery',
-      'sacramentocommunityservices': 'Community Services',
-      'vaccination_for_dog_cat_animal_in_sacramento': 'Pet Vaccinations'
-    };
-
-    function getNeedFromPath() {
-      const path = window.location.pathname.toLowerCase();
-      const file = path.split('/').pop().replace('.html','').replace('.aspx','');
-      return NEED_MAP[file] || null;
-    }
-
-    function showStep1() {
-      barText.textContent = STEP_1_TEXT;
-      sessionStorage.setItem('ofl-current-step', '1');
-      sessionStorage.removeItem('ofl-current-need');
-    }
-
-    function showStep2(need) {
-      barText.textContent = STEP_2_TEXT(need);
-      sessionStorage.setItem('ofl-current-step', '2');
-      sessionStorage.setItem('ofl-current-need', need);
-    }
-
-    function initBar() {
-      const savedStep = sessionStorage.getItem('ofl-current-step');
-      const savedNeed = sessionStorage.getItem('ofl-current-need');
-      const urlNeed = getNeedFromPath();
-
-      if (urlNeed) {
-        showStep2(urlNeed);
-        return;
-      }
-
-      if (savedStep === '2' && savedNeed) {
-        showStep2(savedNeed);
-        return;
-      }
-
-      const path = window.location.pathname.toLowerCase();
-      const isHome = path === '/' ||
-                     path.endsWith('/index.html') ||
-                     path.endsWith('/onefatherslove/') ||
-                     path.endsWith('/onefatherslove') ||
-                     path.split('/').filter(Boolean).length === 0;
-
-      if (isHome) {
-        showStep1();
-      } else {
-        showStep1();
-      }
-    }
-
-    barAction.addEventListener('click', () => {
-      const step = sessionStorage.getItem('ofl-current-step');
-      if (step === '2') {
-        alert('Step 3 coming next: Download your plan');
-      }
-    });
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initBar);
-    } else {
-      initBar();
-    }
-  })();
-</script>
 </body>
 </html>
