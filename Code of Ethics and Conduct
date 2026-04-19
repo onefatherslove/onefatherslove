@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code of Conduct & Ethics</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #0f172a;
+        color: #e5e7eb;
+    }
+    h1, h2, h3 {
+        color: #38bdf8;
+    }
+    section {
+        margin-bottom: 40px;
+        padding: 20px;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        background-color: #020617;
+    }
+    ul {
+        margin-top: 10px;
+    }
+    li {
+        margin-bottom: 8px;
+    }
+</style>
+</head>
+<body>
+
+<h1>Code of Conduct & Code of Ethics</h1>
+
+<section>
+<h2>Code of Conduct (Humans)</h2>
+
+<h3>Community Code</h3>
+<ul>
+<li>Treat others with respect. No harassment, threats, or intimidation.</li>
+<li>No discrimination based on identity, background, or beliefs.</li>
+<li>If someone asks you to stop, you stop.</li>
+<li>No exposing personal or private information.</li>
+<li>No targeting, mob behavior, or coordinated attacks.</li>
+<li>Disagreement is allowed. Disrespect is not.</li>
+</ul>
+
+<h3>Behavior Boundaries</h3>
+<ul>
+<li>No aggressive, hostile, or degrading communication.</li>
+<li>No manipulation, deception, or exploitation of others.</li>
+<li>No escalating conflict — step away or report instead.</li>
+<li>No misuse of the platform to harm others.</li>
+</ul>
+
+<h3>Enforcement</h3>
+<ul>
+<li>Content may be removed at any time.</li>
+<li>Access may be restricted or revoked.</li>
+<li>Repeated violations result in removal.</li>
+<li>Serious violations may be escalated under applicable law.</li>
+</ul>
+
+<h3>Responsibility</h3>
+<ul>
+<li>You are responsible for your actions.</li>
+<li>If you see harm, report it — don’t amplify it.</li>
+<li>This space is shared; maintaining it is collective.</li>
+</ul>
+
+</section>
+
+<section>
+<h2>Code of Ethics (Human + AI)</h2>
+
+<h3>Core Principles</h3>
+<ul>
+<li>AI is a tool, not a replacement for human judgment.</li>
+<li>Humans remain responsible for decisions and outcomes.</li>
+<li>AI output must be questioned, not blindly followed.</li>
+</ul>
+
+<h3>Use of AI</h3>
+<ul>
+<li>Do not use AI to deceive, manipulate, or harm others.</li>
+<li>Do not use AI to impersonate real individuals.</li>
+<li>Do not use AI to generate harassment, threats, or exploitation.</li>
+</ul>
+
+<h3>Integrity</h3>
+<ul>
+<li>Be transparent when AI is involved in creation.</li>
+<li>Do not present AI-generated content as verified truth without validation.</li>
+<li>Respect intellectual honesty in all outputs.</li>
+</ul>
+
+<h3>Human Priority</h3>
+<ul>
+<li>Human dignity overrides automation.</li>
+<li>If conflict arises, human well-being comes first.</li>
+<li>AI should assist, not dominate or control interaction.</li>
+</ul>
+
+<h3>Boundaries</h3>
+<ul>
+<li>AI does not hold authority over people.</li>
+<li>AI does not replace real-world accountability.</li>
+<li>AI is a collaborator, not a decision-maker.</li>
+</ul>
+
+</section>
+
+</body>
+</html>
