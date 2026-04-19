@@ -1,163 +1,447 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sacramento Resource Map | Clinics</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <style>
-        body, html { margin: 0; padding: 0; height: 100%; width: 100%; font-family: Arial, sans-serif; }
-        #map { height: 400px; width: 400px; }
-        
-        .leaflet-popup-content {
-            font-size: 18px !important;
-            line-height: 1.4;
-            padding: 10px;
-        }
-        
-        .dir-btn {
-            display: block;
-            margin-top: 12px;
-            padding: 12px;
-            background-color: #ff8c00; 
-            color: white !important;
-            text-align: center;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        .back-nav {
-            position: absolute;
-            top: 10px;
-            left: 50px;
-            z-index: 1000;
-            background: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            color: #007bff;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-    </style>
-</head>
-<body data-need="Medical">
-
-    <div id="ofl-progress-bar" aria-live="polite">
-  <div class="ofl-bar-text" id="ofl-bar-text">Welcome. Glad you’re here. Take your time</div>
-  <div class="ofl-bar-action" id="ofl-bar-action">
-    <div class="ofl-bar-line"></div>
-    <div class="ofl-bar-arrow">→</div>
-  </div>
-</div>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Free Clinics — OneFathersLove Sacramento</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
-  body { padding-top: 40px; }
-  #ofl-progress-bar {
-    position: fixed; top: 0; left: 0; right: 0; height: 40px;
-    background: #800000; color: #fff; z-index: 9998; display: flex; align-items: center;
-    font-family: 'Montserrat', sans-serif; font-size: 0.78rem; padding: 0 16px;
-    box-shadow: 0 2px 12px rgba(0,0,0,0.4);
-  }
-  #ofl-progress-bar.ofl-bar-text { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding-right: 12px; }
-  #ofl-progress-bar.ofl-bar-action { display: flex; align-items: center; gap: 8px; cursor: pointer; flex-shrink: 0; opacity: 0.9; }
-  #ofl-progress-bar.ofl-bar-action:hover { opacity: 1; }
-  #ofl-progress-bar.ofl-bar-line { width: 28px; height: 1px; background: #fff; }
-  #ofl-progress-bar.ofl-bar-arrow { font-size: 1.1rem; line-height: 1; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #c9a84c;
+  --crimson: #800000;
+  --black: #060606;
+  --white: #fff;
+  --gray: #888;
+}
+
+html, body {
+  height: 100%;
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  overflow: hidden;
+}
+
+/* LAYOUT */
+#app {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  height: 100vh;
+}
+
+/* HEADER */
+#header {
+  padding: 16px 20px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: rgba(6,6,6,0.95);
+  z-index: 10;
+}
+#header a {
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+#header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--white);
+}
+#clinic-counter {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--gray);
+}
+
+/* MAIN CONTENT */
+#main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  position: relative;
+}
+
+/* MAP */
+#map {
+  height: 100%;
+  width: 100%;
+  z-index: 1;
+}
+
+/* CLINIC PANEL */
+#clinic-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 40px 36px;
+  position: relative;
+  overflow: hidden;
+  background: #0a0a0a;
+  border-left: 1px solid rgba(255,255,255,0.05);
+}
+
+/* Ambient background pulse */
+#clinic-panel::before {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(128,0,0,0.15) 0%, transparent 70%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: pulse 4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+}
+
+.clinic-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.clinic-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-weight: 300;
+  line-height: 1.2;
+  color: var(--white);
+  margin-bottom: 20px;
+  position: relative;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.clinic-address {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-bottom: 10px;
+  position: relative;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.clinic-phone {
+  font-size: 0.85rem;
+  color: var(--gold);
+  margin-bottom: 28px;
+  position: relative;
+  font-weight: 500;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.clinic-phone a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.clinic-phone a:hover { text-decoration: underline; }
+
+.dir-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: var(--crimson);
+  color: var(--white);
+  text-decoration: none;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.2s, transform 0.2s;
+  position: relative;
+  width: fit-content;
+}
+.dir-btn:hover { background: #a00000; transform: translateY(-1px); }
+
+/* PROGRESS LINE */
+#progress-line {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--gold);
+  width: 0%;
+  transition: width linear;
+}
+
+/* FOOTER BAR */
+#footer-bar {
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  background: rgba(6,6,6,0.95);
+}
+
+#dot-nav {
+  display: flex;
+  gap: 6px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s;
+}
+.dot.active {
+  background: var(--gold);
+  transform: scale(1.3);
+}
+
+#pause-btn {
+  background: none;
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--gray);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+  font-family: 'Montserrat', sans-serif;
+}
+#pause-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+/* FADE TRANSITION */
+.fade-out { opacity: 0; transform: translateY(8px); }
+.fade-in { opacity: 1; transform: translateY(0); }
+
+/* MOBILE */
+@media (max-width: 600px) {
+  #main { grid-template-columns: 1fr; grid-template-rows: 45vh 1fr; }
+  #clinic-panel { padding: 24px 20px; }
+  .clinic-name { font-size: 1.3rem; }
+}
 </style>
-<script>
-(function(){
-  const bar = document.getElementById('ofl-progress-bar');
-  const barText = document.getElementById('ofl-bar-text');
-  if (!bar ||!barText) return;
+</head>
+<body>
 
-  const STEP_1_TEXT = 'Welcome. Glad you’re here. Take your time';
-  const STEP_2_TEXT = (need) => `Step 2: ${need}. Check time, location, and how to get there`;
+<div id="app">
 
-  // Add data-need="Food" to the <body> tag of each page to force Step 2
-  // Example: <body data-need="Medical">
-  const forcedNeed = document.body.dataset.need;
-  const savedNeed = sessionStorage.getItem('ofl-current-need');
+  <div id="header">
+    <a href="index.html">← Home</a>
+    <h1>Sacramento Free Clinics</h1>
+    <span id="clinic-counter">1 / 1</span>
+  </div>
 
-  if (forcedNeed) {
-    barText.textContent = STEP_2_TEXT(forcedNeed);
-    sessionStorage.setItem('ofl-current-need', forcedNeed);
-    sessionStorage.setItem('ofl-current-step', '2');
-  } else if (savedNeed) {
-    barText.textContent = STEP_2_TEXT(savedNeed);
-  } else {
-    barText.textContent = STEP_1_TEXT;
-  }
+  <div id="main">
+    <div id="map"></div>
+    <div id="clinic-panel">
+      <div class="clinic-label">Now Showing</div>
+      <div class="clinic-name" id="c-name">Loading...</div>
+      <div class="clinic-address" id="c-address"></div>
+      <div class="clinic-phone" id="c-phone"></div>
+      <a href="#" id="c-directions" class="dir-btn" target="_blank">Get Walking Directions</a>
+      <div id="progress-line"></div>
+    </div>
+  </div>
 
-  document.getElementById('ofl-bar-action').onclick = () => {
-    if (sessionStorage.getItem('ofl-current-step') === '2') {
-      alert('Step 3 coming next: Download your plan');
-    }
-  };
-})();
-</script>
+  <div id="footer-bar">
+    <div id="dot-nav"></div>
+    <button id="pause-btn">Pause</button>
+  </div>
 
-<a href="index.html" class="back-nav">← Back</a>
-<div id="map"></div>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
-
 <script>
-    const map = L.map('map').setView([38.5816, -121.4944], 12);
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: '© OpenStreetMap contributors'
-    }).addTo(map);
+// MAP SETUP
+const map = L.map('map', { zoomControl: true }).setView([38.5816, -121.4944], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
+}).addTo(map);
 
-    // DYNAMIC "YOU ARE HERE" 
-    map.locate({setView: false, watch: true, enableHighAccuracy: true});
+// USER LOCATION
+map.locate({ setView: false, watch: true, enableHighAccuracy: true });
+let userMarker;
+map.on('locationfound', e => {
+  if (!userMarker) {
+    userMarker = L.circleMarker(e.latlng, {
+      radius: 8, color: '#fff', fillColor: '#007bff', fillOpacity: 0.9, weight: 2
+    }).addTo(map).bindPopup('<b>You are here</b>');
+  } else {
+    userMarker.setLatLng(e.latlng);
+  }
+});
 
-    let userMarker;
-    map.on('locationfound', function(e) {
-        if (!userMarker) {
-            userMarker = L.circleMarker(e.latlng, {
-                radius: 10,
-                color: '#fff',
-                fillColor: '#007bff',
-                fillOpacity: 0.9,
-                weight: 3
-            }).addTo(map).bindPopup("<b>You are here</b>").openPopup();
-        } else {
-            userMarker.setLatLng(e.latlng);
-        }
+// CLINIC DATA — pulled from ArcGIS live feed
+let clinics = [];
+let currentIndex = 0;
+let paused = false;
+let timer = null;
+let progressTimer = null;
+const INTERVAL = 6000; // 6 seconds per clinic
+
+const clinicLayer = L.esri.featureLayer({
+  url: 'https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0',
+  where: "USER_PHYS_CITY_NAME = 'Sacramento'"
+}).addTo(map);
+
+// Custom marker style
+clinicLayer.options.pointToLayer = (geojson, latlng) => {
+  return L.circleMarker(latlng, {
+    radius: 7,
+    fillColor: '#800000',
+    color: '#c9a84c',
+    weight: 1.5,
+    opacity: 1,
+    fillOpacity: 0.85
+  });
+};
+
+// When data loads, build clinic array
+clinicLayer.on('load', () => {
+  clinicLayer.eachFeature(layer => {
+    const p = layer.feature.properties;
+    const coords = layer.feature.geometry.coordinates;
+    if (p.USER_PRVDR_BUSNS_NAME && coords) {
+      clinics.push({
+        name: p.USER_PRVDR_BUSNS_NAME,
+        address: p.USER_PHYS_ST_1_ADR || '',
+        phone: p.USER_Phone || '',
+        lat: coords[1],
+        lng: coords[0],
+        layer: layer
+      });
+    }
+  });
+
+  if (clinics.length > 0) {
+    buildDots();
+    showClinic(0);
+    startCycle();
+  }
+});
+
+// SHOW CLINIC
+function showClinic(index) {
+  if (clinics.length === 0) return;
+  currentIndex = index;
+  const c = clinics[index];
+
+  // Fade out
+  const nameEl = document.getElementById('c-name');
+  const addrEl = document.getElementById('c-address');
+  const phoneEl = document.getElementById('c-phone');
+
+  nameEl.classList.add('fade-out');
+  addrEl.classList.add('fade-out');
+  phoneEl.classList.add('fade-out');
+
+  setTimeout(() => {
+    nameEl.textContent = c.name;
+    addrEl.textContent = c.address;
+    phoneEl.innerHTML = c.phone
+      ? `<a href="tel:${c.phone}">${c.phone}</a>`
+      : 'Call for information';
+
+    const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}&travelmode=walking`;
+    document.getElementById('c-directions').href = dirUrl;
+    document.getElementById('clinic-counter').textContent = `${index + 1} / ${clinics.length}`;
+
+    // Fade in
+    nameEl.classList.remove('fade-out');
+    addrEl.classList.remove('fade-out');
+    phoneEl.classList.remove('fade-out');
+
+    // Map focus
+    map.flyTo([c.lat, c.lng], 15, { duration: 1.2 });
+
+    // Highlight active marker
+    clinicLayer.eachFeature(layer => {
+      const coords = layer.feature.geometry.coordinates;
+      if (Math.abs(coords[1] - c.lat) < 0.0001 && Math.abs(coords[0] - c.lng) < 0.0001) {
+        layer.setStyle({ fillColor: '#c9a84c', radius: 10 });
+      } else {
+        layer.setStyle({ fillColor: '#800000', radius: 7 });
+      }
     });
 
-    // CONNECTING THE ARCGIS LIVE FEED
-    const clinicLayer = L.esri.featureLayer({
-        url: 'https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0',
-        where: "USER_PHYS_CITY_NAME = 'Sacramento'"
-    }).addTo(map);
-
-    // POPUP LOGIC USING LIVE DATA
-    clinicLayer.bindPopup(function (layer) {
-        const props = layer.feature.properties;
-        const lat = layer.feature.geometry.coordinates[1];
-        const lng = layer.feature.geometry.coordinates[0];
-        
-        // Directions URL for walking mode
-        const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
-
-        return `
-            <div style="min-width: 220px;">
-                <strong style="font-size: 20px;">${props.USER_PRVDR_BUSNS_NAME}</strong><br>
-                <span style="font-size: 16px; color: #333;">${props.USER_PHYS_ST_1_ADR}</span><br>
-                <span style="font-size: 16px; color: #333;">Phone: ${props.USER_Phone}</span><br>
-                <a href="${directionsUrl}" target="_blank" class="dir-btn">
-                    Get Directions
-                </a>
-                <p style="font-size: 12px; color: #666; margin-top: 8px; font-weight: normal;">
-                    (Walking directions)
-                </p>
-            </div>
-        `;
+    // Update dots
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('active', i === index);
     });
+
+  }, 300);
+
+  // Reset progress bar
+  resetProgress();
+}
+
+// PROGRESS BAR
+function resetProgress() {
+  const bar = document.getElementById('progress-line');
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+  setTimeout(() => {
+    bar.style.transition = `width ${INTERVAL}ms linear`;
+    bar.style.width = '100%';
+  }, 50);
+}
+
+// AUTO CYCLE
+function startCycle() {
+  clearInterval(timer);
+  timer = setInterval(() => {
+    if (!paused) {
+      const next = (currentIndex + 1) % clinics.length;
+      showClinic(next);
+    }
+  }, INTERVAL);
+  resetProgress();
+}
+
+// BUILD DOT NAV
+function buildDots() {
+  const nav = document.getElementById('dot-nav');
+  nav.innerHTML = '';
+  clinics.forEach((_, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => {
+      paused = false;
+      document.getElementById('pause-btn').textContent = 'Pause';
+      showClinic(i);
+      startCycle();
+    });
+    nav.appendChild(dot);
+  });
+}
+
+// PAUSE / RESUME
+document.getElementById('pause-btn').addEventListener('click', () => {
+  paused = !paused;
+  document.getElementById('pause-btn').textContent = paused ? 'Resume' : 'Pause';
+  if (!paused) {
+    startCycle();
+  } else {
+    document.getElementById('progress-line').style.transition = 'none';
+  }
+});
 
 </script>
 </body>
