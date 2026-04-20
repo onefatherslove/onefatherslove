@@ -4,65 +4,184 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Free Clinics — OneFathersLove Sacramento</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@200;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@200;300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
   --gold: #c9a84c;
+  --gold-dim: rgba(201,168,76,0.15);
   --crimson: #800000;
-  --black: #060606;
-  --white: #fff;
-  --gray: #888;
+  --crimson-glow: rgba(128,0,0,0.25);
+  --black: #050505;
+  --dark: #0a0a0a;
+  --white: #f5f0e8;
+  --gray: #6a6a6a;
+  --gray-light: #999;
 }
 
 html, body {
   height: 100%;
   background: var(--black);
   color: var(--white);
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Outfit', sans-serif;
   overflow: hidden;
 }
 
-/* LAYOUT */
+/* ─── INTRO OVERLAY ─── */
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: var(--black);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  pointer-events: all;
+}
+
+#intro-eyebrow {
+  font-size: 0.62rem;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rise 0.8s ease forwards 0.3s;
+}
+
+#intro-headline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 10vw, 7rem);
+  font-weight: 300;
+  line-height: 1;
+  color: var(--white);
+  text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: rise 1s ease forwards 0.7s;
+  margin: 12px 0 24px;
+  padding: 0 20px;
+}
+
+#intro-sub {
+  font-size: 0.75rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--gray-light);
+  opacity: 0;
+  animation: rise 0.8s ease forwards 1.2s;
+  text-align: center;
+  padding: 0 30px;
+}
+
+#intro-line {
+  width: 0;
+  height: 1px;
+  background: var(--gold);
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  animation: lineExpand 1.5s ease forwards 1.8s;
+}
+
+#intro-bg-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(128,0,0,0.2) 0%, transparent 65%);
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: introGlow 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes introGlow {
+  0%, 100% { opacity: 0.4; transform: translate(-50%, -50%) scale(1); }
+  50% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.1); }
+}
+
+@keyframes rise {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes lineExpand {
+  to { width: 100%; }
+}
+
+.intro-hidden {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.8s ease !important;
+}
+
+/* ─── APP LAYOUT ─── */
 #app {
   display: grid;
   grid-template-rows: auto 1fr auto;
   height: 100vh;
+  opacity: 0;
+  transition: opacity 0.6s ease;
 }
+#app.visible { opacity: 1; }
 
-/* HEADER */
+/* ─── HEADER ─── */
 #header {
-  padding: 16px 20px 12px;
+  padding: 14px 24px 12px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  background: rgba(6,6,6,0.95);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  background: rgba(5,5,5,0.97);
   z-index: 10;
+  backdrop-filter: blur(10px);
 }
 #header a {
   color: var(--gold);
   text-decoration: none;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  transition: opacity 0.2s;
+}
+#header a:hover { opacity: 0.7; }
+#header-title {
+  text-align: center;
+}
+#header-title h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  color: var(--white);
+}
+#header-title p {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  color: var(--gray);
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+#clinic-counter {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--gray);
+  text-align: right;
+}
+#clinic-counter span {
+  display: block;
+  font-size: 0.5rem;
+  color: var(--gold);
   letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-#header h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  font-weight: 300;
-  letter-spacing: 0.15em;
-  color: var(--white);
-}
-#clinic-counter {
-  font-size: 0.65rem;
-  letter-spacing: 0.15em;
-  color: var(--gray);
-}
 
-/* MAIN CONTENT */
+/* ─── MAIN ─── */
 #main {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -70,197 +189,447 @@ html, body {
   position: relative;
 }
 
-/* MAP */
+/* ─── MAP ─── */
 #map {
   height: 100%;
   width: 100%;
   z-index: 1;
+  position: relative;
 }
 
-/* CLINIC PANEL */
+/* Dark map overlay on transition */
+#map-veil {
+  position: absolute;
+  inset: 0;
+  background: var(--black);
+  z-index: 2;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease;
+}
+#map-veil.flash { opacity: 0.4; }
+
+/* ─── CLINIC PANEL ─── */
 #clinic-panel {
+  position: relative;
+  overflow: hidden;
+  background: var(--dark);
+  border-left: 1px solid rgba(255,255,255,0.04);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 40px 36px;
-  position: relative;
-  overflow: hidden;
-  background: #0a0a0a;
-  border-left: 1px solid rgba(255,255,255,0.05);
 }
 
-/* Ambient background pulse */
-#clinic-panel::before {
-  content: '';
+/* ambient glow behind content */
+#panel-glow {
   position: absolute;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(circle, rgba(128,0,0,0.15) 0%, transparent 70%);
+  width: 400px;
+  height: 400px;
   border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   pointer-events: none;
-  animation: pulse 4s ease-in-out infinite;
+  background: radial-gradient(circle, var(--crimson-glow) 0%, transparent 65%);
+  animation: panelPulse 5s ease-in-out infinite;
+  transition: background 1s ease;
 }
-@keyframes pulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-  50% { transform: translate(-50%, -50%) scale(1.2); opacity: 1; }
+@keyframes panelPulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.6; }
+  50% { transform: translate(-50%, -50%) scale(1.25); opacity: 1; }
 }
 
-.clinic-label {
-  font-size: 0.6rem;
-  letter-spacing: 0.4em;
+/* vertical accent line */
+#panel-accent {
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 2px;
+  background: linear-gradient(to bottom, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+#panel-inner {
+  padding: 40px 44px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Tag pills */
+.tag-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+  min-height: 26px;
+}
+.tag {
+  font-size: 0.55rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.tag.vis { opacity: 1; transform: translateX(0); }
+.tag-open { color: #5dbb7a; border-color: rgba(93,187,122,0.35); background: rgba(93,187,122,0.08); }
+.tag-walkin { color: var(--gold); border-color: rgba(201,168,76,0.3); background: rgba(201,168,76,0.06); }
+.tag-kids { color: #7ec8e3; border-color: rgba(126,200,227,0.3); background: rgba(126,200,227,0.07); }
+.tag-women { color: #e884b0; border-color: rgba(232,132,176,0.3); background: rgba(232,132,176,0.07); }
+.tag-dental { color: #a78bfa; border-color: rgba(167,139,250,0.3); background: rgba(167,139,250,0.07); }
+.tag-mental { color: #fb923c; border-color: rgba(251,146,60,0.3); background: rgba(251,146,60,0.07); }
+.tag-free { color: #34d399; border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.07); }
+
+/* eyebrow */
+.clinic-eyebrow {
+  font-size: 0.58rem;
+  letter-spacing: 0.5em;
   text-transform: uppercase;
   color: var(--gold);
-  margin-bottom: 20px;
-  position: relative;
+  margin-bottom: 14px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s ease 0.1s, transform 0.5s ease 0.1s;
 }
+.clinic-eyebrow.vis { opacity: 1; transform: translateY(0); }
 
+/* name */
 .clinic-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.4rem, 3vw, 2.2rem);
+  font-size: clamp(1.5rem, 2.8vw, 2.4rem);
   font-weight: 300;
-  line-height: 1.2;
+  line-height: 1.15;
   color: var(--white);
-  margin-bottom: 20px;
-  position: relative;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
 }
+.clinic-name.vis { opacity: 1; transform: translateY(0); }
 
+/* divider */
+.clinic-divider {
+  width: 40px;
+  height: 1px;
+  background: var(--gold);
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.5s ease 0.35s, transform 0.5s ease 0.35s;
+}
+.clinic-divider.vis { opacity: 0.6; transform: scaleX(1); }
+
+/* address */
 .clinic-address {
   font-size: 0.78rem;
-  color: var(--gray);
-  margin-bottom: 10px;
-  position: relative;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  font-weight: 300;
+  color: var(--gray-light);
+  margin-bottom: 8px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.4s, transform 0.5s ease 0.4s;
 }
+.clinic-address.vis { opacity: 1; transform: translateY(0); }
 
+/* hours */
+.clinic-hours {
+  font-size: 0.72rem;
+  font-weight: 300;
+  color: var(--gray);
+  margin-bottom: 8px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.48s, transform 0.5s ease 0.48s;
+}
+.clinic-hours.vis { opacity: 1; transform: translateY(0); }
+
+/* highlight note */
+.clinic-highlight {
+  font-size: 0.72rem;
+  font-style: italic;
+  color: rgba(201,168,76,0.7);
+  margin-bottom: 18px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.52s, transform 0.5s ease 0.52s;
+  min-height: 1.2em;
+}
+.clinic-highlight.vis { opacity: 1; transform: translateY(0); }
+
+/* phone */
 .clinic-phone {
-  font-size: 0.85rem;
+  font-size: 0.95rem;
+  font-weight: 500;
   color: var(--gold);
   margin-bottom: 28px;
-  position: relative;
-  font-weight: 500;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.58s, transform 0.5s ease 0.58s;
 }
-
-.clinic-phone a {
-  color: inherit;
-  text-decoration: none;
-}
-
+.clinic-phone.vis { opacity: 1; transform: translateY(0); }
+.clinic-phone a { color: inherit; text-decoration: none; }
 .clinic-phone a:hover { text-decoration: underline; }
 
+/* CTA button */
 .dir-btn {
-  display: inline-block;
-  padding: 12px 24px;
-  background: var(--crimson);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  background: transparent;
+  border: 1px solid var(--crimson);
   color: var(--white);
   text-decoration: none;
-  border-radius: 4px;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  transition: background 0.2s, transform 0.2s;
+  font-family: 'Outfit', sans-serif;
+  transition: background 0.25s, border-color 0.25s, transform 0.2s;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.5s ease 0.65s, transform 0.5s ease 0.65s, background 0.25s, border-color 0.25s;
   position: relative;
-  width: fit-content;
+  overflow: hidden;
 }
-.dir-btn:hover { background: #a00000; transform: translateY(-1px); }
+.dir-btn.vis { opacity: 1; transform: translateY(0); }
+.dir-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--crimson);
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  z-index: -1;
+}
+.dir-btn:hover::before { transform: translateX(0); }
+.dir-btn:hover { border-color: var(--crimson); }
 
-/* PROGRESS LINE */
-#progress-line {
+/* progress bar at bottom of panel */
+#progress-bar {
   position: absolute;
   bottom: 0;
   left: 0;
   height: 2px;
-  background: var(--gold);
+  background: linear-gradient(to right, var(--crimson), var(--gold));
   width: 0%;
   transition: width linear;
 }
 
-/* FOOTER BAR */
+/* ─── SERVICES STRIP (rotating services text) ─── */
+#services-strip {
+  position: absolute;
+  bottom: 12px;
+  right: 44px;
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gray);
+  opacity: 0;
+  transition: opacity 0.5s ease 0.8s;
+}
+#services-strip.vis { opacity: 1; }
+
+/* ─── FOOTER ─── */
 #footer-bar {
-  padding: 10px 20px;
+  padding: 10px 24px;
   display: flex;
   align-items: center;
-  gap: 12px;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  background: rgba(6,6,6,0.95);
+  gap: 14px;
+  border-top: 1px solid rgba(255,255,255,0.05);
+  background: rgba(5,5,5,0.97);
+  backdrop-filter: blur(10px);
 }
 
 #dot-nav {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   flex: 1;
   flex-wrap: wrap;
+  align-items: center;
 }
-
 .dot {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
   border-radius: 50%;
-  background: rgba(255,255,255,0.15);
+  background: rgba(255,255,255,0.12);
   cursor: pointer;
-  transition: background 0.3s, transform 0.2s;
+  transition: background 0.3s, transform 0.2s, width 0.3s;
 }
 .dot.active {
   background: var(--gold);
-  transform: scale(1.3);
+  transform: scale(1.4);
+  width: 14px;
+  border-radius: 3px;
 }
 
-#pause-btn {
+#controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ctrl-btn {
   background: none;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.1);
   color: var(--gray);
-  padding: 6px 14px;
+  padding: 5px 14px;
   border-radius: 20px;
-  font-size: 0.65rem;
+  font-size: 0.6rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   cursor: pointer;
   transition: border-color 0.2s, color 0.2s;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Outfit', sans-serif;
 }
-#pause-btn:hover { border-color: var(--gold); color: var(--gold); }
+.ctrl-btn:hover { border-color: var(--gold); color: var(--gold); }
 
-/* FADE TRANSITION */
-.fade-out { opacity: 0; transform: translateY(8px); }
-.fade-in { opacity: 1; transform: translateY(0); }
-
-/* MOBILE */
-@media (max-width: 600px) {
-  #main { grid-template-columns: 1fr; grid-template-rows: 45vh 1fr; }
-  #clinic-panel { padding: 24px 20px; }
-  .clinic-name { font-size: 1.3rem; }
+#loop-indicator {
+  font-size: 0.55rem;
+  letter-spacing: 0.2em;
+  color: var(--gray);
+  text-transform: uppercase;
 }
+
+/* ─── TRANSITION STATES ─── */
+.panel-slide-out {
+  animation: slideOut 0.35s ease forwards;
+}
+.panel-slide-in {
+  animation: slideIn 0.35s ease forwards;
+}
+
+@keyframes slideOut {
+  to { opacity: 0; transform: translateX(-20px); }
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(20px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+/* ─── LOADING STATE ─── */
+#loading-state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 5;
+  background: var(--dark);
+}
+#loading-state.hidden { display: none; }
+
+.loader-ring {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loader-text {
+  font-size: 0.62rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gray);
+  animation: blink 1.5s ease-in-out infinite;
+}
+@keyframes blink { 0%,100% {opacity:0.4} 50% {opacity:1} }
+
+/* ─── MOBILE ─── */
+@media (max-width: 680px) {
+  #main { grid-template-columns: 1fr; grid-template-rows: 40vh 1fr; }
+  #panel-inner { padding: 24px 22px; }
+  .clinic-name { font-size: 1.4rem; }
+  #intro-headline { font-size: clamp(2.2rem, 14vw, 4rem); }
+}
+
+/* Leaflet dark override */
+.leaflet-container { background: #111; }
+.leaflet-tile { filter: brightness(0.7) saturate(0.6); }
 </style>
 </head>
 <body>
 
+<!-- INTRO OVERLAY -->
+<div id="intro">
+  <div id="intro-bg-glow"></div>
+  <div id="intro-eyebrow">OneFathersLove · Sacramento</div>
+  <h2 id="intro-headline">Free<br>Health<br>Clinics</h2>
+  <p id="intro-sub">Care is closer than you think</p>
+  <div id="intro-line"></div>
+</div>
+
+<!-- MAIN APP -->
 <div id="app">
 
   <div id="header">
     <a href="index.html">← Home</a>
-    <h1>Sacramento Free Clinics</h1>
-    <span id="clinic-counter">1 / 1</span>
+    <div id="header-title">
+      <h1>Sacramento Free Clinics</h1>
+      <p>No insurance required</p>
+    </div>
+    <div id="clinic-counter">
+      <span>Resource</span>
+      <span id="counter-num">— / —</span>
+    </div>
   </div>
 
   <div id="main">
-    <div id="map"></div>
+    <!-- MAP -->
+    <div style="position:relative;">
+      <div id="map"></div>
+      <div id="map-veil"></div>
+    </div>
+
+    <!-- CLINIC PANEL -->
     <div id="clinic-panel">
-      <div class="clinic-label">Now Showing</div>
-      <div class="clinic-name" id="c-name">Loading...</div>
-      <div class="clinic-address" id="c-address"></div>
-      <div class="clinic-phone" id="c-phone"></div>
-      <a href="#" id="c-directions" class="dir-btn" target="_blank">Get Walking Directions</a>
-      <div id="progress-line"></div>
+      <div id="panel-glow"></div>
+      <div id="panel-accent"></div>
+
+      <!-- Loading -->
+      <div id="loading-state">
+        <div class="loader-ring"></div>
+        <div class="loader-text">Finding clinics near you</div>
+      </div>
+
+      <div id="panel-inner">
+        <div class="tag-row" id="tag-row"></div>
+        <div class="clinic-eyebrow" id="c-eyebrow">Now Showing</div>
+        <div class="clinic-name" id="c-name">Loading...</div>
+        <div class="clinic-divider" id="c-divider"></div>
+        <div class="clinic-address" id="c-address"></div>
+        <div class="clinic-hours" id="c-hours"></div>
+        <div class="clinic-highlight" id="c-highlight"></div>
+        <div class="clinic-phone" id="c-phone"></div>
+        <a href="#" id="c-directions" class="dir-btn" target="_blank">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12l9-9 9 9M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9"/></svg>
+          Get Directions
+        </a>
+        <div id="services-strip" class="clinic-highlight"></div>
+      </div>
+
+      <div id="progress-bar"></div>
     </div>
   </div>
 
   <div id="footer-bar">
     <div id="dot-nav"></div>
-    <button id="pause-btn">Pause</button>
+    <div id="controls">
+      <span id="loop-indicator"></span>
+      <button class="ctrl-btn" id="pause-btn">Pause</button>
+    </div>
   </div>
 
 </div>
@@ -269,60 +638,127 @@ html, body {
 <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
 <script>
 
-// MAP SETUP
-const map = L.map('map', { zoomControl: true }).setView([38.5816, -121.4944], 12);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors'
+// ─── HAND-CURATED CLINIC DATA (fallback + supplements live feed) ───
+const curatedClinics = [
+  {
+    name: "Shifa Clinic",
+    address: "419 V Street, Suite A, Sacramento, CA 95818",
+    phone: "(916) 441-6008",
+    hours: "Sat & Sun · 9:00 AM – 12:00 PM",
+    highlight: "Women's Clinic every 2nd Sunday of the month",
+    tags: ["walkin", "women", "free"],
+    services: "Pap Smears · Blood Tests · Mental Health · Prescription Assistance · Chronic Disease",
+    lat: 38.5557, lng: -121.4900
+  },
+  {
+    name: "Clinica Tepati Sacramento",
+    address: "923 V Street, Sacramento, CA 95818",
+    phone: "(916) 530-7028",
+    hours: "Saturday · 8:00 AM – 4:00 PM",
+    highlight: "Serving the Latino community · Primary care for uninsured",
+    tags: ["free", "walkin"],
+    services: "Primary Care · Uninsured Patients Welcome · Sliding Scale",
+    lat: 38.5568, lng: -121.4895
+  },
+  {
+    name: "Downtown Clinic — Health For All",
+    address: "1820 J Street, Sacramento, CA 95814",
+    phone: "(916) 530-7028",
+    hours: "Mon – Fri · 8:00 AM – 2:00 PM",
+    highlight: "Pediatric care · Medi-Cal families welcome",
+    tags: ["kids", "free"],
+    services: "Children's Clinics · Physicals · Medi-Cal · Pediatrics",
+    lat: 38.5744, lng: -121.4909
+  },
+  {
+    name: "Willow Clinic Sacramento",
+    address: "1200 North B Street, Sacramento, CA 95814",
+    phone: "(916) 442-0331",
+    hours: "Saturday · 8:30 AM – 12:00 PM",
+    highlight: "People experiencing homelessness welcome · All are welcome",
+    tags: ["walkin", "free"],
+    services: "Walk-In Accepted · No Insurance Required · Open Saturdays",
+    lat: 38.5796, lng: -121.5027
+  }
+];
+
+// ─── STATE ───
+let clinics = [];
+let currentIndex = 0;
+let paused = false;
+let timer = null;
+let loopCount = 0;
+let totalLoops = 3; // loop 3 times then stay on last
+const INTERVAL = 8000;
+
+// ─── MAP INIT ───
+const map = L.map('map', { zoomControl: true, attributionControl: false })
+  .setView([38.5816, -121.4944], 12);
+
+L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+  maxZoom: 19
 }).addTo(map);
 
-// USER LOCATION
-map.locate({ setView: false, watch: true, enableHighAccuracy: true });
+// Minimal attribution
+L.control.attribution({ position: 'bottomleft', prefix: '' })
+  .addAttribution('<span style="color:#555;font-size:9px">© OpenStreetMap</span>')
+  .addTo(map);
+
+// User location
 let userMarker;
+map.locate({ setView: false, watch: true, enableHighAccuracy: true });
 map.on('locationfound', e => {
   if (!userMarker) {
-    userMarker = L.circleMarker(e.latlng, {
-      radius: 8, color: '#fff', fillColor: '#007bff', fillOpacity: 0.9, weight: 2
-    }).addTo(map).bindPopup('<b>You are here</b>');
+    const pulseIcon = L.divIcon({
+      className: '',
+      html: `<div style="
+        width:14px;height:14px;
+        background:#007bff;
+        border:2px solid white;
+        border-radius:50%;
+        box-shadow:0 0 0 4px rgba(0,123,255,0.25);
+      "></div>`,
+      iconSize: [14, 14],
+      iconAnchor: [7, 7]
+    });
+    userMarker = L.marker(e.latlng, { icon: pulseIcon })
+      .addTo(map)
+      .bindPopup('<b style="font-family:sans-serif;font-size:12px">You are here</b>');
   } else {
     userMarker.setLatLng(e.latlng);
   }
 });
 
-// CLINIC DATA — pulled from ArcGIS live feed
-let clinics = [];
-let currentIndex = 0;
-let paused = false;
-let timer = null;
-let progressTimer = null;
-const INTERVAL = 6000; // 6 seconds per clinic
-
+// ─── ARCGIS LIVE FEED ───
 const clinicLayer = L.esri.featureLayer({
   url: 'https://services7.arcgis.com/7MUwsS9z05YumJRZ/ArcGIS/rest/services/Clinics/FeatureServer/0',
-  where: "USER_PHYS_CITY_NAME = 'Sacramento'"
+  where: "USER_PHYS_CITY_NAME = 'Sacramento'",
+  pointToLayer: (geojson, latlng) => {
+    return L.circleMarker(latlng, {
+      radius: 7,
+      fillColor: '#800000',
+      color: '#c9a84c',
+      weight: 1.5,
+      opacity: 1,
+      fillOpacity: 0.8
+    });
+  }
 }).addTo(map);
 
-// Custom marker style
-clinicLayer.options.pointToLayer = (geojson, latlng) => {
-  return L.circleMarker(latlng, {
-    radius: 7,
-    fillColor: '#800000',
-    color: '#c9a84c',
-    weight: 1.5,
-    opacity: 1,
-    fillOpacity: 0.85
-  });
-};
-
-// When data loads, build clinic array
 clinicLayer.on('load', () => {
+  const liveData = [];
   clinicLayer.eachFeature(layer => {
     const p = layer.feature.properties;
-    const coords = layer.feature.geometry.coordinates;
+    const coords = layer.feature.geometry ? layer.feature.geometry.coordinates : null;
     if (p.USER_PRVDR_BUSNS_NAME && coords) {
-      clinics.push({
+      liveData.push({
         name: p.USER_PRVDR_BUSNS_NAME,
         address: p.USER_PHYS_ST_1_ADR || '',
         phone: p.USER_Phone || '',
+        hours: p.USER_HOURS || '',
+        highlight: '',
+        tags: ['free'],
+        services: '',
         lat: coords[1],
         lng: coords[0],
         layer: layer
@@ -330,98 +766,223 @@ clinicLayer.on('load', () => {
     }
   });
 
-  if (clinics.length > 0) {
-    buildDots();
-    showClinic(0);
-    startCycle();
-  }
+  // Merge: use live data; add curated ones not already present
+  const names = liveData.map(c => c.name.toLowerCase());
+  const merged = [...liveData];
+  curatedClinics.forEach(c => {
+    if (!names.some(n => n.includes(c.name.toLowerCase().split(' ')[0]))) {
+      merged.push(c);
+    }
+  });
+
+  clinics = merged.length > 0 ? merged : curatedClinics;
+  initPage();
 });
 
-// SHOW CLINIC
-function showClinic(index) {
+// Fallback: if ArcGIS fails or is slow, use curated after 5s
+setTimeout(() => {
+  if (clinics.length === 0) {
+    clinics = curatedClinics;
+    initPage();
+  }
+}, 5000);
+
+// ─── INTRO → PAGE TRANSITION ───
+setTimeout(() => {
+  const intro = document.getElementById('intro');
+  intro.classList.add('intro-hidden');
+  setTimeout(() => {
+    intro.style.display = 'none';
+    document.getElementById('app').classList.add('visible');
+  }, 800);
+}, 3200);
+
+// ─── INIT ───
+function initPage() {
+  document.getElementById('loading-state').classList.add('hidden');
+  buildDots();
+  showClinic(0, true);
+  startCycle();
+}
+
+// ─── SHOW CLINIC ───
+function showClinic(index, instant = false) {
   if (clinics.length === 0) return;
   currentIndex = index;
   const c = clinics[index];
 
-  // Fade out
-  const nameEl = document.getElementById('c-name');
-  const addrEl = document.getElementById('c-address');
-  const phoneEl = document.getElementById('c-phone');
+  // flash map veil
+  const veil = document.getElementById('map-veil');
+  veil.classList.add('flash');
+  setTimeout(() => veil.classList.remove('flash'), 600);
 
-  nameEl.classList.add('fade-out');
-  addrEl.classList.add('fade-out');
-  phoneEl.classList.add('fade-out');
+  // clear all animated elements
+  const animated = ['c-eyebrow','c-name','c-divider','c-address','c-hours',
+                     'c-highlight','c-phone','c-directions','services-strip'];
+  animated.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.classList.remove('vis');
+  });
+
+  // clear tags
+  const tagRow = document.getElementById('tag-row');
+  tagRow.innerHTML = '';
+
+  const delay = instant ? 0 : 350;
 
   setTimeout(() => {
-    nameEl.textContent = c.name;
-    addrEl.textContent = c.address;
-    phoneEl.innerHTML = c.phone
-      ? `<a href="tel:${c.phone}">${c.phone}</a>`
-      : 'Call for information';
+    // Name
+    document.getElementById('c-name').textContent = c.name;
+    document.getElementById('c-address').textContent = c.address || '';
+    document.getElementById('c-hours').textContent = c.hours || '';
+    document.getElementById('c-highlight').textContent = c.highlight || '';
 
-    const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}&travelmode=walking`;
+    // Phone
+    const phoneEl = document.getElementById('c-phone');
+    if (c.phone) {
+      phoneEl.innerHTML = `<a href="tel:${c.phone}">${c.phone}</a>`;
+    } else {
+      phoneEl.textContent = '';
+    }
+
+    // Directions
+    const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(c.address || c.lat+','+c.lng)}&travelmode=walking`;
     document.getElementById('c-directions').href = dirUrl;
-    document.getElementById('clinic-counter').textContent = `${index + 1} / ${clinics.length}`;
 
-    // Fade in
-    nameEl.classList.remove('fade-out');
-    addrEl.classList.remove('fade-out');
-    phoneEl.classList.remove('fade-out');
+    // Counter
+    document.getElementById('counter-num').textContent = `${index + 1} / ${clinics.length}`;
 
-    // Map focus
-    map.flyTo([c.lat, c.lng], 15, { duration: 1.2 });
+    // Services strip
+    const strip = document.getElementById('services-strip');
+    strip.textContent = c.services || '';
 
-    // Highlight active marker
-    clinicLayer.eachFeature(layer => {
-      const coords = layer.feature.geometry.coordinates;
-      if (Math.abs(coords[1] - c.lat) < 0.0001 && Math.abs(coords[0] - c.lng) < 0.0001) {
-        layer.setStyle({ fillColor: '#c9a84c', radius: 10 });
-      } else {
-        layer.setStyle({ fillColor: '#800000', radius: 7 });
-      }
-    });
+    // Tags
+    buildTags(c.tags || []);
 
-    // Update dots
+    // Map fly
+    if (c.lat && c.lng) {
+      map.flyTo([c.lat, c.lng], 15, { duration: 1.4, easeLinearity: 0.4 });
+      highlightMarker(c);
+    }
+
+    // Dots
     document.querySelectorAll('.dot').forEach((d, i) => {
       d.classList.toggle('active', i === index);
     });
 
-  }, 300);
+    // Eyebrow varies by clinic
+    const eyebrows = ['Now Showing','This May Help','Available Near You','Consider This','Open to You'];
+    document.getElementById('c-eyebrow').textContent = eyebrows[index % eyebrows.length];
 
-  // Reset progress bar
+    // Stagger-animate elements in
+    requestAnimationFrame(() => {
+      animated.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          // small stagger using CSS transition-delay already set
+          el.classList.add('vis');
+        }
+      });
+      // tags stagger
+      document.querySelectorAll('.tag').forEach((t, i) => {
+        setTimeout(() => t.classList.add('vis'), i * 80);
+      });
+    });
+
+  }, delay);
+
   resetProgress();
 }
 
-// PROGRESS BAR
-function resetProgress() {
-  const bar = document.getElementById('progress-line');
-  bar.style.transition = 'none';
-  bar.style.width = '0%';
-  setTimeout(() => {
-    bar.style.transition = `width ${INTERVAL}ms linear`;
-    bar.style.width = '100%';
-  }, 50);
+// ─── BUILD TAGS ───
+function buildTags(tagKeys) {
+  const tagRow = document.getElementById('tag-row');
+  const tagDefs = {
+    'open':   { label: 'Open Weekends', cls: 'tag-open' },
+    'walkin': { label: 'Walk-Ins Welcome', cls: 'tag-walkin' },
+    'kids':   { label: 'Pediatric Care', cls: 'tag-kids' },
+    'women':  { label: "Women's Health", cls: 'tag-women' },
+    'dental': { label: 'Dental', cls: 'tag-dental' },
+    'mental': { label: 'Mental Health', cls: 'tag-mental' },
+    'free':   { label: 'Always Free', cls: 'tag-free' },
+  };
+  tagKeys.forEach(key => {
+    if (tagDefs[key]) {
+      const span = document.createElement('span');
+      span.className = `tag ${tagDefs[key].cls}`;
+      span.textContent = tagDefs[key].label;
+      tagRow.appendChild(span);
+    }
+  });
 }
 
-// AUTO CYCLE
+// ─── HIGHLIGHT MAP MARKER ───
+function highlightMarker(c) {
+  clinicLayer.eachFeature(layer => {
+    try {
+      const coords = layer.feature.geometry.coordinates;
+      const isActive = Math.abs(coords[1] - c.lat) < 0.001 && Math.abs(coords[0] - c.lng) < 0.001;
+      if (isActive) {
+        layer.setStyle({ fillColor: '#c9a84c', color: '#fff', radius: 11, weight: 2 });
+        layer.bringToFront();
+      } else {
+        layer.setStyle({ fillColor: '#800000', color: '#c9a84c', radius: 7, weight: 1.5 });
+      }
+    } catch(e) {}
+  });
+}
+
+// ─── PROGRESS BAR ───
+function resetProgress() {
+  const bar = document.getElementById('progress-bar');
+  bar.style.transition = 'none';
+  bar.style.width = '0%';
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      bar.style.transition = `width ${INTERVAL}ms linear`;
+      bar.style.width = '100%';
+    });
+  });
+}
+
+// ─── AUTO CYCLE ───
 function startCycle() {
   clearInterval(timer);
   timer = setInterval(() => {
     if (!paused) {
-      const next = (currentIndex + 1) % clinics.length;
-      showClinic(next);
+      const next = currentIndex + 1;
+      if (next >= clinics.length) {
+        loopCount++;
+        updateLoopIndicator();
+        if (loopCount >= totalLoops) {
+          // After 3 loops, slow down — pause auto but let user explore
+          paused = true;
+          document.getElementById('pause-btn').textContent = 'Replay';
+          document.getElementById('loop-indicator').textContent = 'Take your time';
+          return;
+        }
+      }
+      showClinic(next % clinics.length);
     }
   }, INTERVAL);
   resetProgress();
 }
 
-// BUILD DOT NAV
+function updateLoopIndicator() {
+  const remaining = totalLoops - loopCount;
+  if (remaining > 0) {
+    document.getElementById('loop-indicator').textContent = `Pass ${loopCount + 1} of ${totalLoops}`;
+  }
+}
+
+// ─── BUILD DOTS ───
 function buildDots() {
   const nav = document.getElementById('dot-nav');
   nav.innerHTML = '';
   clinics.forEach((_, i) => {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.title = clinics[i].name;
     dot.addEventListener('click', () => {
       paused = false;
       document.getElementById('pause-btn').textContent = 'Pause';
@@ -432,14 +993,24 @@ function buildDots() {
   });
 }
 
-// PAUSE / RESUME
+// ─── PAUSE ───
 document.getElementById('pause-btn').addEventListener('click', () => {
+  if (document.getElementById('pause-btn').textContent === 'Replay') {
+    loopCount = 0;
+    paused = false;
+    document.getElementById('pause-btn').textContent = 'Pause';
+    document.getElementById('loop-indicator').textContent = '';
+    showClinic(0);
+    startCycle();
+    return;
+  }
   paused = !paused;
   document.getElementById('pause-btn').textContent = paused ? 'Resume' : 'Pause';
   if (!paused) {
     startCycle();
   } else {
-    document.getElementById('progress-line').style.transition = 'none';
+    const bar = document.getElementById('progress-bar');
+    bar.style.transition = 'none';
   }
 });
 
