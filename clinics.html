@@ -70,10 +70,15 @@ body {
 .clinic-card {
   border-bottom: 1px solid rgba(255,255,255,0.07);
   padding: 20px 0;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.4s ease;
 }
 
 .clinic-card:last-child { border-bottom: none; }
+
+.clinic-card.open {
+  background: rgba(255,255,255,0.03);
+  transform: translateY(0);
+}
 
 .clinic-name {
   font-family: 'Cormorant Garamond', serif;
@@ -193,6 +198,31 @@ map.on('locationfound', e => {
   }
 });
 
+// ROTATION SYSTEM
+let rotationTimer = null;
+
+function startRotation() {
+  const list = document.getElementById('clinic-list');
+
+  if (rotationTimer) clearInterval(rotationTimer);
+
+  rotationTimer = setInterval(() => {
+    const items = document.querySelectorAll('.clinic-card');
+    if (items.length <= 1) return;
+
+    // rotate upward (first goes to bottom)
+    list.appendChild(items[0]);
+
+    // update "open" state for top two
+    const updated = document.querySelectorAll('.clinic-card');
+    updated.forEach((el, i) => {
+      if (i < 2) el.classList.add('open');
+      else el.classList.remove('open');
+    });
+
+  }, 8000);
+}
+
 // FETCH CLINICS FROM HRSA API
 async function loadClinics() {
   try {
@@ -216,13 +246,14 @@ async function loadClinics() {
     const data = await response.json();
     const clinics = data.HCC || [];
 
-    // Filter to service delivery sites only
     const filtered = clinics.filter(c =>
       c.HCC_TYP_DESC && c.HCC_TYP_DESC.includes('Service Delivery')
     );
 
     renderClinics(filtered);
     addMapMarkers(filtered);
+
+    setTimeout(startRotation, 500);
 
   } catch (err) {
     document.getElementById('loading').textContent = 'Unable to load clinics. Please try again.';
