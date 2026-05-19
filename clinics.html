@@ -1,26 +1,224 @@
-/* HARD ISOLATION FOR NAV */
-.nav-container {
-  height: 120px;
-  overflow: hidden;
-  position: relative;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sacramento Clinics — OneFathersLove</title>
 
-  /* IMPORTANT: prevents overlap with header flow issues */
-  z-index: 1;
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
+<style>
+:root{
+  --gold:#c9a84c;
+  --crimson:#800000;
+  --black:#060606;
+  --white:#fff;
+  --gray:#888;
 }
 
-/* keep nav strictly inside its box */
-.nav-list {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  transform: translateZ(0);
-  will-change: transform;
+*{box-sizing:border-box;margin:0;padding:0;}
+
+body{
+  background:var(--black);
+  color:var(--white);
+  font-family:Montserrat,sans-serif;
 }
 
-/* force stacking order separation */
-#header {
-  position: relative;
-  z-index: 10;
+/* HEADER */
+#header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  background:#0a0a0a;
+  border-bottom:1px solid rgba(255,255,255,0.08);
 }
+
+#header h1{
+  font-family:"Cormorant Garamond",serif;
+  font-weight:300;
+  font-size:1rem;
+}
+
+/* MAP */
+#map{
+  height:40vh;
+  width:100%;
+}
+
+/* STATUS */
+#status{
+  background:var(--crimson);
+  text-align:center;
+  padding:8px;
+  font-size:0.7rem;
+}
+
+/* NAV ROTATION WRAPPER */
+#nav-wrapper{
+  height:140px;
+  overflow:hidden;
+  position:relative;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+#nav-list{
+  position:absolute;
+  width:100%;
+  transition:transform 0.6s ease;
+  will-change:transform;
+}
+
+.nav-item{
+  padding:14px 16px;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.nav-title{
+  font-weight:400;
+  font-size:0.9rem;
+}
+
+.nav-sub{
+  font-size:0.7rem;
+  color:var(--gray);
+}
+
+/* CLINIC LIST */
+#clinics{
+  padding:20px;
+  max-width:800px;
+  margin:0 auto;
+}
+
+.card{
+  padding:16px 0;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+
+.card h3{
+  font-family:"Cormorant Garamond",serif;
+}
+
+.card a{
+  color:var(--gold);
+  text-decoration:none;
+}
+
+/* SCROLL CONTROL */
+#scroll-btn{
+  position:fixed;
+  right:10px;
+  top:60%;
+  background:var(--crimson);
+  color:white;
+  border:none;
+  padding:10px;
+  font-size:12px;
+  z-index:20;
+}
+</style>
+</head>
+
+<body>
+
+<div id="header">
+  <h1>Free Clinics</h1>
+</div>
+
+<div id="map"></div>
+
+<div id="status">Sacramento Verified Resources</div>
+
+<!-- NAV -->
+<div id="nav-wrapper">
+  <div id="nav-list"></div>
+</div>
+
+<button id="scroll-btn">PAUSE</button>
+
+<div id="clinics"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+/* MAP */
+const map = L.map('map').setView([38.58,-121.49],11);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+  attribution:'© OpenStreetMap'
+}).addTo(map);
+
+/* SAMPLE DATA */
+const data = [
+  {name:"Clinic A",desc:"Primary Care",lat:38.58,lng:-121.49,phone:"9160000000"},
+  {name:"Clinic B",desc:"Dental Care",lat:38.60,lng:-121.45,phone:"9161111111"},
+  {name:"Clinic C",desc:"Urgent Care",lat:38.62,lng:-121.42,phone:"9162222222"}
+];
+
+/* MAP MARKERS */
+data.forEach(d=>{
+  L.marker([d.lat,d.lng]).addTo(map)
+  .bindPopup(`<b>${d.name}</b><br>${d.desc}<br><a href="tel:${d.phone}">Call</a>`);
+});
+
+/* CLINICS */
+const clinicBox = document.getElementById("clinics");
+clinicBox.innerHTML = data.map(d=>
+  `<div class="card">
+    <h3>${d.name}</h3>
+    <div>${d.desc}</div>
+    <a href="tel:${d.phone}">${d.phone}</a>
+  </div>`
+).join("");
+
+/* NAV ROTATION ENGINE */
+const navList = document.getElementById("nav-list");
+
+let navItems = [
+  {t:"Clinics",s:"Medical access"},
+  {t:"Dental",s:"Oral care"},
+  {t:"Food",s:"Food banks"},
+  {t:"Shelter",s:"Housing help"}
+];
+
+navList.innerHTML = navItems.map(i=>
+  `<div class="nav-item">
+    <div class="nav-title">${i.t}</div>
+    <div class="nav-sub">${i.s}</div>
+  </div>`
+).join("");
+
+let index = 0;
+let paused = false;
+
+/* ROTATION */
+function rotate(){
+  if(paused) return;
+
+  index = (index + 1) % navItems.length;
+
+  navList.style.transform =
+    `translateY(-${index * 70}px)`;
+}
+
+let interval = setInterval(rotate, 8000);
+
+/* PAUSE BUTTON */
+document.getElementById("scroll-btn").onclick = () => {
+  paused = !paused;
+  document.getElementById("scroll-btn").innerText =
+    paused ? "RESUME" : "PAUSE";
+};
+
+/* STOP ON MANUAL SCROLL */
+document.addEventListener("wheel", ()=> paused = true);
+document.addEventListener("touchstart", ()=> paused = true);
+</script>
+
+</body>
+</html>
