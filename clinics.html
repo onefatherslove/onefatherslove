@@ -3,222 +3,328 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sacramento Clinics — OneFathersLove</title>
-
+<title>Free Clinics — OneFathersLove Sacramento</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
 <style>
-:root{
-  --gold:#c9a84c;
-  --crimson:#800000;
-  --black:#060606;
-  --white:#fff;
-  --gray:#888;
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --gold: #c9a84c;
+  --crimson: #800000;
+  --black: #060606;
+  --white: #fff;
+  --gray: #888;
 }
 
-*{box-sizing:border-box;margin:0;padding:0;}
-
-body{
-  background:var(--black);
-  color:var(--white);
-  font-family:Montserrat,sans-serif;
+body {
+  background: var(--black);
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+  min-height: 100vh;
 }
 
-/* HEADER */
-#header{
-  position:sticky;
-  top:0;
-  z-index:10;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 16px;
-  background:#0a0a0a;
-  border-bottom:1px solid rgba(255,255,255,0.08);
+#header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  background: #0a0a0a;
+}
+#header a {
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+#header h1 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.1em;
 }
 
-#header h1{
-  font-family:"Cormorant Garamond",serif;
-  font-weight:300;
-  font-size:1rem;
+#map {
+  height: 45vh;
+  width: 100%;
 }
 
-/* MAP */
-#map{
-  height:40vh;
-  width:100%;
+#status-bar {
+  background: var(--crimson);
+  padding: 10px 20px;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-align: center;
+  color: rgba(255,255,255,0.85);
 }
 
-/* STATUS */
-#status{
-  background:var(--crimson);
-  text-align:center;
-  padding:8px;
-  font-size:0.7rem;
+#clinic-list {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-/* NAV ROTATION WRAPPER */
-#nav-wrapper{
-  height:140px;
-  overflow:hidden;
-  position:relative;
-  border-bottom:1px solid rgba(255,255,255,0.08);
+.clinic-card {
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  padding: 20px 0;
+  transition: background 0.2s, transform 0.4s ease;
 }
 
-#nav-list{
-  position:absolute;
-  width:100%;
-  transition:transform 0.6s ease;
-  will-change:transform;
+.clinic-card:last-child { border-bottom: none; }
+
+.clinic-card.open {
+  background: rgba(255,255,255,0.03);
+  transform: translateY(0);
 }
 
-.nav-item{
-  padding:14px 16px;
-  border-bottom:1px solid rgba(255,255,255,0.05);
+.clinic-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: var(--white);
+  margin-bottom: 6px;
 }
 
-.nav-title{
-  font-weight:400;
-  font-size:0.9rem;
+.clinic-address {
+  font-size: 0.78rem;
+  color: var(--gray);
+  margin-bottom: 4px;
 }
 
-.nav-sub{
-  font-size:0.7rem;
-  color:var(--gray);
+.clinic-phone a {
+  color: var(--gold);
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 500;
 }
 
-/* CLINIC LIST */
-#clinics{
-  padding:20px;
-  max-width:800px;
-  margin:0 auto;
+.clinic-phone a:hover { text-decoration: underline; }
+
+.clinic-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
 }
 
-.card{
-  padding:16px 0;
-  border-bottom:1px solid rgba(255,255,255,0.06);
+.btn {
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.card h3{
-  font-family:"Cormorant Garamond",serif;
+.btn-directions {
+  background: var(--crimson);
+  color: var(--white);
 }
 
-.card a{
-  color:var(--gold);
-  text-decoration:none;
+.btn-website {
+  border: 1px solid rgba(255,255,255,0.15);
+  color: var(--gray);
 }
 
-/* SCROLL CONTROL */
-#scroll-btn{
-  position:fixed;
-  right:10px;
-  top:60%;
-  background:var(--crimson);
-  color:white;
-  border:none;
-  padding:10px;
-  font-size:12px;
-  z-index:20;
+.clinic-distance {
+  font-size: 0.65rem;
+  color: var(--gray);
+  letter-spacing: 0.1em;
+  margin-top: 6px;
+}
+
+#loading {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--gray);
+  font-size: 0.8rem;
+  letter-spacing: 0.2em;
+}
+
+footer {
+  background: #0d0000;
+  border-top: 1px solid rgba(128,0,0,0.4);
+  padding: 30px 20px;
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.3);
+  letter-spacing: 0.15em;
 }
 </style>
 </head>
-
 <body>
 
 <div id="header">
-  <h1>Free Clinics</h1>
+  <a href="index.html">← Home</a>
+  <h1>Sacramento Free Clinics</h1>
+  <span style="font-size:0.65rem;color:var(--gray);">HRSA Data</span>
 </div>
 
 <div id="map"></div>
 
-<div id="status">Sacramento Verified Resources</div>
+<div id="status-bar">Federally Qualified Health Centers — Updated Daily by HRSA</div>
 
-<!-- NAV -->
-<div id="nav-wrapper">
-  <div id="nav-list"></div>
+<div id="clinic-list">
+  <div id="loading">Loading clinics...</div>
 </div>
 
-<button id="scroll-btn">PAUSE</button>
-
-<div id="clinics"></div>
+<footer>&copy; 2026 One Father's Love &nbsp;|&nbsp; Sacramento, CA</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
-/* MAP */
-const map = L.map('map').setView([38.58,-121.49],11);
 
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-  attribution:'© OpenStreetMap'
+// MAP SETUP
+const map = L.map('map').setView([38.5816, -121.4944], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+  attribution: '© OpenStreetMap contributors'
 }).addTo(map);
 
-/* SAMPLE DATA */
-const data = [
-  {name:"Clinic A",desc:"Primary Care",lat:38.58,lng:-121.49,phone:"9160000000"},
-  {name:"Clinic B",desc:"Dental Care",lat:38.60,lng:-121.45,phone:"9161111111"},
-  {name:"Clinic C",desc:"Urgent Care",lat:38.62,lng:-121.42,phone:"9162222222"}
-];
-
-/* MAP MARKERS */
-data.forEach(d=>{
-  L.marker([d.lat,d.lng]).addTo(map)
-  .bindPopup(`<b>${d.name}</b><br>${d.desc}<br><a href="tel:${d.phone}">Call</a>`);
+// USER LOCATION
+map.locate({ setView: false, watch: true, enableHighAccuracy: true });
+let userMarker;
+map.on('locationfound', e => {
+  if (!userMarker) {
+    userMarker = L.circleMarker(e.latlng, {
+      radius: 8, color: '#fff', fillColor: '#007bff', fillOpacity: 0.9, weight: 2
+    }).addTo(map).bindPopup('<b>You are here</b>').openPopup();
+  } else {
+    userMarker.setLatLng(e.latlng);
+  }
 });
 
-/* CLINICS */
-const clinicBox = document.getElementById("clinics");
-clinicBox.innerHTML = data.map(d=>
-  `<div class="card">
-    <h3>${d.name}</h3>
-    <div>${d.desc}</div>
-    <a href="tel:${d.phone}">${d.phone}</a>
-  </div>`
-).join("");
+// ROTATION SYSTEM
+let rotationTimer = null;
 
-/* NAV ROTATION ENGINE */
-const navList = document.getElementById("nav-list");
+function startRotation() {
+  const list = document.getElementById('clinic-list');
 
-let navItems = [
-  {t:"Clinics",s:"Medical access"},
-  {t:"Dental",s:"Oral care"},
-  {t:"Food",s:"Food banks"},
-  {t:"Shelter",s:"Housing help"}
-];
+  if (rotationTimer) clearInterval(rotationTimer);
 
-navList.innerHTML = navItems.map(i=>
-  `<div class="nav-item">
-    <div class="nav-title">${i.t}</div>
-    <div class="nav-sub">${i.s}</div>
-  </div>`
-).join("");
+  rotationTimer = setInterval(() => {
+    const items = document.querySelectorAll('.clinic-card');
+    if (items.length <= 1) return;
 
-let index = 0;
-let paused = false;
+    // rotate upward (first goes to bottom)
+    list.appendChild(items[0]);
 
-/* ROTATION */
-function rotate(){
-  if(paused) return;
+    // update "open" state for top two
+    const updated = document.querySelectorAll('.clinic-card');
+    updated.forEach((el, i) => {
+      if (i < 2) el.classList.add('open');
+      else el.classList.remove('open');
+    });
 
-  index = (index + 1) % navItems.length;
-
-  navList.style.transform =
-    `translateY(-${index * 70}px)`;
+  }, 8000);
 }
 
-let interval = setInterval(rotate, 8000);
+// FETCH CLINICS FROM HRSA API
+async function loadClinics() {
+  try {
+    const response = await fetch(
+      'https://data.hrsa.gov/HDWAPI3_External/api/v1/GetHealthCentersAroundALocation',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          Latitude: 38.5816,
+          Longitude: -121.4944,
+          Radius: 10,
+          MinRecs: 10,
+          MaxRadius: 15,
+          RadiusIncrement: 5,
+          Token: '84b58a24-b399-49b9-af97-01983013897c'
+        })
+      }
+    );
 
-/* PAUSE BUTTON */
-document.getElementById("scroll-btn").onclick = () => {
-  paused = !paused;
-  document.getElementById("scroll-btn").innerText =
-    paused ? "RESUME" : "PAUSE";
-};
+    const data = await response.json();
+    const clinics = data.HCC || [];
 
-/* STOP ON MANUAL SCROLL */
-document.addEventListener("wheel", ()=> paused = true);
-document.addEventListener("touchstart", ()=> paused = true);
+    const filtered = clinics.filter(c =>
+      c.HCC_TYP_DESC && c.HCC_TYP_DESC.includes('Service Delivery')
+    );
+
+    renderClinics(filtered);
+    addMapMarkers(filtered);
+
+    setTimeout(startRotation, 500);
+
+  } catch (err) {
+    document.getElementById('loading').textContent = 'Unable to load clinics. Please try again.';
+    console.error(err);
+  }
+}
+
+// RENDER CLINIC LIST
+function renderClinics(clinics) {
+  const list = document.getElementById('clinic-list');
+
+  if (clinics.length === 0) {
+    list.innerHTML = '<div id="loading">No clinics found.</div>';
+    return;
+  }
+
+  list.innerHTML = clinics.map(c => {
+    const coords = c.LAT_LON ? c.LAT_LON.trim().split(' ') : null;
+    const lat = coords ? coords[0] : '';
+    const lng = coords ? coords[1] : '';
+    const dirUrl = lat ? `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking` : '#';
+    const phone = c.SITE_PHONE_NUM && c.SITE_PHONE_NUM !== '999-999-9999' ? c.SITE_PHONE_NUM : null;
+    const website = c.SITE_URL && c.SITE_URL.trim() !== '' ? c.SITE_URL : null;
+    const fullUrl = website && !website.startsWith('http') ? 'https://' + website : website;
+
+    return `
+      <div class="clinic-card">
+        <div class="clinic-name">${c.SITE_NM}</div>
+        <div class="clinic-address">${c.SITE_ADDRESS}, ${c.SITE_CITY}, ${c.SITE_STATE_ABBR} ${c.SITE_ZIP_CD}</div>
+        ${phone ? `<div class="clinic-phone"><a href="tel:${phone}">${phone}</a></div>` : ''}
+        <div class="clinic-actions">
+          <a href="${dirUrl}" target="_blank" class="btn btn-directions">Get Directions</a>
+          ${fullUrl ? `<a href="${fullUrl}" target="_blank" class="btn btn-website">Website</a>` : ''}
+        </div>
+        <div class="clinic-distance">${c.Distance} miles away</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ADD MAP MARKERS
+function addMapMarkers(clinics) {
+  clinics.forEach(c => {
+    if (!c.LAT_LON) return;
+    const coords = c.LAT_LON.trim().split(' ');
+    const lat = parseFloat(coords[0]);
+    const lng = parseFloat(coords[1]);
+    if (isNaN(lat) || isNaN(lng)) return;
+
+    const phone = c.SITE_PHONE_NUM && c.SITE_PHONE_NUM !== '999-999-9999' ? c.SITE_PHONE_NUM : 'Call for info';
+    const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
+
+    L.circleMarker([lat, lng], {
+      radius: 7,
+      fillColor: '#800000',
+      color: '#c9a84c',
+      weight: 1.5,
+      fillOpacity: 0.85
+    }).addTo(map).bindPopup(`
+      <div style="min-width:200px;font-family:sans-serif;">
+        <strong style="font-size:14px;">${c.SITE_NM}</strong><br>
+        <span style="font-size:12px;color:#555;">${c.SITE_ADDRESS}</span><br>
+        <span style="font-size:12px;">${phone}</span><br>
+        <a href="${dirUrl}" target="_blank" style="display:block;margin-top:8px;padding:8px;background:#800000;color:#fff;text-align:center;text-decoration:none;border-radius:4px;font-size:12px;">Get Walking Directions</a>
+      </div>
+    `);
+  });
+}
+
+loadClinics();
+
 </script>
-
 </body>
 </html>
