@@ -3,234 +3,159 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Free Clinics — OneFathersLove Sacramento</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Clinics Stack</title>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --gold: #c9a84c;
-  --crimson: #800000;
-  --black: #060606;
-  --white: #fff;
-  --gray: #888;
-}
-
 body {
-  background: var(--black);
-  color: var(--white);
-  font-family: 'Montserrat', sans-serif;
-  font-weight: 300;
-  min-height: 100vh;
+  margin: 0;
+  background: #0b0c10;
+  font-family: system-ui;
+  color: white;
 }
 
-#header {
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  background: #0a0a0a;
-}
-#header a {
-  color: var(--gold);
-  text-decoration: none;
-  font-size: 0.7rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-}
-#header h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.1rem;
-  font-weight: 300;
-  letter-spacing: 0.1em;
-}
-
+/* MAP */
 #map {
-  height: 45vh;
+  height: 40vh;
   width: 100%;
 }
 
-#status-bar {
-  background: var(--crimson);
-  padding: 10px 20px;
-  font-size: 0.72rem;
-  letter-spacing: 0.1em;
-  text-align: center;
-  color: rgba(255,255,255,0.85);
-}
-
+/* STACK AREA */
 #clinic-list {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 20px;
+  position: relative;
+  height: 520px;
+  max-width: 420px;
+  margin: 20px auto;
+  perspective: 1200px;
 }
 
+/* CARD */
 .clinic-card {
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  padding: 20px 0;
-  transition: background 0.2s, transform 0.4s ease;
+  position: absolute;
+  width: 100%;
+  border-radius: 18px;
+  padding: 18px;
+  box-sizing: border-box;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  transition: transform 0.6s ease, opacity 0.6s ease;
+  cursor: pointer;
 }
 
-.clinic-card:last-child { border-bottom: none; }
+/* STATES */
+.clinic-card.active {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  z-index: 5;
+}
 
-.clinic-card.open {
-  background: rgba(255,255,255,0.03);
-  transform: translateY(0);
+.clinic-card.next {
+  transform: translateY(40px) scale(0.96);
+  opacity: 0.55;
+  z-index: 4;
+}
+
+.clinic-card.back {
+  transform: translateY(80px) scale(0.92);
+  opacity: 0.25;
+  z-index: 3;
 }
 
 .clinic-name {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: var(--white);
+  font-size: 18px;
   margin-bottom: 6px;
 }
 
 .clinic-address {
-  font-size: 0.78rem;
-  color: var(--gray);
-  margin-bottom: 4px;
+  font-size: 13px;
+  opacity: 0.8;
 }
 
-.clinic-phone a {
-  color: var(--gold);
-  text-decoration: none;
-  font-size: 0.82rem;
-  font-weight: 500;
-}
-
-.clinic-phone a:hover { text-decoration: underline; }
-
-.clinic-actions {
+.clinic-meta {
   margin-top: 10px;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.btn {
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 4px;
-  font-size: 0.68rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.btn-directions {
-  background: var(--crimson);
-  color: var(--white);
-}
-
-.btn-website {
-  border: 1px solid rgba(255,255,255,0.15);
-  color: var(--gray);
-}
-
-.clinic-distance {
-  font-size: 0.65rem;
-  color: var(--gray);
-  letter-spacing: 0.1em;
-  margin-top: 6px;
-}
-
-#loading {
-  text-align: center;
-  padding: 60px 20px;
-  color: var(--gray);
-  font-size: 0.8rem;
-  letter-spacing: 0.2em;
-}
-
-footer {
-  background: #0d0000;
-  border-top: 1px solid rgba(128,0,0,0.4);
-  padding: 30px 20px;
-  margin-top: 40px;
-  text-align: center;
-  font-size: 0.7rem;
-  color: rgba(255,255,255,0.3);
-  letter-spacing: 0.15em;
+  font-size: 12px;
+  opacity: 0.7;
 }
 </style>
 </head>
+
 <body>
 
-<div id="header">
-  <a href="index.html">← Home</a>
-  <h1>Sacramento Free Clinics</h1>
-  <span style="font-size:0.65rem;color:var(--gray);">HRSA Data</span>
-</div>
-
 <div id="map"></div>
-
-<div id="status-bar">Federally Qualified Health Centers — Updated Daily by HRSA</div>
-
-<div id="clinic-list">
-  <div id="loading">Loading clinics...</div>
-</div>
-
-<footer>&copy; 2026 One Father's Love &nbsp;|&nbsp; Sacramento, CA</footer>
+<div id="clinic-list"></div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
 
-// MAP SETUP
+<script>
+/* ================= MAP ================= */
 const map = L.map('map').setView([38.5816, -121.4944], 12);
+
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors'
+  attribution: '© OpenStreetMap'
 }).addTo(map);
 
-// USER LOCATION
-map.locate({ setView: false, watch: true, enableHighAccuracy: true });
-let userMarker;
-map.on('locationfound', e => {
-  if (!userMarker) {
-    userMarker = L.circleMarker(e.latlng, {
-      radius: 8, color: '#fff', fillColor: '#007bff', fillOpacity: 0.9, weight: 2
-    }).addTo(map).bindPopup('<b>You are here</b>').openPopup();
-  } else {
-    userMarker.setLatLng(e.latlng);
-  }
-});
+/* ================= STATE ================= */
+let activeIndex = 0;
+let timer = null;
 
-// ROTATION SYSTEM
-let rotationTimer = null;
+/* ================= RENDER ================= */
+function renderClinics(clinics) {
+  const list = document.getElementById("clinic-list");
 
-function startRotation() {
-  const list = document.getElementById('clinic-list');
+  list.innerHTML = clinics.map((c, i) => `
+    <div class="clinic-card">
+      <div class="clinic-name">${c.SITE_NM || "Clinic"}</div>
+      <div class="clinic-address">
+        ${c.SITE_ADDRESS || ""} ${c.SITE_CITY || ""}
+      </div>
+      <div class="clinic-meta">
+        ${c.SITE_PHONE_NUM || ""}
+      </div>
+    </div>
+  `).join("");
 
-  if (rotationTimer) clearInterval(rotationTimer);
-
-  rotationTimer = setInterval(() => {
-    const items = document.querySelectorAll('.clinic-card');
-    if (items.length <= 1) return;
-
-    // rotate upward (first goes to bottom)
-    list.appendChild(items[0]);
-
-    // update "open" state for top two
-    const updated = document.querySelectorAll('.clinic-card');
-    updated.forEach((el, i) => {
-      if (i < 2) el.classList.add('open');
-      else el.classList.remove('open');
-    });
-
-  }, 8000);
+  initStack();
 }
 
-// FETCH CLINICS FROM HRSA API
+/* ================= STACK ENGINE ================= */
+function initStack() {
+  const cards = document.querySelectorAll(".clinic-card");
+
+  function render() {
+    cards.forEach((card, i) => {
+      card.classList.remove("active", "next", "back");
+
+      if (i === activeIndex) card.classList.add("active");
+      else if (i === activeIndex + 1) card.classList.add("next");
+      else card.classList.add("back");
+    });
+  }
+
+  cards.forEach((card, i) => {
+    card.onclick = () => {
+      activeIndex = i;
+      render();
+    };
+  });
+
+  render();
+
+  clearInterval(timer);
+  timer = setInterval(() => {
+    activeIndex = (activeIndex + 1) % cards.length;
+    render();
+  }, 3500);
+}
+
+/* ================= DATA LOAD ================= */
 async function loadClinics() {
   try {
-    const response = await fetch(
-      'https://data.hrsa.gov/HDWAPI3_External/api/v1/GetHealthCentersAroundALocation',
+    const res = await fetch(
+      "https://data.hrsa.gov/HDWAPI3_External/api/v1/GetHealthCentersAroundALocation",
       {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           Latitude: 38.5816,
           Longitude: -121.4944,
@@ -238,93 +163,24 @@ async function loadClinics() {
           MinRecs: 10,
           MaxRadius: 15,
           RadiusIncrement: 5,
-          Token: '84b58a24-b399-49b9-af97-01983013897c'
+          Token: "84b58a24-b399-49b9-af97-01983013897c"
         })
       }
     );
 
-    const data = await response.json();
+    const data = await res.json();
     const clinics = data.HCC || [];
 
-    const filtered = clinics.filter(c =>
-      c.HCC_TYP_DESC && c.HCC_TYP_DESC.includes('Service Delivery')
-    );
+    renderClinics(clinics);
 
-    renderClinics(filtered);
-    addMapMarkers(filtered);
-
-    setTimeout(startRotation, 500);
-
-  } catch (err) {
-    document.getElementById('loading').textContent = 'Unable to load clinics. Please try again.';
-    console.error(err);
+  } catch (e) {
+    document.getElementById("clinic-list").innerHTML =
+      "<p style='padding:20px;'>Failed to load clinics</p>";
   }
-}
-
-// RENDER CLINIC LIST
-function renderClinics(clinics) {
-  const list = document.getElementById('clinic-list');
-
-  if (clinics.length === 0) {
-    list.innerHTML = '<div id="loading">No clinics found.</div>';
-    return;
-  }
-
-  list.innerHTML = clinics.map(c => {
-    const coords = c.LAT_LON ? c.LAT_LON.trim().split(' ') : null;
-    const lat = coords ? coords[0] : '';
-    const lng = coords ? coords[1] : '';
-    const dirUrl = lat ? `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking` : '#';
-    const phone = c.SITE_PHONE_NUM && c.SITE_PHONE_NUM !== '999-999-9999' ? c.SITE_PHONE_NUM : null;
-    const website = c.SITE_URL && c.SITE_URL.trim() !== '' ? c.SITE_URL : null;
-    const fullUrl = website && !website.startsWith('http') ? 'https://' + website : website;
-
-    return `
-      <div class="clinic-card">
-        <div class="clinic-name">${c.SITE_NM}</div>
-        <div class="clinic-address">${c.SITE_ADDRESS}, ${c.SITE_CITY}, ${c.SITE_STATE_ABBR} ${c.SITE_ZIP_CD}</div>
-        ${phone ? `<div class="clinic-phone"><a href="tel:${phone}">${phone}</a></div>` : ''}
-        <div class="clinic-actions">
-          <a href="${dirUrl}" target="_blank" class="btn btn-directions">Get Directions</a>
-          ${fullUrl ? `<a href="${fullUrl}" target="_blank" class="btn btn-website">Website</a>` : ''}
-        </div>
-        <div class="clinic-distance">${c.Distance} miles away</div>
-      </div>
-    `;
-  }).join('');
-}
-
-// ADD MAP MARKERS
-function addMapMarkers(clinics) {
-  clinics.forEach(c => {
-    if (!c.LAT_LON) return;
-    const coords = c.LAT_LON.trim().split(' ');
-    const lat = parseFloat(coords[0]);
-    const lng = parseFloat(coords[1]);
-    if (isNaN(lat) || isNaN(lng)) return;
-
-    const phone = c.SITE_PHONE_NUM && c.SITE_PHONE_NUM !== '999-999-9999' ? c.SITE_PHONE_NUM : 'Call for info';
-    const dirUrl = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=walking`;
-
-    L.circleMarker([lat, lng], {
-      radius: 7,
-      fillColor: '#800000',
-      color: '#c9a84c',
-      weight: 1.5,
-      fillOpacity: 0.85
-    }).addTo(map).bindPopup(`
-      <div style="min-width:200px;font-family:sans-serif;">
-        <strong style="font-size:14px;">${c.SITE_NM}</strong><br>
-        <span style="font-size:12px;color:#555;">${c.SITE_ADDRESS}</span><br>
-        <span style="font-size:12px;">${phone}</span><br>
-        <a href="${dirUrl}" target="_blank" style="display:block;margin-top:8px;padding:8px;background:#800000;color:#fff;text-align:center;text-decoration:none;border-radius:4px;font-size:12px;">Get Walking Directions</a>
-      </div>
-    `);
-  });
 }
 
 loadClinics();
-
 </script>
+
 </body>
 </html>
