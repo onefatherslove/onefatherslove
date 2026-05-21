@@ -112,18 +112,33 @@ function renderClinics(clinics) {
 }
 
 /* ================= STACK ENGINE ================= */
-function initStack() {
-  const cards = document.querySelectorAll(".clinic-card");
+function render() {
+  cards.forEach((card, i) => {
+    const diff = i - activeIndex;
 
-  function render() {
-    cards.forEach((card, i) => {
-      card.classList.remove("active", "next", "back");
+    card.classList.remove("active", "next", "back");
 
-      if (i === activeIndex) card.classList.add("active");
-      else if (i === activeIndex + 1) card.classList.add("next");
-      else card.classList.add("back");
-    });
-  }
+    if (diff === 0) {
+      card.classList.add("active");
+    }
+    else if (diff === 1) {
+      card.classList.add("next");
+    }
+    else if (diff === 2) {
+      card.classList.add("back");
+    }
+    else {
+      card.style.opacity = 0;
+      card.style.transform = "translateY(180px) scale(0.85)";
+      card.style.zIndex = 0;
+      return;
+    }
+
+    card.style.opacity = "";
+    card.style.transform = "";
+    card.style.zIndex = "";
+  });
+}}
 
   cards.forEach((card, i) => {
     card.onclick = () => {
