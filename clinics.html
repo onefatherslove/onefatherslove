@@ -91,69 +91,99 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 /* ================= STATE ================= */
 let activeIndex = 0;
 let timer = null;
+let markers = [];
 
 /* ================= RENDER ================= */
 function renderClinics(clinics) {
   const list = document.getElementById("clinic-list");
 
-  list.innerHTML = clinics.map((c, i) => `
-    <div class="clinic-card">
-      <div class="clinic-name">${c.SITE_NM || "Clinic"}</div>
-      <div class="clinic-address">
-        ${c.SITE_ADDRESS || ""} ${c.SITE_CITY || ""}
+  // Clear existing markers
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  list.innerHTML = clinics.map((c, i) => {
+    // Generate map markers if coordinates exist
+    if (c.LATITUDE && c.LONGITUDE) {
+      const marker = L.marker([c.LATITUDE, c.LONGITUDE])
+        .bindPopup(`<b>${c.SITE_NM || "Clinic"}</b>`)
+        .addTo(map);
+      markers.push(marker);
+    } else {
+      markers.push(null); // Keep array index matched
+    }
+
+    return `
+      <div class="clinic-card">
+        <div class="clinic-name" style="font-weight:bold; font-size:1.2rem; margin-bottom:8px;">${c.SITE_NM || "Clinic"}</div>
+        <div class="clinic-address" style="opacity:0.8; font-size:0.95rem; margin-bottom:6px;">
+          ${c.SITE_ADDRESS || ""} ${c.SITE_CITY || ""}
+        </div>
+        <div class="clinic-meta" style="opacity:0.6; font-size:0.85rem;">
+          ${c.SITE_PHONE_NUM || ""}
+        </div>
       </div>
-      <div class="clinic-meta">
-        ${c.SITE_PHONE_NUM || ""}
-      </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
   initStack();
 }
 
 /* ================= STACK ENGINE ================= */
-function render() {
-  cards.forEach((card, i) => {
-    const diff = i - activeIndex;
+function initStack() {
+  const cards = document.querySelectorAll(".clinic-card");
+  if (cards.length === 0) return;
 
-    card.classList.remove("active", "next", "back");
+  function render() {
+    cards.forEach((card, i) => {
+      const diff = i - activeIndex;
 
-    if (diff === 0) {
-      card.classList.add("active");
-    }
-    else if (diff === 1) {
-      card.classList.add("next");
-    }
-    else if (diff === 2) {
-      card.classList.add("back");
-    }
-    else {
-      card.style.opacity = 0;
-      card.style.transform = "translateY(180px) scale(0.85)";
-      card.style.zIndex = 0;
-      return;
-    }
+      card.classList.remove("active", "next", "back");
 
-    card.style.opacity = "";
-    card.style.transform = "";
-    card.style.zIndex = "";
-  });
-}}
+      if (diff === 0) {
+        card.classList.add("active");
+        // Open map popup and pan to current card location
+        if (markers[i]) {
+          markers[i].openPopup();
+          map.panTo(markers[i].getLatLng());
+        }
+      }
+      else if (diff === 1) {
+        card.classList.add("next");
+      }
+      else if (diff === 2) {
+        card.classList.add("back");
+      }
+      else {
+        card.style.opacity = 0;
+        card.style.transform = "translateY(180px) scale(0.85)";
+        card.style.zIndex = 0;
+        return;
+      }
+
+      card.style.opacity = "";
+      card.style.transform = "";
+      card.style.zIndex = "";
+    });
+  }
 
   cards.forEach((card, i) => {
     card.onclick = () => {
       activeIndex = i;
       render();
+      resetTimer(cards.length);
     };
   });
 
-  render();
+  function resetTimer(length) {
+    clearInterval(timer);
+    timer = setInterval(() => {
+      activeIndex = (activeIndex + 1) % length;
+      render();
+    }, 3500);
+  }
 
-  clearInterval(timer);
-  timer = setInterval(() => {
-    activeIndex = (activeIndex + 1) % cards.length;
-    render();
-  }, 3500);
+  render();
+  resetTimer(cards.length);
 }
 
 /* ================= DATA LOAD ================= */
@@ -191,4 +221,5 @@ loadClinics();
 </script>
 
 </body>
+</html>
 </html>
