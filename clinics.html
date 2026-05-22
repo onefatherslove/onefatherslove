@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Clinics Stack</title>
 
+<!-- Leaflet CDN -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
@@ -28,10 +29,10 @@ body {
   max-width: 420px;
   margin: 20px auto;
   perspective: 1200px;
-  overflow: hidden; /* Prevent out-of-bounds rendering */
+  overflow: hidden; /* Prevent out-of-bounds rendering during transitions */
 }
 
-/* CARD */
+/* CARD BASE */
 .clinic-card {
   position: absolute;
   width: 100%;
@@ -42,31 +43,36 @@ body {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.08);
 
-  transition: transform 0.6s ease, opacity 0.6s ease;
+  /* Smooth transition animations for transformations and visibility scales */
+  transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.6s ease, visibility 0.6s ease;
   cursor: pointer;
 
   backface-visibility: hidden;
   opacity: 0;
-  transform: translateY(0px) scale(1);
+  visibility: hidden;
+  transform: translateY(0px) scale(0.85);
   z-index: 0;
 }
 
-/* ACTIVE */
+/* ACTIVE STATE (Top Card) */
 .clinic-card.active {
+  visibility: visible;
   transform: translateY(0px) scale(1);
   opacity: 1;
   z-index: 10;
 }
 
-/* NEXT */
+/* NEXT STATE (Second Card) */
 .clinic-card.next {
+  visibility: visible;
   transform: translateY(70px) scale(0.95);
   opacity: 0.5;
   z-index: 5;
 }
 
-/* BACK */
+/* BACK STATE (Third Card) */
 .clinic-card.back {
+  visibility: visible;
   transform: translateY(140px) scale(0.9);
   opacity: 0.2;
   z-index: 1;
@@ -79,38 +85,39 @@ body {
 <div id="map"></div>
 <div id="clinic-list"></div>
 
+<!-- Leaflet Library Link -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
 <script>
-/* ================= MAP ================= */
+/* ================= MAP INITIALIZATION ================= */
 const map = L.map('map').setView([38.5816, -121.4944], 12);
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
   attribution: '© OpenStreetMap'
 }).addTo(map);
 
-/* ================= STATE ================= */
+/* ================= APP STATE ================= */
 let activeIndex = 0;
 let timer = null;
 let markers = [];
 
-/* ================= RENDER ================= */
+/* ================= UI RENDER DATA ENGINE ================= */
 function renderClinics(clinics) {
   const list = document.getElementById("clinic-list");
 
-  // Clear existing markers
-  markers.forEach(m => map.removeLayer(m));
+  // Wipe previous instances of map layers
+  markers.forEach(m => { if (m) map.removeLayer(m); });
   markers = [];
 
   list.innerHTML = clinics.map((c, i) => {
-    // Generate map markers if coordinates exist
+    // Generate functional map tracking markers if coordinates are active
     if (c.LATITUDE && c.LONGITUDE) {
       const marker = L.marker([c.LATITUDE, c.LONGITUDE])
         .bindPopup(`<b>${c.SITE_NM || "Clinic"}</b>`)
         .addTo(map);
       markers.push(marker);
     } else {
-      markers.push(null); // Keep array index matched
+      markers.push(null); // Preserve spatial alignment array indices
     }
 
     return `
@@ -129,20 +136,23 @@ function renderClinics(clinics) {
   initStack();
 }
 
-/* ================= STACK ENGINE ================= */
+/* ================= SLIDING CARDS STACK ENGINE ================= */
 function initStack() {
   const cards = document.querySelectorAll(".clinic-card");
-  if (cards.length === 0) return;
+  const total = cards.length;
+  if (total === 0) return;
 
   function render() {
     cards.forEach((card, i) => {
-      const diff = i - activeIndex;
+      // FIX: Calculate circular wrapped distance using modulo math to solve boundary breakdown
+      const diff = (i - activeIndex + total) % total;
 
+      // Reset style classes cleanly to prevent layout jumps
       card.classList.remove("active", "next", "back");
 
       if (diff === 0) {
         card.classList.add("active");
-        // Open map popup and pan to current card location
+        // Center mapping perspective on current selection
         if (markers[i]) {
           markers[i].openPopup();
           map.panTo(markers[i].getLatLng());
@@ -155,38 +165,35 @@ function initStack() {
         card.classList.add("back");
       }
       else {
-        card.style.display = "none";
-        return;
+        // Keeps non-visible cards scaled down out of vision safely behind the stack layer
+        // No explicit style overrides here to protect active animation timings
       }
-
-      card.style.display = "";
-      card.style.opacity = "";
-      card.style.transform = "";
-      card.style.zIndex = "";
     });
   }
 
+  // Bind individual user click interactions
   cards.forEach((card, i) => {
     card.onclick = () => {
       activeIndex = i;
       render();
-      resetTimer(cards.length);
+      resetTimer();
     };
   });
 
-  function resetTimer(length) {
+  // Keep the automatic slider cycle fresh and timed properly
+  function resetTimer() {
     clearInterval(timer);
     timer = setInterval(() => {
-      activeIndex = (activeIndex + 1) % length;
+      activeIndex = (activeIndex + 1) % total;
       render();
     }, 3500);
   }
 
   render();
-  resetTimer(cards.length);
+  resetTimer();
 }
 
-/* ================= DATA LOAD ================= */
+/* ================= NATIVE BROWSING DATA INGESTION ================= */
 async function loadClinics() {
   try {
     const res = await fetch(
@@ -213,10 +220,11 @@ async function loadClinics() {
 
   } catch (e) {
     document.getElementById("clinic-list").innerHTML =
-      "<p style='padding:20px;'>Failed to load clinics</p>";
+      "<p style='padding:20px; color: #ff6b6b;'>Failed to sync data components safely.</p>";
   }
 }
 
+// Fire the pipeline engine
 loadClinics();
 </script>
 
