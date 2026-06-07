@@ -1,0 +1,38 @@
+const PROXIES = [
+  "https://proxy1.com/fetch?url=",
+  "https://proxy2.com/fetch?url=",
+  "https://proxy3.com/fetch?url="
+];
+
+async function fetchWithFallback(url) {
+  for (const p of PROXIES) {
+    try {
+      const res = await fetch(p + encodeURIComponent(url));
+      if (res.ok) return await res.text();
+    } catch (e) {}
+  }
+  throw new Error("All proxies failed");
+}async function initCard(cardEl, url) {
+  const data = await fetchClinicData(url);
+  renderCard(data, cardEl);
+}
+function renderCard(data, cardElement) {
+  cardElement.querySelector(".clinic-name").textContent = data.name;
+  cardElement.querySelector(".clinic-hours").textContent = data.hours;
+  cardElement.querySelector(".clinic-updates").textContent = data.updates;
+}
+function parseClinicHTML(html) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+
+  return {
+    name: doc.querySelector("h1")?.innerText,
+    hours: extractHours(doc),
+    updates: extractUpdates(doc),
+    status: extractStatus(doc),
+  };
+}
+async function fetchClinicData(url) {
+  const res = await fetch(`https://your-proxy-or-api.com/fetch?url=${encodeURIComponent(url)}`);
+  const html = await res.text();
+  return parseClinicHTML(html);
+}
