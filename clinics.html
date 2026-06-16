@@ -8,7 +8,7 @@
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: Arial, sans-serif;
+      font-family: Verdana, sans-serif;
       background-color: #0d0d0d;
       min-height: 100vh;
       display: flex;
@@ -48,7 +48,7 @@
     .phone-top { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 100px; height: 18px; background: #000; border-radius: 12px; z-index: 30; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; }
     .phone-speaker { width: 40px; height: 3px; border-radius: 2px; background: #222; }
     .phone-cam { width: 6px; height: 6px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #1a2a6c, #000); }
-    .phone-btn-r { position: absolute; right: -6px; top: 110px; width: 3px; height: 8BQAzQwVETtFWGmAFZjAwNSYA7M4EczfocpPa2kZ6AiC1tVQuAhJTRjLG5Nkk4QqFWHxiKBdi6RuUFjC5zMhvhUyK7tatMA 2px; }
+    .phone-btn-r { position: absolute; right: -6px; top: 110px; width: 3px; height: 2px; }
     .phone-btn-l1 { position: absolute; left: -6px; top: 90px; width: 3px; height: 24px; background: linear-gradient(to bottom, #9d4edd, #e0aaff, #7b2cbf); border-radius: 0 2px 2px 0; }
     .phone-btn-l2 { position: absolute; left: -6px; top: 124px; width: 3px; height: 32px; background: linear-gradient(to bottom, #9d4edd, #e0aaff, #7b2cbf); border-radius: 0 2px 2px 0; }
  
@@ -62,7 +62,31 @@
     .card-body { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; padding: 26px 13px 8px; color: #11052c; overflow-y: auto; scrollbar-width: none; }
     .card-body::-webkit-scrollbar { display: none; }
  
-    .clinic-name { font-size: 16px; font-weight: 800; line-height: 1.2; color: #11052c; margin-bottom: 8px; text-align: center; }
+    /* ANIMATED GRADIENT TITLE */
+    .clinic-name {
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 8px;
+      text-align: center;
+      
+      /* Target Purple Gradient Mix */
+      background-image: linear-gradient(to right, #5227FF, #FF9FFC, #B497CF, #5227FF);
+      background-size: 300% 100%;
+      background-repeat: repeat;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      
+      /* Smooth Animation Sequence loop */
+      animation: titleGradientMove 8s linear infinite;
+    }
+
+    @keyframes titleGradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
  
     /* DIALOG BUBBLES */
     .dialog-bubble {
@@ -220,15 +244,14 @@
       <div class="screen" id="screen">
         <div class="card-stage" id="stage"></div>
  
-        <!-- NOVI CHAT PANEL -->
         <div class="novi-panel" id="noviPanel">
           <div class="novi-panel-header">
-            <div class="novi-panel-avatar">??</div>
+            <div class="novi-panel-avatar">🦊</div>
             <div class="novi-panel-title">
               <div class="novi-panel-name">Novi</div>
               <div class="novi-panel-sub">One Father's Love · System Guide</div>
             </div>
-            <button class="novi-close-btn" id="noviCloseBtn">? Close</button>
+            <button class="novi-close-btn" id="noviCloseBtn">✕ Close</button>
           </div>
  
           <div class="novi-messages" id="noviMessages"></div>
@@ -242,16 +265,16 @@
  
           <div class="novi-input-row">
             <input class="novi-input" id="noviInput" type="text" placeholder="Ask Novi anything..." />
-            <button class="novi-send-btn" id="noviSendBtn">?</button>
+            <button class="novi-send-btn" id="noviSendBtn">➔</button>
           </div>
         </div>
  
         <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
         <div class="controls">
-          <button class="ctrl-btn" id="prevBtn" aria-label="Previous provider">&#8592; Prev</button>
+          <button class="ctrl-btn" id="prevBtn" aria-label="Previous provider">← Prev</button>
           <div class="dots" id="dots"></div>
-          <button class="ctrl-btn" id="nextBtn" aria-label="Next provider">Next &#8594;</button>
-          <button class="pause-btn" id="pauseBtn">&#9646;&#9646; Pause</button>
+          <button class="ctrl-btn" id="nextBtn" aria-label="Next provider">Next →</button>
+          <button class="pause-btn" id="pauseBtn">▮▮ Pause</button>
         </div>
       </div>
     </div>
@@ -426,18 +449,18 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
             <div class="dialog-bubble"><span class="dialog-label">Specialties: </span><span class="info-text" id="spec-${i}"></span></div>
             <div class="dialog-bubble"><span class="dialog-label">Payment: </span><span class="info-text" id="pay-${i}"></span></div>
             <div class="novi-fail-box" id="noviBox-${i}" role="button" aria-label="Talk to Novi">
-              <div class="novi-avatar-frame">??</div>
+              <div class="novi-avatar-frame">🦊</div>
               <div class="novi-speech">
                 <div class="novi-header">Novi · Tap to ask me anything</div>
                 <p class="novi-text" id="novi-${i}"></p>
-                <div class="novi-tap-hint">Tap to open Novi chat ?</div>
+                <div class="novi-tap-hint">Tap to open Novi chat ➔</div>
               </div>
             </div>
             <div class="social-row">
-              <button class="soc-btn fb" aria-label="Share on Facebook">??</button>
-              <button class="soc-btn x"  aria-label="Share on X">??</button>
-              <button class="soc-btn wa" aria-label="Share on WhatsApp">??</button>
-              <button class="soc-btn copy" aria-label="Copy link" onclick="navigator.clipboard.writeText(window.location.href)">??</button>
+              <button class="soc-btn fb" aria-label="Share on Facebook">👥</button>
+              <button class="soc-btn x"  aria-label="Share on X">𝕏</button>
+              <button class="soc-btn wa" aria-label="Share on WhatsApp">💬</button>
+              <button class="soc-btn copy" aria-label="Copy link" onclick="navigator.clipboard.writeText(window.location.href)">🔗</button>
               <button class="soc-btn more" aria-label="More options">•••</button>
             </div>
           </div>`;
@@ -542,7 +565,7 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
     document.getElementById("prevBtn").addEventListener("click", () => { stopTimer(); prev(); if (!paused) startTimer(); });
     pauseBtn.addEventListener("click", () => {
       paused = !paused;
-      pauseBtn.innerHTML = paused ? "&#9654; Play" : "&#9646;&#9646; Pause";
+      pauseBtn.innerHTML = paused ? "▶ Play" : "▮▮ Pause";
       paused ? stopTimer() : startTimer();
     });
  
@@ -556,4 +579,3 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
   </script>
 </body>
 </html>
-```
