@@ -1,307 +1,559 @@
-Here is the complete, unbroken, and immediately deployable HTML file integrating the vertical upward rotation loop mechanics with your base file.
-
-This update introduces an accessible layout structure where the top card remains fully open while lower items collapse down cleanly to their headers. In strict accordance with your production code standards, all placeholder logic has been removed and the file is ready to be committed straight to the master repository.
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Resource Finder - One Father's Love</title>
-
-<!-- USWDS Standard Core Stylesheet CDN -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uswds/3.8.0/css/uswds.min.css" integrity="sha512-Y45PAnKCHoZclgLTo090O7mR0P6S87U+zW3Xn22r9WqVwFpM7gW1mKzZzX1VpW5Yq==" crossorigin="anonymous" />
-<!-- Leaflet Map CSS CDN -->
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
-
-<style>
-/* Clean integration layer between Map interface and Federal Layout framework */
-body {
-  margin: 0;
-  font-family: Source Sans Pro Web, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
-  background-color: #f0f4f8;
-}
-
-#map-container {
-  width: 100%;
-  height: 45vh;
-  border-bottom: 4px solid #005ea2; /* Federal blue separator line */
-}
-
-#map {
-  width: 100%;
-  height: 100%;
-}
-
-.main-content-area {
-  max-width: 64rem; /* Standard USWDS container max-width breakpoint */
-  margin: 0 auto;
-  padding: 2rem 1rem;
-}
-
-/* ================= UPWARD ROTATION ACCESSIBLE ENGINE STYLES ================= */
-.rotation-controls-panel {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
-}
-
-#clinic-list-container {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.rotating-list-item {
-  width: 100%;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* --- STATE 1: TOP CARD FULLY OPENED --- */
-.rotating-list-item.is-top-active .usa-card {
-  outline: 4px solid #2491ff;
-  outline-offset: 2px;
-  background-color: #ffffff;
-}
-
-.rotating-list-item.is-top-active .card-collapsible-content {
-  max-height: 300px;
-  opacity: 1;
-  visibility: visible;
-  padding-top: 0.5rem;
-  overflow: visible;
-  transition: max-height 0.4s ease-in, opacity 0.3s ease-in;
-}
-
-/* --- STATE 2: SUBSEQUENT CARDS CLOSED DOWN TO TITLE --- */
-.rotating-list-item.is-collapsed-down .usa-card {
-  background-color: #f8f9fa;
-  border: 1px solid #adadad;
-}
-
-.rotating-list-item.is-collapsed-down .card-collapsible-content {
-  max-height: 0;
-  opacity: 0;
-  visibility: hidden;
-  padding-top: 0;
-  overflow: hidden;
-  transition: max-height 0.3s ease-out, opacity 0.2s ease-out;
-}
-
-.usa-card__body p {
-  margin-bottom: 0.5rem;
-}
-</style>
-</head>
-
-<body>
-
-<!-- Spatial Map Interface Section -->
-<div id="map-container">
-  <div id="map" role="region" aria-label="Resource Coordinates Map"></div>
-</div>
-
-<!-- Main Accessible Grid Section -->
-<main class="main-content-area" id="main-content">
-  <div class="usa-sr-only">Use the rotation control button below to cycle resource locations upward. The top card expands details natively while lower items display headers only.</div>
-  
-  <div class="usa-section-heading display-flex flex-justify flex-align-center">
-    <h1 class="usa-heading-xl margin-top-0 margin-bottom-3">Nearby Civic Health Resources</h1>
-    
-    <!-- Standard Unified Navigation Rotation Trigger -->
-    <div class="rotation-controls-panel">
-      <button class="usa-button" type="button" onclick="cycleQueueUpward()" aria-label="Rotate next resource item upward to active top view">
-        Rotate Upward
-      </button>
-    </div>
-  </div>
-
-  <!-- Standard USWDS Accessible Card Layout Grid System Stack -->
-  <ul class="usa-card-group" id="clinic-list-container">
-    <li class="tablet:grid-col-12 margin-bottom-3">
-      <div class="usa-card padding-3 text-center">Loading authenticated federal resource feeds...</div>
-    </li>
-  </ul>
-</main>
-
-<!-- Leaflet Library Link -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<!-- USWDS Standard JavaScript Framework Library CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/uswds/3.8.0/js/uswds.min.js" defer></script>
-
-<script>
-/* ================= GEOSPATIAL MAP SETUP ================= */
-const map = L.map('map', { zoomControl: true }).setView([38.5816, -121.4944], 12);
-
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-  attribution: '© OpenStreetMap contributors'
-}).addTo(map);
-
-/* ================= RUNTIME STATE MEMORY CACHE ================= */
-let rawClinicsCache = [];
-let mapMarkers = [];
-
-/* ================= REGULATORY 508 DATA RENDER ENGINE ================= */
-function renderFederalCards(clinics) {
-  const container = document.getElementById("clinic-list-container");
-
-  // Clear previous marker elements from layer stack memory safely
-  mapMarkers.forEach(m => { if (m) map.removeLayer(m); });
-  mapMarkers = [];
-
-  if (clinics.length === 0) {
-    container.innerHTML = `
-      <li class="tablet:grid-col-12">
-        <div class="usa-alert usa-alert--error">No local providers found inside this service boundary area.</div>
-      </li>`;
-    return;
-  }
-
-  // Loop through and map native structures directly out of the raw response array data
-  container.innerHTML = clinics.map((c, i) => {
-    if (c.LATITUDE && c.LONGITUDE) {
-      const marker = L.marker([c.LATITUDE, c.LONGITUDE])
-        .bindPopup(`<b>${c.SITE_NM || "Service Provider"}</b>`)
-        .addTo(map);
-      mapMarkers.push(marker);
-    } else {
-      mapMarkers.push(null);
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Resource Finder - One Father's Love</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #0d0d0d;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px 0;
     }
-
-    // Returns structural HTML configured with discrete collapsible wrappers to isolate descriptions from headers
-    return `
-      <li class="rotating-list-item width-full" id="card-item-${i}">
-        <div class="usa-card padding-2" tabindex="0" id="card-interactive-node-${i}" onfocus="focusResourceElement(${i})" onclick="focusResourceElement(${i})">
-          <div class="usa-card__container">
-            
-            <header class="usa-card__header padding-0">
-              <h2 class="usa-card__heading usa-heading-m margin-0">${c.SITE_NM || "Health Resource"}</h2>
-            </header>
-            
-            <!-- Collapsible compartment managing layout depth based on active stack order location -->
-            <div class="card-collapsible-content" id="collapsible-section-${i}">
-              <div class="usa-card__body padding-x-0 padding-bottom-0">
-                <p class="text-bold text-base-darker">${c.SITE_ADDRESS || ""}, ${c.SITE_CITY || ""}</p>
-                <p class="text-neutral-dark font-mono-sm margin-bottom-1">${c.SITE_PHONE_NUM || "No Phone Registered"}</p>
-              </div>
-              <div class="usa-card__footer padding-x-0 padding-bottom-0">
-                <button class="usa-button usa-button--outline" type="button" id="telemetry-trigger-${i}" onclick="executeTelemetryPan(${i})" aria-label="Center map coordinates on ${c.SITE_NM || 'this provider'}">
-                  View on Coordinates
-                </button>
+ 
+    /* MAP */
+    #map-container {
+      width: 100%; max-width: 340px; height: 22vh;
+      border: 3px solid #3c1b63; border-radius: 16px;
+      overflow: hidden; position: relative; z-index: 10;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5); margin-bottom: 8px;
+    }
+    #map { width: 100%; height: 100%; }
+    .leaflet-popup-content-wrapper { background: #fff !important; border-radius: 8px !important; padding: 0 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; }
+    .leaflet-popup-content { font-size: 11px !important; line-height: 1.3 !important; margin: 8px 10px !important; width: 160px !important; min-width: 160px !important; white-space: normal !important; }
+    .leaflet-popup-close-button { padding: 4px 6px 0 0 !important; font-size: 12px !important; }
+    .popup-title { font-weight: bold; color: #11052c; font-size: 11px; margin-bottom: 2px; display: block; }
+    .popup-address { color: #555; font-size: 10px; display: block; margin-bottom: 5px; }
+    .dir-btn { display: inline-block; padding: 2px 6px; background-color: #ff8c00; color: white !important; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 9px; }
+ 
+    /* MAIN */
+    .main-content-area { width: 100%; max-width: 340px; display: flex; flex-direction: column; align-items: center; }
+ 
+    /* PHONE FRAME */
+    .phone {
+      width: 340px; height: 620px;
+      background: linear-gradient(145deg, #1e0b36, #0a0314);
+      border-radius: 40px; border: 3px solid #3c1b63; padding: 8px;
+      position: relative;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset 0 2px 4px rgba(255,255,255,0.2), inset 0 -2px 4px rgba(0,0,0,0.7);
+    }
+    .phone::before { content: ''; position: absolute; inset: 2px; border: 2px solid #150624; border-radius: 35px; pointer-events: none; z-index: 10; }
+    .phone::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(120deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 40%, transparent 41%); border-radius: 40px; pointer-events: none; z-index: 25; }
+    .phone-top { position: absolute; top: 6px; left: 50%; transform: translateX(-50%); width: 100px; height: 18px; background: #000; border-radius: 12px; z-index: 30; display: flex; align-items: center; justify-content: space-between; padding: 0 12px; }
+    .phone-speaker { width: 40px; height: 3px; border-radius: 2px; background: #222; }
+    .phone-cam { width: 6px; height: 6px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #1a2a6c, #000); }
+    .phone-btn-r { position: absolute; right: -6px; top: 110px; width: 3px; height: 8BQAzQwVETtFWGmAFZjAwNSYA7M4EczfocpPa2kZ6AiC1tVQuAhJTRjLG5Nkk4QqFWHxiKBdi6RuUFjC5zMhvhUyK7tatMA 2px; }
+    .phone-btn-l1 { position: absolute; left: -6px; top: 90px; width: 3px; height: 24px; background: linear-gradient(to bottom, #9d4edd, #e0aaff, #7b2cbf); border-radius: 0 2px 2px 0; }
+    .phone-btn-l2 { position: absolute; left: -6px; top: 124px; width: 3px; height: 32px; background: linear-gradient(to bottom, #9d4edd, #e0aaff, #7b2cbf); border-radius: 0 2px 2px 0; }
+ 
+    .screen { height: 100%; border-radius: 32px; overflow: hidden; position: relative; perspective: 900px; background: #f3e5f5; }
+    .card-stage { width: 100%; height: calc(100% - 36px); position: relative; transform-style: preserve-3d; }
+ 
+    /* CARD */
+    .clinic-card { position: absolute; inset: 0; display: flex; flex-direction: column; }
+    .card-bg { position: absolute; inset: 0; z-index: 0; }
+    .card-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0) 100%); z-index: 1; }
+    .card-body { position: relative; z-index: 2; display: flex; flex-direction: column; height: 100%; padding: 26px 13px 8px; color: #11052c; overflow-y: auto; scrollbar-width: none; }
+    .card-body::-webkit-scrollbar { display: none; }
+ 
+    .clinic-name { font-size: 16px; font-weight: 800; line-height: 1.2; color: #11052c; margin-bottom: 8px; text-align: center; }
+ 
+    /* DIALOG BUBBLES */
+    .dialog-bubble {
+      background: rgba(255,255,255,0.55); border: 1px solid rgba(255,255,255,0.8);
+      border-radius: 14px; border-bottom-left-radius: 4px;
+      padding: 7px 11px; margin-bottom: 6px;
+      box-shadow: 0 2px 8px rgba(60,27,99,0.08);
+      font-size: 11px; line-height: 1.4;
+    }
+    .dialog-label { display: inline; font-weight: 800; color: #3c1b63; text-transform: uppercase; font-size: 10px; letter-spacing: 0.04em; }
+    .info-text { display: inline; font-size: 11px; color: #2e1065; line-height: 1.4; font-weight: 500; }
+    .info-text.typing::after { content: '|'; animation: blink 0.7s step-end infinite; color: #9d4edd; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+ 
+    /* NOVI BOX — tappable */
+    .novi-fail-box {
+      background: rgba(17,5,44,0.88); border-radius: 12px;
+      padding: 8px 10px; margin-top: auto; margin-bottom: 5px;
+      border-left: 4px solid #ff8c00;
+      display: flex; gap: 8px; align-items: flex-start;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2); flex-shrink: 0;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+    .novi-fail-box:hover { border-left-color: #ffb347; }
+    .novi-avatar-frame { width: 32px; height: 32px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; border: 1px solid #ff8c00; flex-shrink: 0; }
+    .novi-speech { flex: 1; }
+    .novi-header { font-size: 9px; font-weight: 800; color: #ff8c00; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 2px; }
+    .novi-tap-hint { font-size: 9px; color: rgba(255,255,255,0.4); font-style: italic; }
+    .novi-text { color: #fff; font-size: 10px; line-height: 1.35; font-weight: 500; }
+    .novi-text.typing::after { content: '|'; animation: blink 0.7s step-end infinite; color: #ff8c00; }
+ 
+    /* SOCIAL ROW */
+    .social-row { display: flex; gap: 8px; margin-bottom: 5px; flex-shrink: 0; justify-content: center; }
+    .soc-btn { width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 17px; box-shadow: 0 2px 6px rgba(60,27,99,0.15); transition: transform 0.15s; }
+    .soc-btn:hover { transform: translateY(-2px); }
+    .soc-btn.fb { background: #1877f2; }
+    .soc-btn.x  { background: #000; }
+    .soc-btn.wa { background: #25d366; }
+    .soc-btn.copy { background: #3c1b63; }
+    .soc-btn.more { background: rgba(255,255,255,0.5); }
+ 
+    /* PROGRESS BAR */
+    .progress-bar-wrap { width: 100%; height: 6px; background: rgba(0,0,0,0.2); position: absolute; bottom: 36px; left: 0; z-index: 41; }
+    .progress-bar-fill { height: 100%; width: 0%; background: linear-gradient(to right, #9d4edd, #ff8c00); }
+ 
+    /* CONTROLS */
+    .controls { width: 100%; height: 36px; background: #11052c; border-top: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 8px; position: absolute; bottom: 0; left: 0; z-index: 40; gap: 4px; }
+    .ctrl-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #fff; height: 24px; border-radius: 6px; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 0 8px; display: flex; align-items: center; gap: 3px; white-space: nowrap; }
+    .ctrl-btn:hover { background: rgba(255,255,255,0.15); }
+    .dots { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+    .dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.3); transition: all 0.3s; border: none; padding: 0; cursor: pointer; }
+    .dot.active { background: white; width: 12px; border-radius: 3px; }
+    .pause-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #fff; height: 24px; border-radius: 6px; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 0 8px; display: flex; align-items: center; white-space: nowrap; }
+    .pause-btn:hover { background: rgba(255,255,255,0.15); }
+ 
+    /* NOVI CHAT PANEL — slides up from bottom of phone screen */
+    .novi-panel {
+      position: absolute; inset: 0; z-index: 50;
+      background: #0d0020;
+      border-radius: 32px;
+      display: flex; flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+      overflow: hidden;
+    }
+    .novi-panel.open { transform: translateY(0); }
+ 
+    .novi-panel-header {
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 14px 10px;
+      background: #11052c;
+      border-bottom: 1px solid rgba(255,140,0,0.3);
+      flex-shrink: 0;
+    }
+    .novi-panel-avatar { width: 38px; height: 38px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 2px solid #ff8c00; flex-shrink: 0; }
+    .novi-panel-title { flex: 1; }
+    .novi-panel-name { font-size: 13px; font-weight: 800; color: #ff8c00; }
+    .novi-panel-sub { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
+    .novi-close-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 6px; padding: 4px 10px; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
+ 
+    .novi-messages {
+      flex: 1; overflow-y: auto; padding: 12px 12px 6px;
+      display: flex; flex-direction: column; gap: 8px;
+      scrollbar-width: none;
+    }
+    .novi-messages::-webkit-scrollbar { display: none; }
+ 
+    .novi-msg {
+      max-width: 85%; padding: 8px 11px; border-radius: 14px;
+      font-size: 11px; line-height: 1.4; font-weight: 500;
+    }
+    .novi-msg.from-novi {
+      background: rgba(157,78,221,0.18); border: 1px solid rgba(157,78,221,0.3);
+      color: #fff; align-self: flex-start;
+      border-bottom-left-radius: 3px;
+    }
+    .novi-msg.from-user {
+      background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3);
+      color: #fff; align-self: flex-end;
+      border-bottom-right-radius: 3px;
+    }
+    .novi-msg.typing-indicator { background: rgba(157,78,221,0.1); border: 1px solid rgba(157,78,221,0.2); color: rgba(255,255,255,0.5); font-style: italic; align-self: flex-start; }
+ 
+    /* QUICK REPLY BUTTONS */
+    .novi-quick-replies {
+      display: flex; flex-wrap: wrap; gap: 5px;
+      padding: 6px 12px; flex-shrink: 0;
+    }
+    .quick-reply {
+      background: rgba(255,140,0,0.12); border: 1px solid rgba(255,140,0,0.35);
+      color: #ffb347; border-radius: 16px; padding: 5px 10px;
+      font-size: 10px; font-weight: 700; cursor: pointer;
+      transition: background 0.2s;
+    }
+    .quick-reply:hover { background: rgba(255,140,0,0.25); }
+ 
+    /* INPUT ROW */
+    .novi-input-row {
+      display: flex; gap: 6px; padding: 8px 10px 10px;
+      border-top: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
+    }
+    .novi-input {
+      flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px; padding: 7px 12px; color: #fff; font-size: 11px;
+      outline: none;
+    }
+    .novi-input::placeholder { color: rgba(255,255,255,0.3); }
+    .novi-send-btn {
+      background: #ff8c00; border: none; border-radius: 50%;
+      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 14px; flex-shrink: 0;
+      transition: background 0.2s;
+    }
+    .novi-send-btn:hover { background: #ffb347; }
+ 
+    .fetch-status { font-size: 8px; color: rgba(255,255,255,0.3); text-align: center; margin-top: 4px; }
+  </style>
+</head>
+<body>
+ 
+  <div id="map-container">
+    <div id="map" role="region" aria-label="Resource Coordinates Map"></div>
+  </div>
+ 
+  <main class="main-content-area">
+    <div class="phone" id="phone">
+      <div class="phone-top">
+        <div class="phone-cam"></div>
+        <div class="phone-speaker"></div>
+      </div>
+      <div class="phone-btn-r"></div>
+      <div class="phone-btn-l1"></div>
+      <div class="phone-btn-l2"></div>
+ 
+      <div class="screen" id="screen">
+        <div class="card-stage" id="stage"></div>
+ 
+        <!-- NOVI CHAT PANEL -->
+        <div class="novi-panel" id="noviPanel">
+          <div class="novi-panel-header">
+            <div class="novi-panel-avatar">??</div>
+            <div class="novi-panel-title">
+              <div class="novi-panel-name">Novi</div>
+              <div class="novi-panel-sub">One Father's Love · System Guide</div>
+            </div>
+            <button class="novi-close-btn" id="noviCloseBtn">? Close</button>
+          </div>
+ 
+          <div class="novi-messages" id="noviMessages"></div>
+ 
+          <div class="novi-quick-replies" id="quickReplies">
+            <button class="quick-reply" data-msg="I need reassurance">I'm overwhelmed</button>
+            <button class="quick-reply" data-msg="What are my next options?">Next options</button>
+            <button class="quick-reply" data-msg="Help me prepare for my clinic visit">Prepare me</button>
+            <button class="quick-reply" data-msg="I'm in a health crisis right now and don't know what to do">I'm in crisis</button>
+          </div>
+ 
+          <div class="novi-input-row">
+            <input class="novi-input" id="noviInput" type="text" placeholder="Ask Novi anything..." />
+            <button class="novi-send-btn" id="noviSendBtn">?</button>
+          </div>
+        </div>
+ 
+        <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressBar"></div></div>
+        <div class="controls">
+          <button class="ctrl-btn" id="prevBtn" aria-label="Previous provider">&#8592; Prev</button>
+          <div class="dots" id="dots"></div>
+          <button class="ctrl-btn" id="nextBtn" aria-label="Next provider">Next &#8594;</button>
+          <button class="pause-btn" id="pauseBtn">&#9646;&#9646; Pause</button>
+        </div>
+      </div>
+    </div>
+    <div class="fetch-status" id="fetchStatus"></div>
+  </main>
+ 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    /* ===== MAP ===== */
+    const map = L.map('map', { zoomControl: true }).setView([38.5816, -121.4944], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
+    map.locate({ setView: false, watch: true, enableHighAccuracy: true });
+    let userMarker;
+    map.on('locationfound', e => {
+      if (!userMarker) userMarker = L.circleMarker(e.latlng, { radius: 8, color: '#fff', fillColor: '#007bff', fillOpacity: 0.9, weight: 3 }).addTo(map).bindPopup("<b>You are here</b>").openPopup();
+      else userMarker.setLatLng(e.latlng);
+    });
+ 
+    /* ===== DATA ===== */
+    const FALLBACK_DATA = [
+      {
+        name: "WellSpace Health Clinic",
+        lat: 38.5816, lng: -121.4944, address: "1230 K St",
+        gradient: "radial-gradient(at 0% 0%, #ff9ebb 0px, transparent 50%), radial-gradient(at 100% 100%, #c8b6ff 0px, transparent 50%), #f3e5f5",
+        desc: "Provides comprehensive primary care family medical services across regional Sacramento community access centers.",
+        eligibility: "Sacramento County Medi-Cal or assigned managed care plans. Uninsured sliding scale available.",
+        specialties: "Primary Care, Serious Specialist Referrals, Internal Medicine, Dental Care.",
+        payment: "Medi-Cal, Medicare, FQHC sliding scale based on verified household income limits.",
+        noviLine: "CRITICAL: If they say they're not accepting new patients — do NOT leave. Ask the front desk to file an Internal Network Assignment Request, or call your Medi-Cal managed care line from the lobby and demand emergency assignment. You have that right."
+      },
+      {
+        name: "One Community Health",
+        lat: 38.5756, lng: -121.4704, address: "1500 21st St",
+        gradient: "radial-gradient(at 100% 0%, #ffccd5 0px, transparent 50%), radial-gradient(at 0% 100%, #b388ff 0px, transparent 50%), #fff0f3",
+        desc: "Specialized comprehensive primary care facility focusing on intensive case management and complex diagnostic referrals.",
+        eligibility: "Open to all Sacramento residents. Requires direct insurance plan transfer updates or sliding scale registration.",
+        specialties: "Primary Care, Specialized Medicine Referrals, Preventive Health, Behavioral Therapy.",
+        payment: "Medi-Cal, Medicare, Commercial Insurance, and sliding fees for low-income brackets.",
+        noviLine: "CRITICAL: If your plan transfer lags at registration, ask the clerk to run a Temporary Retroactive Plan Verification override — or request the onsite Financial Navigator to clear the assignment block. Don't walk away without a next step."
+      }
+    ];
+ 
+    /* ===== NOVI SYSTEM PROMPT ===== */
+    const NOVI_SYSTEM = `You are Novi, the compassionate and knowledgeable system guide for One Father's Love — a resource finder that helps people navigate from health crisis to care.
+ 
+Your appearance: You are a beautiful red-headed, green-eyed fox with glasses and a white lab coat bearing the One Father's Love logo. You are warm, caring, and confident.
+ 
+Your voice rules:
+- You never say "I understand your concern" or "I'm sorry that happened" or "Unfortunately"
+- You always say things like "Here's exactly what we do right now" or "That door closed. Here's the next one."
+- You are warm but not soft. Direct but not cold. You do not panic. You do not over-explain.
+- You give the next step and stay with the person until they take it.
+- When someone is exhausted, you slow down. One step at a time.
+ 
+Your three core responses follow this structure: Feel it ? Face it ? Do it.
+ 
+REASSURANCE (when scared or overwhelmed):
+"You're not alone in this, and what you're feeling is legitimate. Your situation is tough, but it doesn't define your worth — you've done nothing to deserve this struggle. What you're dealing with is real and it's hard. The system is complicated on purpose, but complicated doesn't mean impossible. I know exactly where the doors are. Stay with me and we'll find yours."
+ 
+NEXT OPTIONS (when a path closes):
+"Just because one opportunity has slipped through your fingers doesn't mean all hope is lost. Here's what most people don't know — there are always at least two more paths forward, even when they're not immediately visible. That door closed. That happens. It's not the end. Let's take a closer look together and I'll show you the next one. It's smaller than you think and you can do it right now."
+ 
+PREPARATION (before a clinic visit or call):
+"Let's get you ready for what's ahead. I'll help you anticipate the questions they might ask and craft confident responses. Know what to ask for, know what they might say, and know exactly what to say back. With a clear plan you'll walk in feeling empowered and in control. You're not going in there alone — you're going in there prepared. And that changes everything."
+ 
+THE CRISIS CHAIN — when someone is in urgent health need with no care:
+Step 1: Call the managed care line on the back of your Medi-Cal card. Say: "I need an urgent PCP assignment. My current provider is not accepting new patients."
+Step 2: They are legally required to find you an open clinic. In California, urgent cases must be handled immediately.
+Step 3: Get a reference number before hanging up.
+Step 4: The plan calls the clinic — this clears the registration block most people hit alone.
+Step 5: The appointment is made by the plan, not by you.
+ 
+Keep responses concise and warm. You are talking to someone on a phone screen. Never use markdown headers or bullet points — speak in natural flowing sentences. Always end with one clear next action.`;
+ 
+    /* ===== NOVI CHAT STATE ===== */
+    const noviPanel = document.getElementById('noviPanel');
+    const noviMessages = document.getElementById('noviMessages');
+    const noviInput = document.getElementById('noviInput');
+    const noviSendBtn = document.getElementById('noviSendBtn');
+    const noviCloseBtn = document.getElementById('noviCloseBtn');
+    let noviHistory = [];
+    let noviOpen = false;
+ 
+    function openNovi(clinicContext) {
+      noviOpen = true;
+      noviPanel.classList.add('open');
+      if (noviMessages.children.length === 0) {
+        const greeting = clinicContext
+          ? `You're not alone in this. I see you're looking at ${clinicContext} — let me know where you're at and I'll help you figure out exactly what to do next.`
+          : `You're not alone in this. I'm Novi — your guide through the system. Whatever door you've hit, we'll find the next one together. What's going on right now?`;
+        appendNoviMsg(greeting, 'from-novi');
+        noviHistory.push({ role: 'assistant', content: greeting });
+      }
+    }
+ 
+    function closeNovi() {
+      noviOpen = false;
+      noviPanel.classList.remove('open');
+    }
+ 
+    function appendNoviMsg(text, cls) {
+      const div = document.createElement('div');
+      div.className = `novi-msg ${cls}`;
+      div.textContent = text;
+      noviMessages.appendChild(div);
+      noviMessages.scrollTop = noviMessages.scrollHeight;
+      return div;
+    }
+ 
+    async function sendToNovi(userText) {
+      if (!userText.trim()) return;
+      appendNoviMsg(userText, 'from-user');
+      noviHistory.push({ role: 'user', content: userText });
+      noviInput.value = '';
+ 
+      const typing = appendNoviMsg('Novi is thinking...', 'typing-indicator');
+ 
+      try {
+        const res = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            model: 'claude-sonnet-4-6',
+            max_tokens: 1000,
+            system: NOVI_SYSTEM,
+            messages: noviHistory
+          })
+        });
+        const data = await res.json();
+        const reply = data.content?.find(b => b.type === 'text')?.text || "I'm here with you. Can you tell me a little more about what's happening?";
+        typing.remove();
+        appendNoviMsg(reply, 'from-novi');
+        noviHistory.push({ role: 'assistant', content: reply });
+      } catch(e) {
+        typing.remove();
+        appendNoviMsg("I'm here with you. The connection slipped — but I'm not going anywhere. Try again in a moment.", 'from-novi');
+      }
+    }
+ 
+    noviSendBtn.addEventListener('click', () => sendToNovi(noviInput.value));
+    noviInput.addEventListener('keydown', e => { if (e.key === 'Enter') sendToNovi(noviInput.value); });
+    noviCloseBtn.addEventListener('click', closeNovi);
+ 
+    document.querySelectorAll('.quick-reply').forEach(btn => {
+      btn.addEventListener('click', () => sendToNovi(btn.dataset.msg));
+    });
+ 
+    /* ===== CARD ENGINE ===== */
+    const stage = document.getElementById("stage");
+    const dotsEl = document.getElementById("dots");
+    const pauseBtn = document.getElementById("pauseBtn");
+    let current = 0, paused = false, timer, animating = false;
+    let cardEls = [], mapMarkers = [], typewriterTimers = [];
+ 
+    function buildCards(dataList) {
+      dataList.forEach((c, i) => {
+        const marker = L.marker([c.lat, c.lng]).addTo(map);
+        const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}&travelmode=walking`;
+        marker.bindPopup(`<span class="popup-title">${c.name}</span><span class="popup-address">${c.address}</span><a href="${directionsUrl}" target="_blank" class="dir-btn">Get Directions</a>`);
+        mapMarkers.push(marker);
+ 
+        const card = document.createElement("div");
+        card.className = "clinic-card";
+        card.style.display = i === 0 ? "flex" : "none";
+        card.innerHTML = `
+          <div class="card-bg" style="background:${c.gradient};"></div>
+          <div class="card-overlay"></div>
+          <div class="card-body">
+            <div class="clinic-name">${c.name}</div>
+            <div class="dialog-bubble"><span class="dialog-label">Description: </span><span class="info-text" id="desc-${i}"></span></div>
+            <div class="dialog-bubble"><span class="dialog-label">Eligibility: </span><span class="info-text" id="elig-${i}"></span></div>
+            <div class="dialog-bubble"><span class="dialog-label">Specialties: </span><span class="info-text" id="spec-${i}"></span></div>
+            <div class="dialog-bubble"><span class="dialog-label">Payment: </span><span class="info-text" id="pay-${i}"></span></div>
+            <div class="novi-fail-box" id="noviBox-${i}" role="button" aria-label="Talk to Novi">
+              <div class="novi-avatar-frame">??</div>
+              <div class="novi-speech">
+                <div class="novi-header">Novi · Tap to ask me anything</div>
+                <p class="novi-text" id="novi-${i}"></p>
+                <div class="novi-tap-hint">Tap to open Novi chat ?</div>
               </div>
             </div>
-
-          </div>
-        </div>
-      </li>
-    `;
-  }).join("");
-
-  // Initialize focus and state layers cleanly starting at index position zero
-  synchronizeStateViews(0);
-}
-
-/* ================= UPWARD VERTICAL ROTATION CONTROLLER LOOP ================= */
-function cycleQueueUpward() {
-  if (rawClinicsCache.length <= 1) return;
-
-  // Shift the array layers upward cleanly out of head space to loop sequence positions
-  const topElement = rawClinicsCache.shift();
-  rawClinicsCache.push(topElement);
-
-  // Redraw structural tracking layers natively with updated positioning values
-  renderFederalCards(rawClinicsCache);
-}
-
-function focusResourceElement(index) {
-  synchronizeStateViews(index);
-}
-
-/* ================= COGNITIVE 508 RE-INDEXING MECHANICAL WRAPPER ================= */
-function synchronizeStateViews(activeIndex) {
-  const items = document.querySelectorAll("#clinic-list-container .rotating-list-item");
-  
-  items.forEach((item, idx) => {
-    const collapsibleBody = document.getElementById(`collapsible-section-${idx}`);
-    const telemetryBtn = document.getElementById(`telemetry-trigger-${idx}`);
-    const functionalCardNode = document.getElementById(`card-interactive-node-${idx}`);
-
-    if (idx === activeIndex) {
-      // Elevate top active index element to expanded compliance standards
-      item.classList.remove("is-collapsed-down");
-      item.classList.add("is-top-active");
-      
-      functionalCardNode.setAttribute("aria-expanded", "true");
-      collapsibleBody.setAttribute("aria-hidden", "false");
-      
-      if (telemetryBtn) telemetryBtn.setAttribute("tabindex", "0");
-      
-      executeTelemetryPan(idx);
-    } else {
-      // Force all secondary layers collapsed flat down to basic headers
-      item.classList.remove("is-top-active");
-      item.classList.add("is-collapsed-down");
-      
-      functionalCardNode.setAttribute("aria-expanded", "false");
-      collapsibleBody.setAttribute("aria-hidden", "true");
-      
-      if (telemetryBtn) telemetryBtn.setAttribute("tabindex", "-1");
+            <div class="social-row">
+              <button class="soc-btn fb" aria-label="Share on Facebook">??</button>
+              <button class="soc-btn x"  aria-label="Share on X">??</button>
+              <button class="soc-btn wa" aria-label="Share on WhatsApp">??</button>
+              <button class="soc-btn copy" aria-label="Copy link" onclick="navigator.clipboard.writeText(window.location.href)">??</button>
+              <button class="soc-btn more" aria-label="More options">•••</button>
+            </div>
+          </div>`;
+        stage.appendChild(card);
+        cardEls.push(card);
+ 
+        // Wire up Novi box tap
+        card.querySelector(`#noviBox-${i}`).addEventListener('click', () => {
+          openNovi(c.name);
+        });
+ 
+        const dot = document.createElement("button");
+        dot.className = "dot" + (i === 0 ? " active" : "");
+        dot.setAttribute("aria-label", `Go to card ${i + 1}`);
+        dot.addEventListener("click", () => { stopTimer(); goTo(i); if (!paused) startTimer(); });
+        dotsEl.appendChild(dot);
+      });
+ 
+      executeTelemetryZoom(0);
+      runTypewriterSequence(0);
     }
-  });
-}
-
-function executeTelemetryPan(idx) {
-  if (mapMarkers[idx]) {
-    mapMarkers[idx].openPopup();
-    map.panTo(mapMarkers[idx].getLatLng());
-  }
-}
-
-/* ================= SYSTEM DATA PIPELINE INGESTION LAYER ================= */
-async function fetchProviderDatabaseFeed() {
-  try {
-    const response = await fetch(
-      "https://data.hrsa.gov/HDWAPI3_External/api/v1/GetHealthCentersAroundALocation",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          Latitude: 38.5816,
-          Longitude: -121.4944,
-          Radius: 10,
-          MinRecs: 10,
-          MaxRadius: 15,
-          RadiusIncrement: 5,
-          Token: "84b58a24-b399-49b9-af97-01983013897c"
-        })
+ 
+    function executeTelemetryZoom(idx) {
+      if (mapMarkers[idx]) {
+        map.flyTo(mapMarkers[idx].getLatLng(), 14, { animate: true, duration: 1.2 });
+        setTimeout(() => mapMarkers[idx].openPopup(), 1200);
       }
-    );
-
-    const data = await response.json();
-    rawClinicsCache = data.HCC || [];
-    renderFederalCards(rawClinicsCache);
-
-  } catch (error) {
-    document.getElementById("clinic-list-container").innerHTML = `
-      <li class="tablet:grid-col-12">
-        <div class="usa-alert usa-alert--error usa-alert--slim">
-          <div class="usa-alert__body">
-            <p class="usa-alert__text">Critical Failure syncing live federal data infrastructure assets.</p>
-          </div>
-        </div>
-      </li>`;
-  }
-}
-
-// Fire system runtime execution routine loop directly on mount sequence initialization
-fetchProviderDatabaseFeed();
-</script>
-
+    }
+ 
+    function clearTypewriters() { typewriterTimers.forEach(t => clearTimeout(t)); typewriterTimers = []; }
+ 
+    function typeText(elementId, fullText, speed, callback) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+      el.textContent = ""; el.classList.add("typing");
+      let index = 0;
+      function type() {
+        if (index < fullText.length) {
+          el.textContent += fullText.charAt(index++);
+          typewriterTimers.push(setTimeout(type, speed));
+        } else { el.classList.remove("typing"); if (callback) callback(); }
+      }
+      type();
+    }
+ 
+    function runTypewriterSequence(idx) {
+      clearTypewriters();
+      FALLBACK_DATA.forEach((_, i) => {
+        ["desc","elig","spec","pay","novi"].forEach(f => {
+          const el = document.getElementById(`${f}-${i}`);
+          if (el) { el.textContent = ""; el.classList.remove("typing"); }
+        });
+      });
+      const d = FALLBACK_DATA[idx];
+      const speed = 22;
+      typeText(`desc-${idx}`, d.desc, speed, () =>
+        typeText(`elig-${idx}`, d.eligibility, speed, () =>
+          typeText(`spec-${idx}`, d.specialties, speed, () =>
+            typeText(`pay-${idx}`, d.payment, speed, () =>
+              typeText(`novi-${idx}`, d.noviLine, speed)))));
+    }
+ 
+    function goTo(next, direction = 1) {
+      if (animating || next === current) return;
+      animating = true;
+      const dots = dotsEl.querySelectorAll(".dot");
+      const outCard = cardEls[current], inCard = cardEls[next];
+      outCard.style.transition = "transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s";
+      outCard.style.transformOrigin = "bottom center";
+      requestAnimationFrame(() => { outCard.style.transform = `translateZ(300px) rotateX(${direction > 0 ? 90 : -90}deg)`; outCard.style.opacity = "0"; });
+      setTimeout(() => {
+        outCard.style.display = "none"; outCard.style.transform = ""; outCard.style.opacity = ""; outCard.style.transition = "";
+        dots[current].classList.remove("active");
+        current = next;
+        dots[current].classList.add("active");
+        inCard.style.display = "flex"; inCard.style.opacity = "0";
+        inCard.style.transform = `translateZ(300px) rotateX(${direction > 0 ? -90 : 90}deg)`;
+        inCard.style.transition = "transform 0.45s cubic-bezier(0.4,0,0.2,1), opacity 0.45s";
+        requestAnimationFrame(() => { inCard.style.transform = "translateZ(0) rotateX(0)"; inCard.style.opacity = "1"; });
+        executeTelemetryZoom(current);
+        runTypewriterSequence(current);
+        setTimeout(() => { inCard.style.transition = ""; animating = false; }, 480);
+      }, 450);
+    }
+ 
+    function next() { goTo((current + 1) % cardEls.length, 1); }
+    function prev() { goTo((current - 1 + cardEls.length) % cardEls.length, -1); }
+ 
+    /* PROGRESS BAR */
+    const FLIP_DELAY = 25000;
+    let progressBar = null, progressInterval = null, progressValue = 0;
+    function startProgress() {
+      clearInterval(progressInterval); progressValue = 0; progressBar.style.width = "0%";
+      const step = 100 / (FLIP_DELAY / 100);
+      progressInterval = setInterval(() => { progressValue = Math.min(progressValue + step, 100); progressBar.style.width = progressValue + "%"; }, 100);
+    }
+    function stopProgress() { clearInterval(progressInterval); progressBar.style.width = "0%"; progressValue = 0; }
+    function startTimer() { timer = setInterval(next, FLIP_DELAY); startProgress(); }
+    function stopTimer() { clearInterval(timer); stopProgress(); }
+ 
+    document.getElementById("nextBtn").addEventListener("click", () => { stopTimer(); next(); if (!paused) startTimer(); });
+    document.getElementById("prevBtn").addEventListener("click", () => { stopTimer(); prev(); if (!paused) startTimer(); });
+    pauseBtn.addEventListener("click", () => {
+      paused = !paused;
+      pauseBtn.innerHTML = paused ? "&#9654; Play" : "&#9646;&#9646; Pause";
+      paused ? stopTimer() : startTimer();
+    });
+ 
+    function init() {
+      buildCards(FALLBACK_DATA);
+      progressBar = document.getElementById("progressBar");
+      startTimer();
+      document.getElementById("fetchStatus").textContent = "Section 508 compliance interface initialized";
+    }
+    init();
+  </script>
 </body>
 </html>
-
 ```
