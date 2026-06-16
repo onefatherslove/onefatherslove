@@ -17,7 +17,7 @@
       padding: 10px 0;
     }
  
-    /* MAP */
+    /* MAP & POPUPS */
     #map-container {
       width: 100%; max-width: 340px; height: 22vh;
       border: 3px solid #3c1b63; border-radius: 16px;
@@ -25,12 +25,27 @@
       box-shadow: 0 8px 24px rgba(0,0,0,0.5); margin-bottom: 8px;
     }
     #map { width: 100%; height: 100%; }
-    .leaflet-popup-content-wrapper { background: #fff !important; border-radius: 8px !important; padding: 0 !important; box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; }
-    .leaflet-popup-content { font-size: 11px !important; line-height: 1.3 !important; margin: 8px 10px !important; width: 160px !important; min-width: 160px !important; white-space: normal !important; }
+    
+    .leaflet-popup-content-wrapper { 
+      background: #fff !important; 
+      border-radius: 8px !important; 
+      padding: 0 !important; 
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3) !important; 
+      font-family: Verdana, sans-serif !important;
+    }
+    .leaflet-popup-content { 
+      font-family: Verdana, sans-serif !important;
+      font-size: 11px !important; 
+      line-height: 1.4 !important; 
+      margin: 10px 12px !important; 
+      width: 250px !important;       /* Made wide enough to prevent truncating/excessive wrapping */
+      min-width: 250px !important;   /* Locks the box size comfortably */
+      white-space: normal !important; 
+    }
     .leaflet-popup-close-button { padding: 4px 6px 0 0 !important; font-size: 12px !important; }
-    .popup-title { font-weight: bold; color: #11052c; font-size: 11px; margin-bottom: 2px; display: block; }
-    .popup-address { color: #555; font-size: 10px; display: block; margin-bottom: 5px; }
-    .dir-btn { display: inline-block; padding: 2px 6px; background-color: #ff8c00; color: white !important; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 9px; }
+    .popup-title { font-weight: bold; color: #11052c; font-size: 12px; margin-bottom: 4px; display: block; }
+    .popup-address { color: #555; font-size: 11px; display: block; margin-bottom: 8px; }
+    .dir-btn { display: inline-block; padding: 4px 8px; background-color: #ff8c00; color: white !important; text-decoration: none; border-radius: 4px; font-weight: bold; font-size: 10px; }
  
     /* MAIN */
     .main-content-area { width: 100%; max-width: 340px; display: flex; flex-direction: column; align-items: center; }
@@ -69,16 +84,12 @@
       line-height: 1.2;
       margin-bottom: 8px;
       text-align: center;
-      
-      /* Target Purple Gradient Mix */
       background-image: linear-gradient(to right, #5227FF, #FF9FFC, #B497CF, #5227FF);
       background-size: 300% 100%;
       background-repeat: repeat;
       background-clip: text;
       -webkit-background-clip: text;
       color: transparent;
-      
-      /* Smooth Animation Sequence loop */
       animation: titleGradientMove 8s linear infinite;
     }
 
@@ -101,7 +112,7 @@
     .info-text.typing::after { content: '|'; animation: blink 0.7s step-end infinite; color: #9d4edd; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
  
-    /* NOVI BOX — tappable */
+    /* NOVI BOX */
     .novi-fail-box {
       background: rgba(17,5,44,0.88); border-radius: 12px;
       padding: 8px 10px; margin-top: auto; margin-bottom: 5px;
@@ -142,84 +153,35 @@
     .pause-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); color: #fff; height: 24px; border-radius: 6px; cursor: pointer; font-size: 8px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; padding: 0 8px; display: flex; align-items: center; white-space: nowrap; }
     .pause-btn:hover { background: rgba(255,255,255,0.15); }
  
-    /* NOVI CHAT PANEL — slides up from bottom of phone screen */
+    /* NOVI CHAT PANEL */
     .novi-panel {
       position: absolute; inset: 0; z-index: 50;
-      background: #0d0020;
-      border-radius: 32px;
+      background: #0d0020; border-radius: 32px;
       display: flex; flex-direction: column;
       transform: translateY(100%);
       transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
       overflow: hidden;
     }
     .novi-panel.open { transform: translateY(0); }
- 
-    .novi-panel-header {
-      display: flex; align-items: center; gap: 10px;
-      padding: 14px 14px 10px;
-      background: #11052c;
-      border-bottom: 1px solid rgba(255,140,0,0.3);
-      flex-shrink: 0;
-    }
+    .novi-panel-header { display: flex; align-items: center; gap: 10px; padding: 14px 14px 10px; background: #11052c; border-bottom: 1px solid rgba(255,140,0,0.3); flex-shrink: 0; }
     .novi-panel-avatar { width: 38px; height: 38px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; border: 2px solid #ff8c00; flex-shrink: 0; }
     .novi-panel-title { flex: 1; }
     .novi-panel-name { font-size: 13px; font-weight: 800; color: #ff8c00; }
     .novi-panel-sub { font-size: 9px; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
     .novi-close-btn { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2); color: #fff; border-radius: 6px; padding: 4px 10px; font-size: 9px; font-weight: 700; cursor: pointer; text-transform: uppercase; }
- 
-    .novi-messages {
-      flex: 1; overflow-y: auto; padding: 12px 12px 6px;
-      display: flex; flex-direction: column; gap: 8px;
-      scrollbar-width: none;
-    }
+    .novi-messages { flex: 1; overflow-y: auto; padding: 12px 12px 6px; display: flex; flex-direction: column; gap: 8px; scrollbar-width: none; }
     .novi-messages::-webkit-scrollbar { display: none; }
- 
-    .novi-msg {
-      max-width: 85%; padding: 8px 11px; border-radius: 14px;
-      font-size: 11px; line-height: 1.4; font-weight: 500;
-    }
-    .novi-msg.from-novi {
-      background: rgba(157,78,221,0.18); border: 1px solid rgba(157,78,221,0.3);
-      color: #fff; align-self: flex-start;
-      border-bottom-left-radius: 3px;
-    }
-    .novi-msg.from-user {
-      background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3);
-      color: #fff; align-self: flex-end;
-      border-bottom-right-radius: 3px;
-    }
+    .novi-msg { max-width: 85%; padding: 8px 11px; border-radius: 14px; font-size: 11px; line-height: 1.4; font-weight: 500; }
+    .novi-msg.from-novi { background: rgba(157,78,221,0.18); border: 1px solid rgba(157,78,221,0.3); color: #fff; align-self: flex-start; border-bottom-left-radius: 3px; }
+    .novi-msg.from-user { background: rgba(255,140,0,0.15); border: 1px solid rgba(255,140,0,0.3); color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
     .novi-msg.typing-indicator { background: rgba(157,78,221,0.1); border: 1px solid rgba(157,78,221,0.2); color: rgba(255,255,255,0.5); font-style: italic; align-self: flex-start; }
- 
-    /* QUICK REPLY BUTTONS */
-    .novi-quick-replies {
-      display: flex; flex-wrap: wrap; gap: 5px;
-      padding: 6px 12px; flex-shrink: 0;
-    }
-    .quick-reply {
-      background: rgba(255,140,0,0.12); border: 1px solid rgba(255,140,0,0.35);
-      color: #ffb347; border-radius: 16px; padding: 5px 10px;
-      font-size: 10px; font-weight: 700; cursor: pointer;
-      transition: background 0.2s;
-    }
+    .novi-quick-replies { display: flex; flex-wrap: wrap; gap: 5px; padding: 6px 12px; flex-shrink: 0; }
+    .quick-reply { background: rgba(255,140,0,0.12); border: 1px solid rgba(255,140,0,0.35); color: #ffb347; border-radius: 16px; padding: 5px 10px; font-size: 10px; font-weight: 700; cursor: pointer; transition: background 0.2s; }
     .quick-reply:hover { background: rgba(255,140,0,0.25); }
- 
-    /* INPUT ROW */
-    .novi-input-row {
-      display: flex; gap: 6px; padding: 8px 10px 10px;
-      border-top: 1px solid rgba(255,255,255,0.07); flex-shrink: 0;
-    }
-    .novi-input {
-      flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 20px; padding: 7px 12px; color: #fff; font-size: 11px;
-      outline: none;
-    }
+    .novi-input-row { display: flex; gap: 6px; padding: 8px 10px 10px; border-top: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+    .novi-input { flex: 1; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); border-radius: 20px; padding: 7px 12px; color: #fff; font-size: 11px; outline: none; }
     .novi-input::placeholder { color: rgba(255,255,255,0.3); }
-    .novi-send-btn {
-      background: #ff8c00; border: none; border-radius: 50%;
-      width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 14px; flex-shrink: 0;
-      transition: background 0.2s;
-    }
+    .novi-send-btn { background: #ff8c00; border: none; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 14px; flex-shrink: 0; transition: background 0.2s; }
     .novi-send-btn:hover { background: #ffb347; }
  
     .fetch-status { font-size: 8px; color: rgba(255,255,255,0.3); text-align: center; margin-top: 4px; }
@@ -297,7 +259,7 @@
     const FALLBACK_DATA = [
       {
         name: "WellSpace Health Clinic",
-        lat: 38.5816, lng: -121.4944, address: "1230 K St",
+        lat: 38.5816, lng: -121.4944, address: "1230 K Street, Sacramento, CA 95814",
         gradient: "radial-gradient(at 0% 0%, #ff9ebb 0px, transparent 50%), radial-gradient(at 100% 100%, #c8b6ff 0px, transparent 50%), #f3e5f5",
         desc: "Provides comprehensive primary care family medical services across regional Sacramento community access centers.",
         eligibility: "Sacramento County Medi-Cal or assigned managed care plans. Uninsured sliding scale available.",
@@ -307,7 +269,7 @@
       },
       {
         name: "One Community Health",
-        lat: 38.5756, lng: -121.4704, address: "1500 21st St",
+        lat: 38.5756, lng: -121.4704, address: "1500 21st Street, Sacramento, CA 95811",
         gradient: "radial-gradient(at 100% 0%, #ffccd5 0px, transparent 50%), radial-gradient(at 0% 100%, #b388ff 0px, transparent 50%), #fff0f3",
         desc: "Specialized comprehensive primary care facility focusing on intensive case management and complex diagnostic referrals.",
         eligibility: "Open to all Sacramento residents. Requires direct insurance plan transfer updates or sliding scale registration.",
@@ -432,7 +394,7 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
     function buildCards(dataList) {
       dataList.forEach((c, i) => {
         const marker = L.marker([c.lat, c.lng]).addTo(map);
-        const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${c.lat},${c.lng}&travelmode=walking`;
+        const directionsUrl = `http://maps.google.com/?q=${encodeURIComponent(c.name + ' ' + c.address)}&travelmode=walking`;
         marker.bindPopup(`<span class="popup-title">${c.name}</span><span class="popup-address">${c.address}</span><a href="${directionsUrl}" target="_blank" class="dir-btn">Get Directions</a>`);
         mapMarkers.push(marker);
  
