@@ -224,7 +224,7 @@
         <!-- NOVI CHAT PANEL -->
         <div class="novi-panel" id="noviPanel">
           <div class="novi-panel-header">
-            <div class="novi-panel-avatar">??</div>
+            <div class="novi-panel-avatar"><span style="font-family:Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif;font-size:22px;line-height:1;">??</span></div>
             <div class="novi-panel-title">
               <div class="novi-panel-name">Novi</div>
               <div class="novi-panel-sub">One Father's Love · System Guide</div>
@@ -433,7 +433,7 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         max_tokens: 500,
         messages: [
           { role: 'system', content: NOVI_SYSTEM },
-          ...messages.map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }))
+          ...messages.filter((m,i) => !(i === 0 && m.role === 'assistant')).map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content }))
         ]
       })
     });
@@ -540,7 +540,7 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           <div class="dialog-bubble"><span class="dialog-label">Specialties: </span><span class="info-text" id="spec-${i}"></span></div>
           <div class="dialog-bubble"><span class="dialog-label">Payment: </span><span class="info-text" id="pay-${i}"></span></div>
           <div class="novi-fail-box" id="noviBox-${i}" role="button" tabindex="0" aria-label="Talk to Novi about ${c.name}">
-            <div class="novi-avatar-frame">??</div>
+            <div class="novi-avatar-frame"><span style="font-family:Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif;font-size:18px;line-height:1;">??</span></div>
             <div class="novi-speech">
               <div class="novi-header">Novi · Tap to ask me anything</div>
               <p class="novi-text" id="novi-${i}"></p>
@@ -609,11 +609,10 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
 
   function runTypewriterSequence(idx) {
     clearTypewriters();
-    FALLBACK_DATA.forEach((_, i) => {
-      ["desc","elig","spec","pay","novi"].forEach(f => {
-        const el = document.getElementById(`${f}-${i}`);
-        if (el) { el.textContent = ""; el.classList.remove("typing"); }
-      });
+    // Only clear the card we're on — other cards keep their text so flipping back shows content instantly
+    ["desc","elig","spec","pay","novi"].forEach(f => {
+      const el = document.getElementById(`${f}-${idx}`);
+      if (el) { el.textContent = ""; el.classList.remove("typing"); }
     });
     const d = FALLBACK_DATA[idx];
     const speed = 22;
