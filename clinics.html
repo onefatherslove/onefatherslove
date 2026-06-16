@@ -38,8 +38,8 @@
       font-size: 11px !important; 
       line-height: 1.4 !important; 
       margin: 10px 12px !important; 
-      width: 250px !important;       /* Made wide enough to prevent truncating/excessive wrapping */
-      min-width: 250px !important;   /* Locks the box size comfortably */
+      width: 250px !important;       
+      min-width: 250px !important;   
       white-space: normal !important; 
     }
     .leaflet-popup-close-button { padding: 4px 6px 0 0 !important; font-size: 12px !important; }
@@ -311,7 +311,7 @@ Step 5: The appointment is made by the plan, not by you.
  
 Keep responses concise and warm. You are talking to someone on a phone screen. Never use markdown headers or bullet points — speak in natural flowing sentences. Always end with one clear next action.`;
  
-    /* ===== NOVI CHAT STATE ===== */
+    /* ===== NOVI CHAT STATE & FAILOVER CHAIN ===== */
     const noviPanel = document.getElementById('noviPanel');
     const noviMessages = document.getElementById('noviMessages');
     const noviInput = document.getElementById('noviInput');
@@ -345,6 +345,14 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
       noviMessages.scrollTop = noviMessages.scrollHeight;
       return div;
     }
+
+    // Helper to transform chat history into the exact Google AI Studio structure format
+    function buildGeminiContents() {
+      return noviHistory.map(item => ({
+        role: item.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: item.content }]
+      }));
+    }
  
     async function sendToNovi(userText) {
       if (!userText.trim()) return;
@@ -354,26 +362,72 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
  
       const typing = appendNoviMsg('Novi is thinking...', 'typing-indicator');
  
+      // === TIER 1: GOOGLE AI STUDIO (PRIMARY ENDPOINT) ===
       try {
-        const res = await fetch('https://api.anthropic.com/v1/messages', {
+        // Point this endpoint to your backend proxy server that securely injects your Google AI Studio API Key
+        const res = await fetch('/api/gemini-primary', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            model: 'claude-sonnet-4-6',
-            max_tokens: 1000,
-            system: NOVI_SYSTEM,
-            messages: noviHistory
+            contents: buildGeminiContents(),
+            systemInstruction: NOVI_SYSTEM
           })
         });
+        
+        if (!res.ok) throw new Error("Tier 1 Route Unreachable");
         const data = await res.json();
-        const reply = data.content?.find(b => b.type === 'text')?.text || "I'm here with you. Can you tell me a little more about what's happening?";
+        
+        // Extract content depending on how your server maps the standard Google API structure
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || data.reply;
+        if (!reply) throw new Error("Tier 1 Data Parse Exception");
+        
         typing.remove();
         appendNoviMsg(reply, 'from-novi');
         noviHistory.push({ role: 'assistant', content: reply });
+        return; 
       } catch(e) {
-        typing.remove();
-        appendNoviMsg("I'm here with you. The connection slipped — but I'm not going anywhere. Try again in a moment.", 'from-novi');
+        console.warn("Tier 1 (Google AI Studio) failed. Dropping to Tier 2 Backup Server...", e);
       }
+
+      // === TIER 2: SECONDARY BACKUP API ENDPOINT ===
+      try {
+        const res = await fetch('/api/novi-backup', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: noviHistory, system: NOVI_SYSTEM })
+        });
+        
+        if (!res.ok) throw new Error("Tier 2 Route Unreachable");
+        const data = await res.json();
+        if (!data.reply) throw new Error("Tier 2 Data Parse Exception");
+
+        typing.remove();
+        appendNoviMsg(data.reply, 'from-novi');
+        noviHistory.push({ role: 'assistant', content: data.reply });
+        return;
+      } catch(e) {
+        console.warn("Tier 2 Backup Endpoint failed. Engaging Tier 3 Local Heuristic Engine...", e);
+      }
+
+      // === TIER 3: ZERO-NETWORK LOCAL DETERMINISTIC SAFETY NET ===
+      typing.remove();
+      const txt = userText.toLowerCase();
+      let fallbackReply = "";
+
+      if (txt.includes("crisis") || txt.includes("urgent") || txt.includes("emergency") || txt.includes("health")) {
+        fallbackReply = "I am right here with you. Let's look at your immediate safety. If you are in a health crisis right now, do this: Look at the back of your Medi-Cal card and call the managed care line immediately. Tell them: 'I need an urgent primary care provider assignment. My current provider is not accepting new patients.' They are legally required to find you an open clinic instantly. Get a reference number before you hang up. Let's do this step together.";
+      } else if (txt.includes("overwhelmed") || txt.includes("scared") || txt.includes("afraid") || txt.includes("reassurance")) {
+        fallbackReply = "You're not alone in this, and what you're feeling is legitimate. Your situation is tough, but it doesn't define your worth — you've done nothing to deserve this struggle. The system is complicated on purpose, but complicated doesn't mean impossible. I know exactly where the doors are. Stay with me and we'll find yours. What's the very next small thing we can tackle?";
+      } else if (txt.includes("option") || txt.includes("closed") || txt.includes("denied") || txt.includes("rejected")) {
+        fallbackReply = "Just because one opportunity has slipped through your fingers doesn't mean all hope is lost. Here's what most people don't know — there are always at least two more paths forward, even when they're not immediately visible. That door closed, but that happens. Let's take a closer look together and I'll show you the next one. It's smaller than you think and you can do it right now.";
+      } else if (txt.includes("prepare") || txt.includes("visit") || txt.includes("appointment") || txt.includes("clinic")) {
+        fallbackReply = "Let's get you ready for what's ahead. I'll help you anticipate the questions they might ask and craft confident responses. Know what to ask for, know what they might say, and know exactly what to say back. You're not going in there alone — you're going in there prepared. What's the name of the clinic you are visiting?";
+      } else {
+        fallbackReply = "I hear you completely. The network lines are heavy right now, but I am still right here by your side. If you're feeling overwhelmed, looking for your next options, or preparing to head to a clinic, tell me which one it is so I can give you exact action items right now.";
+      }
+
+      appendNoviMsg(fallbackReply, 'from-novi');
+      noviHistory.push({ role: 'assistant', content: fallbackReply });
     }
  
     noviSendBtn.addEventListener('click', () => sendToNovi(noviInput.value));
@@ -429,7 +483,6 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         stage.appendChild(card);
         cardEls.push(card);
  
-        // Wire up Novi box tap
         card.querySelector(`#noviBox-${i}`).addEventListener('click', () => {
           openNovi(c.name);
         });
@@ -535,7 +588,7 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
       buildCards(FALLBACK_DATA);
       progressBar = document.getElementById("progressBar");
       startTimer();
-      document.getElementById("fetchStatus").textContent = "Section 508 compliance interface initialized";
+      document.getElementById("fetchStatus").textContent = "API Failover Architecture Active";
     }
     init();
   </script>
