@@ -275,51 +275,56 @@
           opacity: 0;
         }
       }
-      /* SHARE MARQUEE */
-      .marquee-container {
+      /* ===== 508 MARQUEE (swapped in from extracted component) ===== */
+      .marquee-wrap {
         width: 100%;
-        overflow: hidden;
-        white-space: nowrap;
-        position: relative;
-        background: rgba(255, 255, 255, 0.08);
-        padding: 5px 0;
-        border-radius: 12px;
         margin-top: auto;
         margin-bottom: 5px;
         flex-shrink: 0;
       }
+      .marquee-zone {
+        width: 100%;
+        height: 30px;
+        overflow: hidden;
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+        mask-image: linear-gradient(to right, transparent 0%, #000 8%, #000 92%, transparent 100%);
+      }
       .marquee-track {
         display: inline-flex;
         align-items: center;
-        gap: 16px;
-        animation: scrollMarquee 16s linear infinite;
+        gap: 20px;
+        padding-left: 12px;
+        white-space: nowrap;
+        animation: scrollMarquee 20s linear infinite;
       }
-      .marquee-container:hover .marquee-track,
-      .marquee-container:active .marquee-track {
+      .marquee-zone:hover .marquee-track,
+      .marquee-zone:active .marquee-track {
         animation-play-state: paused;
       }
       .marquee-item {
         display: inline-flex;
         align-items: center;
-        gap: 5px;
+        gap: 6px;
         font-family: Verdana, sans-serif;
-        font-size: 8px;
+        font-size: 9px;
         font-weight: 700;
         color: #ffffff;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-        cursor: pointer;
-        background: none;
-        border: none;
-        padding: 0;
+        text-decoration: none;
       }
       .marquee-icon {
-        width: 22px;
-        height: 22px;
+        width: 20px;
+        height: 20px;
         border-radius: 50%;
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.4);
         border: 1px solid rgba(255, 255, 255, 0.45);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
@@ -338,18 +343,52 @@
         pointer-events: none;
       }
       .marquee-icon svg {
-        width: 11px;
-        height: 11px;
+        width: 10px;
+        height: 10px;
         display: block;
       }
-      .fb-color   { background: linear-gradient(135deg, rgba(24,119,242,0.5) 0%, rgba(24,119,242,0.2) 100%); color: #1877f2; }
-      .x-color    { background: linear-gradient(135deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.1) 100%); color: #000; }
-      .wa-color   { background: linear-gradient(135deg, rgba(37,211,102,0.5) 0%, rgba(37,211,102,0.2) 100%); color: #25d366; }
-      .copy-color { background: linear-gradient(135deg, rgba(147,138,206,0.5) 0%, rgba(74,20,140,0.25) 100%); color: #fff; }
-      .more-color { background: linear-gradient(135deg, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.1) 100%); color: #fff; }
+      .update-color   { background: linear-gradient(135deg, rgba(255, 140, 0, 0.45) 0%, rgba(255, 69, 0, 0.2) 100%); color: #ff8c00; }
+      .feedback-color { background: linear-gradient(135deg, rgba(0, 191, 255, 0.45) 0%, rgba(30, 144, 255, 0.2) 100%); color: #00bfff; }
+      .utility-color  { background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 100%); color: #ffffff; stroke: #ffffff; }
+      .social-color   { background: linear-gradient(135deg, rgba(147, 138, 206, 0.45) 0%, rgba(46, 16, 101, 0.2) 100%); color: #ffffff; }
       @keyframes scrollMarquee {
         0% { transform: translate3d(0, 0, 0); }
         100% { transform: translate3d(-50%, 0, 0); }
+      }
+      .marquee-controls {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 5px 0 0;
+      }
+      .mq-ctrl-btn {
+        background: linear-gradient(135deg, rgba(147, 138, 206, 0.4) 0%, rgba(46, 16, 101, 0.6) 100%);
+        border: 1px solid rgba(147, 138, 206, 0.6);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        color: #ffffff;
+        border-radius: 50%;
+        width: 26px;
+        height: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+        transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+        padding: 0;
+      }
+      .mq-ctrl-btn svg {
+        width: 13px;
+        height: 13px;
+        display: block;
+      }
+      .mq-ctrl-btn:hover {
+        background: linear-gradient(135deg, rgba(147, 138, 206, 0.6) 0%, rgba(46, 16, 101, 0.8) 100%);
+        box-shadow: 0 4px 12px rgba(147, 138, 206, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+      .mq-ctrl-btn:active {
+        transform: scale(0.9);
       }
       /* PROGRESS BAR + LABEL */
       .progress-bar-wrap {
@@ -567,8 +606,13 @@
         animation: novi-breathe 3.5s ease-in-out infinite;
       }
       @keyframes novi-breathe {
-        0%, 100% { transform: translateY(0); }
-        50% { transform: translateY(-3px); }
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-3px);
+        }
       }
       .novi-dock-text {
         flex: 1;
@@ -738,7 +782,6 @@
           </div>
         </div>
       </div>
-
       <!-- 2. NOVI — persistent dock -->
       <div class="novi-dock" id="noviDock">
         <button class="novi-dock-header" id="noviDockHeader" aria-expanded="false" aria-controls="noviDockBody">
@@ -763,15 +806,12 @@
           </div>
         </div>
       </div>
-
       <!-- 3. MAP -->
       <div id="map-container">
         <div id="map" role="region" aria-label="Resource Coordinates Map"></div>
       </div>
-
       <div class="fetch-status" id="fetchStatus"></div>
     </main>
-
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
       /* ===== MAP ===== */
@@ -852,11 +892,9 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
       const noviInput = document.getElementById('noviInput');
       const noviSendBtn = document.getElementById('noviSendBtn');
       let noviHistory = [];
-
       function updatePreview(text) {
         noviPreview.textContent = text.length > 64 ? text.slice(0, 64) + '…' : text;
       }
-
       function toggleNoviDock() {
         const wasExpanded = noviDock.classList.contains('expanded');
         noviDock.classList.toggle('expanded');
@@ -864,12 +902,14 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         if (!wasExpanded && noviMessages.children.length === 0) {
           const greeting = `You're not alone in this. I'm Novi — your guide through the system. Whatever door you've hit, we'll find the next one together. What's going on right now?`;
           appendNoviMsg(greeting, 'from-novi');
-          noviHistory.push({ role: 'assistant', content: greeting });
+          noviHistory.push({
+            role: 'assistant',
+            content: greeting
+          });
           updatePreview(greeting);
         }
       }
       noviDockHeader.addEventListener('click', toggleNoviDock);
-
       function appendNoviMsg(text, cls) {
         const div = document.createElement('div');
         div.className = `novi-msg ${cls}`;
@@ -964,55 +1004,94 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
               <span class="dialog-label">Details: </span>
               <span class="info-text" id="combined-${i}"></span>
             </div>
-            <div class="marquee-container">
-              <div class="marquee-track">
-                <button class="marquee-item share-fb" aria-label="Share on Facebook">
-                  <span class="marquee-icon fb-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg></span>
-                  <span>FACEBOOK</span>
+            <div class="marquee-wrap">
+              <div class="marquee-zone">
+                <div class="marquee-track">
+
+                  <a href="#" class="marquee-item" aria-label="Latest Update">
+                    <span class="marquee-icon update-color">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    </span>
+                    <span>UPDATE</span>
+                  </a>
+
+                  <a href="#" class="marquee-item" aria-label="User Feedback">
+                    <span class="marquee-icon feedback-color">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+                    </span>
+                    <span>FEEDBACK</span>
+                  </a>
+
+                  <a href="#" class="marquee-item" aria-label="Translate Page">
+                    <span class="marquee-icon utility-color">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                    </span>
+                    <span>TRANSLATE</span>
+                  </a>
+
+                  <a href="#" class="marquee-item" aria-label="Print Page">
+                    <span class="marquee-icon utility-color">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    </span>
+                    <span>PRINT</span>
+                  </a>
+
+                  <a href="#" class="marquee-item" aria-label="Facebook Profile">
+                    <span class="marquee-icon social-color">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg>
+                    </span>
+                    <span>FACEBOOK</span>
+                  </a>
+
+                  <!-- duplicate set for seamless scroll loop -->
+                  <a href="#" class="marquee-item" aria-hidden="true">
+                    <span class="marquee-icon update-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                    <span>UPDATE</span>
+                  </a>
+                  <a href="#" class="marquee-item" aria-hidden="true">
+                    <span class="marquee-icon feedback-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg></span>
+                    <span>FEEDBACK</span>
+                  </a>
+                  <a href="#" class="marquee-item" aria-hidden="true">
+                    <span class="marquee-icon utility-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></span>
+                    <span>TRANSLATE</span>
+                  </a>
+                  <a href="#" class="marquee-item" aria-hidden="true">
+                    <span class="marquee-icon utility-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg></span>
+                    <span>PRINT</span>
+                  </a>
+                  <a href="#" class="marquee-item" aria-hidden="true">
+                    <span class="marquee-icon social-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg></span>
+                    <span>FACEBOOK</span>
+                  </a>
+
+                </div>
+              </div>
+              <div class="marquee-controls">
+                <button class="mq-ctrl-btn mq-prev-btn" aria-label="Scroll Marquee Left">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                  </svg>
                 </button>
-                <button class="marquee-item share-x" aria-label="Share on X">
-                  <span class="marquee-icon x-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-6.7L4.5 22H1.4l8.1-9.3L1 2h7l4.9 6.1L18.9 2z"/></svg></span>
-                  <span>SHARE</span>
-                </button>
-                <button class="marquee-item share-wa" aria-label="Share on WhatsApp">
-                  <span class="marquee-icon wa-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2z"/></svg></span>
-                  <span>WHATSAPP</span>
-                </button>
-                <button class="marquee-item copy-link-btn" aria-label="Copy link">
-                  <span class="marquee-icon copy-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"></path><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.34-1.34"></path></svg></span>
-                  <span>COPY LINK</span>
-                </button>
-                <button class="marquee-item more-btn" aria-label="More options">
-                  <span class="marquee-icon more-color"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></span>
-                  <span>MORE</span>
-                </button>
-                <!-- duplicate set for seamless -50% loop -->
-                <button class="marquee-item" aria-hidden="true">
-                  <span class="marquee-icon fb-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg></span>
-                  <span>FACEBOOK</span>
-                </button>
-                <button class="marquee-item" aria-hidden="true">
-                  <span class="marquee-icon x-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23 22h-6.9l-5.4-6.7L4.5 22H1.4l8.1-9.3L1 2h7l4.9 6.1L18.9 2z"/></svg></span>
-                  <span>SHARE</span>
-                </button>
-                <button class="marquee-item" aria-hidden="true">
-                  <span class="marquee-icon wa-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.29-1.39a9.87 9.87 0 0 0 4.75 1.21h.01c5.46 0 9.9-4.45 9.9-9.91 0-2.65-1.03-5.14-2.9-7.01A9.87 9.87 0 0 0 12.04 2z"/></svg></span>
-                  <span>WHATSAPP</span>
-                </button>
-                <button class="marquee-item" aria-hidden="true">
-                  <span class="marquee-icon copy-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.07 0l2.83-2.83a5 5 0 0 0-7.07-7.07L11.5 4.5"></path><path d="M14 11a5 5 0 0 0-7.07 0L4.1 13.83a5 5 0 0 0 7.07 7.07l1.34-1.34"></path></svg></span>
-                  <span>COPY LINK</span>
-                </button>
-                <button class="marquee-item" aria-hidden="true">
-                  <span class="marquee-icon more-color"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"></circle><circle cx="12" cy="12" r="2"></circle><circle cx="19" cy="12" r="2"></circle></svg></span>
-                  <span>MORE</span>
+                <button class="mq-ctrl-btn mq-next-btn" aria-label="Scroll Marquee Right">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
                 </button>
               </div>
             </div>
           </div>`;
           stage.appendChild(card);
           cardEls.push(card);
-          card.querySelector('.copy-link-btn').addEventListener('click', () => navigator.clipboard?.writeText(window.location.href).catch(() => {}));
+          const mqZoneEl = card.querySelector('.marquee-zone');
+          card.querySelector('.mq-prev-btn').addEventListener('click', () => {
+            mqZoneEl.scrollBy({ left: -100, behavior: 'smooth' });
+          });
+          card.querySelector('.mq-next-btn').addEventListener('click', () => {
+            mqZoneEl.scrollBy({ left: 100, behavior: 'smooth' });
+          });
           const dot = document.createElement("button");
           dot.className = "dot" + (i === 0 ? " active" : "");
           dot.setAttribute("aria-label", `Go to card ${i + 1}`);
