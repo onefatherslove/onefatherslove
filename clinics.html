@@ -1149,7 +1149,13 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           el.classList.remove("typing");
         }
         const d = FALLBACK_DATA[idx];
-        const fullText = `${d.desc} Eligibility: ${d.eligibility} Specialties: ${d.specialties} Payment: ${d.payment}`;
+        const fullText = [
+  `Details: ${d.desc}`,
+  `Eligibility: ${d.eligibility}`,
+  `Specialties: ${d.specialties}`,
+  `Payment: ${d.payment}`
+].join("\n\n");
+        
         typeText(`combined-${idx}`, fullText, 22);
       }
       function goTo(next, direction = 1) {
