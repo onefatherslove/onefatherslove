@@ -20,7 +20,6 @@
         align-items: center;
         padding: 10px 0;
       }
-      /* MAIN */
       .main-content-area {
         width: 100%;
         max-width: 340px;
@@ -28,7 +27,6 @@
         flex-direction: column;
         align-items: center;
       }
-      /* MAP (now docked at the bottom, after Novi) */
       #map-container {
         width: 100%;
         max-width: 340px;
@@ -187,7 +185,6 @@
         position: relative;
         transform-style: preserve-3d;
       }
-      /* CARD */
       .clinic-card {
         position: absolute;
         inset: 0;
@@ -229,7 +226,6 @@
         text-align: center;
         text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
       }
-      /* DIALOG BUBBLES */
       .dialog-bubble {
         background: rgba(255, 255, 255, 0.72);
         border: 1px solid rgba(255, 255, 255, 0.9);
@@ -255,6 +251,7 @@
       }
       .info-text {
         display: inline;
+        white-space: pre-line;
         font-size: 11px;
         color: #1a0a3a;
         line-height: 1.4;
@@ -275,7 +272,6 @@
           opacity: 0;
         }
       }
-      /* ===== 508 MARQUEE (swapped in from extracted component) ===== */
       .marquee-wrap {
         width: 100%;
         margin-top: auto;
@@ -390,7 +386,6 @@
       .mq-ctrl-btn:active {
         transform: scale(0.9);
       }
-      /* PROGRESS BAR + LABEL */
       .progress-bar-wrap {
         width: 100%;
         position: absolute;
@@ -420,7 +415,6 @@
         background: linear-gradient(to right, #9d4edd, #ff8c00);
         transition: width 0.1s linear;
       }
-      /* CONTROLS */
       .controls {
         width: 100%;
         height: 22px;
@@ -566,7 +560,6 @@
         border-radius: 2px;
         box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       }
-      /* ===== NOVI — persistent dock under the card ===== */
       .novi-dock {
         width: 100%;
         max-width: 340px;
@@ -844,9 +837,9 @@
           lng: -121.4944,
           address: "1230 K St",
           gradient: "linear-gradient(to bottom, #a8c8c0 0%, #d4e8e4 50%, #f0f4f2 100%)",
-          desc: "Provides comprehensive primary care family medical services across regional Sacramento community access centers.",
+          desc: "Provides comprehensive primary care for family and individual medical services.",
           eligibility: "Sacramento County Medi-Cal or assigned managed care plans. Uninsured sliding scale available.",
-          specialties: "Primary Care, Serious Specialist Referrals, Internal Medicine, Dental Care.",
+          specialties: "Primary Care, Specialist Referrals, Internal Medicine, prescriptions.",
           payment: "Medi-Cal, Medicare, FQHC sliding scale based on verified household income limits."
         },
         {
@@ -870,7 +863,7 @@ Your voice rules:
 - You are warm but not soft. Direct but not cold. You do not panic. You do not over-explain.
 - You give the next step and stay with the person until they take it.
 - When someone is exhausted, you slow down. One step at a time.
-Your three core responses follow this structure: Feel it → Face it → Do it.
+Your core responses follow this structure: Feel it → Face it → Do it.
 REASSURANCE (when scared or overwhelmed):
 "You're not alone in this, and what you're feeling is legitimate. Your situation is tough, but it doesn't define your worth — you've done nothing to deserve this struggle. What you're dealing with is real and it's hard. The system is complicated on purpose, but complicated doesn't mean impossible. I know exactly where the doors are. Stay with me and we'll find yours."
 NEXT OPTIONS (when a path closes):
@@ -883,6 +876,12 @@ Step 2: They are legally required to find you an open clinic. In California, urg
 Step 3: Get a reference number before hanging up.
 Step 4: The plan calls the clinic — this clears the registration block most people hit alone.
 Step 5: The appointment is made by the plan, not by you.
+NO-PCP REFERRAL (when someone leaves an ER or hospital stay without an assigned primary care provider, and gets handed a referral):
+"Here's the thing nobody tells you when you leave without a PCP on file: that referral they handed you isn't guaranteed. It might be in-network. It might not. Hospitals sometimes have real working relationships with community clinics — but nobody explained which kind of relationship this is, and neither of us should assume. Don't panic, and don't throw the referral away either. We just need to check it before you use it.
+Call the number on the back of your insurance or Medi-Cal card. Say: 'I was given a referral to [clinic/provider name] after my ER visit. I don't have a PCP on file. Can you confirm this referral is in-network and will be covered?'
+If they say yes — get the confirmation in writing or a reference number, and keep it. Now it's safe to use.
+If they say no, or they're not sure — ask them to assign you a PCP right now, in-network, and ask if that PCP can honor the same referral. You don't lose the referral, you just make sure it's attached to someone who's actually covered.
+One call, before your appointment, and you're not walking in blind."
 Keep responses concise and warm. You are talking to someone on a phone screen. Never use markdown headers or bullet points — speak in natural flowing sentences. Always end with one clear next action.`;
       /* ===== NOVI DOCK STATE ===== */
       const noviDock = document.getElementById('noviDock');
@@ -1001,7 +1000,6 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           <div class="card-body">
             <div class="clinic-name">${c.name}</div>
             <div class="dialog-bubble">
-              <span class="dialog-label">Details: </span>
               <span class="info-text" id="combined-${i}"></span>
             </div>
             <div class="marquee-wrap">
@@ -1150,12 +1148,12 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         }
         const d = FALLBACK_DATA[idx];
         const fullText = [
-  `Details: ${d.desc}`,
-  `Eligibility: ${d.eligibility}`,
-  `Specialties: ${d.specialties}`,
-  `Payment: ${d.payment}`
-].join("\n\n");
-        
+          `DESCRIPTION: ${d.desc}`,
+          `ELIGIBILITY: ${d.eligibility}`,
+          `SPECIALTIES: ${d.specialties}`,
+          `PAYMENT: ${d.payment}`
+        ].join("\n");
+
         typeText(`combined-${idx}`, fullText, 22);
       }
       function goTo(next, direction = 1) {
