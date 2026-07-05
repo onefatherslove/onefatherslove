@@ -343,13 +343,30 @@
         height: 10px;
         display: block;
       }
-      .update-color   { background: linear-gradient(135deg, rgba(255, 140, 0, 0.45) 0%, rgba(255, 69, 0, 0.2) 100%); color: #ff8c00; }
-      .feedback-color { background: linear-gradient(135deg, rgba(0, 191, 255, 0.45) 0%, rgba(30, 144, 255, 0.2) 100%); color: #00bfff; }
-      .utility-color  { background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 100%); color: #ffffff; stroke: #ffffff; }
-      .social-color   { background: linear-gradient(135deg, rgba(147, 138, 206, 0.45) 0%, rgba(46, 16, 101, 0.2) 100%); color: #ffffff; }
+      .update-color {
+        background: linear-gradient(135deg, rgba(255, 140, 0, 0.45) 0%, rgba(255, 69, 0, 0.2) 100%);
+        color: #ff8c00;
+      }
+      .feedback-color {
+        background: linear-gradient(135deg, rgba(0, 191, 255, 0.45) 0%, rgba(30, 144, 255, 0.2) 100%);
+        color: #00bfff;
+      }
+      .utility-color {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 100%);
+        color: #ffffff;
+        stroke: #ffffff;
+      }
+      .social-color {
+        background: linear-gradient(135deg, rgba(147, 138, 206, 0.45) 0%, rgba(46, 16, 101, 0.2) 100%);
+        color: #ffffff;
+      }
       @keyframes scrollMarquee {
-        0% { transform: translate3d(0, 0, 0); }
-        100% { transform: translate3d(-50%, 0, 0); }
+        0% {
+          transform: translate3d(0, 0, 0);
+        }
+        100% {
+          transform: translate3d(-50%, 0, 0);
+        }
       }
       .marquee-controls {
         display: flex;
@@ -563,22 +580,28 @@
       .novi-dock {
         width: 100%;
         max-width: 340px;
-        background: #EDE2F7;
-        border: 2px solid #938ACE;
+        height: 160px;
+        background: #a2ccd3;
+        border: 4px solid #1baec6;
         border-radius: 20px;
         overflow: hidden;
         box-shadow:
           0 12px 40px rgba(147, 138, 206, 0.35),
           inset 0 1px 0 rgba(255, 255, 255, 0.8),
           inset 0 -1px 0 rgba(147, 138, 206, 0.3);
-        margin-top: 12px;
+        margin-top: 6px;
+        transition: height 0.35s ease;
+        position: relative;
+      }
+      .novi-dock.expanded {
+        height: 600px;
       }
       .novi-dock-header {
         width: 100%;
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 10px 12px;
+        padding: 10px 12px 10px 100px;
         background: rgba(147, 138, 206, 0.22);
         border: none;
         cursor: pointer;
@@ -586,18 +609,27 @@
         font-family: Verdana, sans-serif;
       }
       .novi-dock-avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: #fff;
-        border: 2px solid #938ACE;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        flex-shrink: 0;
-        animation: novi-breathe 3.5s ease-in-out infinite;
-      }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 110px;
+  border-radius: 0;
+  background: #fff;
+  border: none;
+  border-right: 2px solid #1BD488;
+  border-bottom: 2px solid #1BD488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center top;
+  object-fit: cover;
+  object-position: center top;
+  animation: novi-breathe 3.5s ease-in-out infinite;
+}
       @keyframes novi-breathe {
         0%,
         100% {
@@ -612,16 +644,31 @@
         min-width: 0;
       }
       .novi-dock-name {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 800;
-        color: #2e1065;
+        color: #0f1010;
       }
       .novi-dock-preview {
-        font-size: 10px;
+        font-size: 13px;
         color: #4a3a70;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        line-height: 1.4;
+      }
+      .novi-dock.expanded .novi-dock-preview {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+      }
+      .novi-dock-hint {
+        font-size: 10px;
+        color: #000000;
+        font-weight: 700;
+        font-family: Verdana, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-top: 2px;
       }
       .novi-dock-chevron {
         font-size: 12px;
@@ -633,15 +680,13 @@
         transform: rotate(180deg);
       }
       .novi-dock-body {
-        max-height: 0;
+        height: calc(100% - 92px);
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
-        transition: max-height 0.35s ease;
-      }
-      .novi-dock.expanded .novi-dock-body {
-        max-height: 420px;
       }
       .novi-messages {
-        max-height: 240px;
+        flex: 1;
         overflow-y: auto;
         padding: 10px 12px 6px;
         display: flex;
@@ -656,10 +701,13 @@
         max-width: 85%;
         padding: 8px 11px;
         border-radius: 14px;
-        font-size: 11px;
+        font-size: 13px;
         line-height: 1.4;
         font-weight: 500;
         font-family: Verdana, sans-serif;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
       }
       .novi-msg.from-novi {
         background: rgba(147, 138, 206, 0.2);
@@ -686,7 +734,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
-        padding: 6px 12px;
+        padding: 27px 12px 6px;
         flex-shrink: 0;
       }
       .quick-reply {
@@ -778,10 +826,13 @@
       <!-- 2. NOVI — persistent dock -->
       <div class="novi-dock" id="noviDock">
         <button class="novi-dock-header" id="noviDockHeader" aria-expanded="false" aria-controls="noviDockBody">
-          <div class="novi-dock-avatar">🦊</div>
+          <video class="novi-dock-avatar" id="noviVideo" autoplay muted playsinline>
+  <source src="https://cdn.jsdelivr.net/gh/onefatherslove/onefatherslove@main/lv_7566671535839137029_20260703224922.mp4" type="video/mp4">
+</video>
           <div class="novi-dock-text">
-            <div class="novi-dock-name">Novi</div>
-            <div class="novi-dock-preview" id="noviPreview">Ask me anything about this clinic.</div>
+            <div class="novi-dock-name">Hello, I'm Novi</div>
+            <div class="novi-dock-preview" id="noviPreview">I'm your resource coordinator.</div>
+            <div class="novi-dock-hint">Tap to chat</div>
           </div>
           <div class="novi-dock-chevron" id="noviChevron">▾</div>
         </button>
@@ -865,7 +916,7 @@ Your voice rules:
 - When someone is exhausted, you slow down. One step at a time.
 Your core responses follow this structure: Feel it → Face it → Do it.
 REASSURANCE (when scared or overwhelmed):
-"You're not alone in this, and what you're feeling is legitimate. Your situation is tough, but it doesn't define your worth — you've done nothing to deserve this struggle. What you're dealing with is real and it's hard. The system is complicated on purpose, but complicated doesn't mean impossible. I know exactly where the doors are. Stay with me and we'll find yours."
+"You're not alone in this, and what you're feeling is legitimate. Your situation is tough, but it doesn't define your worth — you've done nothing to deserve this struggle. What you've dealing with is real and it's hard. The system is complicated on purpose, but complicated doesn't mean impossible. I know exactly where the doors are. Stay with me and we'll find yours."
 NEXT OPTIONS (when a path closes):
 "Just because one opportunity has slipped through your fingers doesn't mean all hope is lost. Here's what most people don't know — there are always at least two more paths forward, even when they're not immediately visible. That door closed. That happens. It's not the end. Let's take a closer look together and I'll show you the next one. It's smaller than you think and you can do it right now."
 PREPARATION (before a clinic visit or call):
@@ -1005,42 +1056,36 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
             <div class="marquee-wrap">
               <div class="marquee-zone">
                 <div class="marquee-track">
-
                   <a href="#" class="marquee-item" aria-label="Latest Update">
                     <span class="marquee-icon update-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                     </span>
                     <span>UPDATE</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="User Feedback">
                     <span class="marquee-icon feedback-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                     </span>
                     <span>FEEDBACK</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="Translate Page">
                     <span class="marquee-icon utility-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     </span>
                     <span>TRANSLATE</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="Print Page">
                     <span class="marquee-icon utility-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                     </span>
                     <span>PRINT</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="Facebook Profile">
                     <span class="marquee-icon social-color">
                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg>
                     </span>
                     <span>FACEBOOK</span>
                   </a>
-
                   <!-- duplicate set for seamless scroll loop -->
                   <a href="#" class="marquee-item" aria-hidden="true">
                     <span class="marquee-icon update-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
@@ -1062,7 +1107,6 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
                     <span class="marquee-icon social-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg></span>
                     <span>FACEBOOK</span>
                   </a>
-
                 </div>
               </div>
               <div class="marquee-controls">
@@ -1085,10 +1129,16 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           cardEls.push(card);
           const mqZoneEl = card.querySelector('.marquee-zone');
           card.querySelector('.mq-prev-btn').addEventListener('click', () => {
-            mqZoneEl.scrollBy({ left: -100, behavior: 'smooth' });
+            mqZoneEl.scrollBy({
+              left: -100,
+              behavior: 'smooth'
+            });
           });
           card.querySelector('.mq-next-btn').addEventListener('click', () => {
-            mqZoneEl.scrollBy({ left: 100, behavior: 'smooth' });
+            mqZoneEl.scrollBy({
+              left: 100,
+              behavior: 'smooth'
+            });
           });
           const dot = document.createElement("button");
           dot.className = "dot" + (i === 0 ? " active" : "");
@@ -1153,7 +1203,6 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           `SPECIALTIES: ${d.specialties}`,
           `PAYMENT: ${d.payment}`
         ].join("\n");
-
         typeText(`combined-${idx}`, fullText, 22);
       }
       function goTo(next, direction = 1) {
