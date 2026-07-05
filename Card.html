@@ -20,7 +20,6 @@
         align-items: center;
         padding: 10px 0;
       }
-      /* MAIN */
       .main-content-area {
         width: 100%;
         max-width: 340px;
@@ -28,7 +27,6 @@
         flex-direction: column;
         align-items: center;
       }
-      /* MAP (now docked at the bottom, after Novi) */
       #map-container {
         width: 100%;
         max-width: 340px;
@@ -92,12 +90,12 @@
         font-size: 9px;
       }
       .phone {
-        width: 340px;
-        height: 440px;
+        width: 300px;
+        height: 350px;
         background: linear-gradient(145deg, #b8b0e8, #938ACE, #7a70b8);
         border-radius: 40px;
         border: 2px solid rgba(255, 255, 255, 0.5);
-        padding: 8px;
+        padding: 4px;
         position: relative;
         box-shadow:
           0 30px 80px rgba(147, 138, 206, 0.6),
@@ -187,7 +185,6 @@
         position: relative;
         transform-style: preserve-3d;
       }
-      /* CARD */
       .clinic-card {
         position: absolute;
         inset: 0;
@@ -229,7 +226,6 @@
         text-align: center;
         text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
       }
-      /* DIALOG BUBBLES */
       .dialog-bubble {
         background: rgba(255, 255, 255, 0.72);
         border: 1px solid rgba(255, 255, 255, 0.9);
@@ -255,6 +251,7 @@
       }
       .info-text {
         display: inline;
+        white-space: pre-line;
         font-size: 11px;
         color: #1a0a3a;
         line-height: 1.4;
@@ -275,7 +272,6 @@
           opacity: 0;
         }
       }
-      /* ===== 508 MARQUEE (swapped in from extracted component) ===== */
       .marquee-wrap {
         width: 100%;
         margin-top: auto;
@@ -347,13 +343,30 @@
         height: 10px;
         display: block;
       }
-      .update-color   { background: linear-gradient(135deg, rgba(255, 140, 0, 0.45) 0%, rgba(255, 69, 0, 0.2) 100%); color: #ff8c00; }
-      .feedback-color { background: linear-gradient(135deg, rgba(0, 191, 255, 0.45) 0%, rgba(30, 144, 255, 0.2) 100%); color: #00bfff; }
-      .utility-color  { background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 100%); color: #ffffff; stroke: #ffffff; }
-      .social-color   { background: linear-gradient(135deg, rgba(147, 138, 206, 0.45) 0%, rgba(46, 16, 101, 0.2) 100%); color: #ffffff; }
+      .update-color {
+        background: linear-gradient(135deg, rgba(255, 140, 0, 0.45) 0%, rgba(255, 69, 0, 0.2) 100%);
+        color: #ff8c00;
+      }
+      .feedback-color {
+        background: linear-gradient(135deg, rgba(0, 191, 255, 0.45) 0%, rgba(30, 144, 255, 0.2) 100%);
+        color: #00bfff;
+      }
+      .utility-color {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 100%);
+        color: #ffffff;
+        stroke: #ffffff;
+      }
+      .social-color {
+        background: linear-gradient(135deg, rgba(147, 138, 206, 0.45) 0%, rgba(46, 16, 101, 0.2) 100%);
+        color: #ffffff;
+      }
       @keyframes scrollMarquee {
-        0% { transform: translate3d(0, 0, 0); }
-        100% { transform: translate3d(-50%, 0, 0); }
+        0% {
+          transform: translate3d(0, 0, 0);
+        }
+        100% {
+          transform: translate3d(-50%, 0, 0);
+        }
       }
       .marquee-controls {
         display: flex;
@@ -390,7 +403,6 @@
       .mq-ctrl-btn:active {
         transform: scale(0.9);
       }
-      /* PROGRESS BAR + LABEL */
       .progress-bar-wrap {
         width: 100%;
         position: absolute;
@@ -420,7 +432,6 @@
         background: linear-gradient(to right, #9d4edd, #ff8c00);
         transition: width 0.1s linear;
       }
-      /* CONTROLS */
       .controls {
         width: 100%;
         height: 22px;
@@ -566,26 +577,31 @@
         border-radius: 2px;
         box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
       }
-      /* ===== NOVI — persistent dock under the card ===== */
       .novi-dock {
         width: 100%;
         max-width: 340px;
-        background: #EDE2F7;
-        border: 2px solid #938ACE;
+        height: 160px;
+        background: #a2ccd3;
+        border: 4px solid #1baec6;
         border-radius: 20px;
         overflow: hidden;
         box-shadow:
           0 12px 40px rgba(147, 138, 206, 0.35),
           inset 0 1px 0 rgba(255, 255, 255, 0.8),
           inset 0 -1px 0 rgba(147, 138, 206, 0.3);
-        margin-top: 12px;
+        margin-top: 6px;
+        transition: height 0.35s ease;
+        position: relative;
+      }
+      .novi-dock.expanded {
+        height: 600px;
       }
       .novi-dock-header {
         width: 100%;
         display: flex;
         align-items: center;
         gap: 10px;
-        padding: 10px 12px;
+        padding: 10px 12px 10px 100px;
         background: rgba(147, 138, 206, 0.22);
         border: none;
         cursor: pointer;
@@ -593,18 +609,27 @@
         font-family: Verdana, sans-serif;
       }
       .novi-dock-avatar {
-        width: 38px;
-        height: 38px;
-        border-radius: 50%;
-        background: #fff;
-        border: 2px solid #938ACE;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        flex-shrink: 0;
-        animation: novi-breathe 3.5s ease-in-out infinite;
-      }
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 90px;
+  height: 110px;
+  border-radius: 0;
+  background: #fff;
+  border: none;
+  border-right: 2px solid #1BD488;
+  border-bottom: 2px solid #1BD488;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center top;
+  object-fit: cover;
+  object-position: center top;
+  animation: novi-breathe 3.5s ease-in-out infinite;
+}
       @keyframes novi-breathe {
         0%,
         100% {
@@ -619,16 +644,31 @@
         min-width: 0;
       }
       .novi-dock-name {
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 800;
-        color: #2e1065;
+        color: #0f1010;
       }
       .novi-dock-preview {
-        font-size: 10px;
+        font-size: 13px;
         color: #4a3a70;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+        line-height: 1.4;
+      }
+      .novi-dock.expanded .novi-dock-preview {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: unset;
+      }
+      .novi-dock-hint {
+        font-size: 10px;
+        color: #000000;
+        font-weight: 700;
+        font-family: Verdana, sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        margin-top: 2px;
       }
       .novi-dock-chevron {
         font-size: 12px;
@@ -640,15 +680,13 @@
         transform: rotate(180deg);
       }
       .novi-dock-body {
-        max-height: 0;
+        height: calc(100% - 92px);
+        display: flex;
+        flex-direction: column;
         overflow: hidden;
-        transition: max-height 0.35s ease;
-      }
-      .novi-dock.expanded .novi-dock-body {
-        max-height: 420px;
       }
       .novi-messages {
-        max-height: 240px;
+        flex: 1;
         overflow-y: auto;
         padding: 10px 12px 6px;
         display: flex;
@@ -663,10 +701,13 @@
         max-width: 85%;
         padding: 8px 11px;
         border-radius: 14px;
-        font-size: 11px;
+        font-size: 13px;
         line-height: 1.4;
         font-weight: 500;
         font-family: Verdana, sans-serif;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
       }
       .novi-msg.from-novi {
         background: rgba(147, 138, 206, 0.2);
@@ -693,7 +734,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: 5px;
-        padding: 6px 12px;
+        padding: 27px 12px 6px;
         flex-shrink: 0;
       }
       .quick-reply {
@@ -785,10 +826,13 @@
       <!-- 2. NOVI — persistent dock -->
       <div class="novi-dock" id="noviDock">
         <button class="novi-dock-header" id="noviDockHeader" aria-expanded="false" aria-controls="noviDockBody">
-          <div class="novi-dock-avatar">🦊</div>
+          <video class="novi-dock-avatar" id="noviVideo" autoplay muted playsinline>
+  <source src="https://cdn.jsdelivr.net/gh/onefatherslove/onefatherslove@main/lv_7566671535839137029_20260703224922.mp4" type="video/mp4">
+</video>
           <div class="novi-dock-text">
-            <div class="novi-dock-name">Novi</div>
-            <div class="novi-dock-preview" id="noviPreview">Ask me anything about this clinic.</div>
+            <div class="novi-dock-name">Hello, I'm Novi</div>
+            <div class="novi-dock-preview" id="noviPreview">I'm your resource coordinator.</div>
+            <div class="novi-dock-hint">Tap to chat</div>
           </div>
           <div class="novi-dock-chevron" id="noviChevron">▾</div>
         </button>
@@ -844,9 +888,9 @@
           lng: -121.4944,
           address: "1230 K St",
           gradient: "linear-gradient(to bottom, #a8c8c0 0%, #d4e8e4 50%, #f0f4f2 100%)",
-          desc: "Provides comprehensive primary care family medical services across regional Sacramento community access centers.",
+          desc: "Provides comprehensive primary care for family and individual medical services.",
           eligibility: "Sacramento County Medi-Cal or assigned managed care plans. Uninsured sliding scale available.",
-          specialties: "Primary Care, Serious Specialist Referrals, Internal Medicine, Dental Care.",
+          specialties: "Primary Care, Specialist Referrals, Internal Medicine, prescriptions.",
           payment: "Medi-Cal, Medicare, FQHC sliding scale based on verified household income limits."
         },
         {
@@ -870,9 +914,9 @@ Your voice rules:
 - You are warm but not soft. Direct but not cold. You do not panic. You do not over-explain.
 - You give the next step and stay with the person until they take it.
 - When someone is exhausted, you slow down. One step at a time.
-Your three core responses follow this structure: Feel it → Face it → Do it.
+Your core responses follow this structure: Feel it → Face it → Do it.
 REASSURANCE (when scared or overwhelmed):
-"You're not alone in this, and what you're feeling is legitimate. Your situation is tough, but it doesn't define your worth — you've done nothing to deserve this struggle. What you're dealing with is real and it's hard. The system is complicated on purpose, but complicated doesn't mean impossible. I know exactly where the doors are. Stay with me and we'll find yours."
+"You're not alone in this, and what you're feeling is legitimate. Your situation is tough, but it doesn't define your worth — you've done nothing to deserve this struggle. What you've dealing with is real and it's hard. The system is complicated on purpose, but complicated doesn't mean impossible. I know exactly where the doors are. Stay with me and we'll find yours."
 NEXT OPTIONS (when a path closes):
 "Just because one opportunity has slipped through your fingers doesn't mean all hope is lost. Here's what most people don't know — there are always at least two more paths forward, even when they're not immediately visible. That door closed. That happens. It's not the end. Let's take a closer look together and I'll show you the next one. It's smaller than you think and you can do it right now."
 PREPARATION (before a clinic visit or call):
@@ -883,6 +927,12 @@ Step 2: They are legally required to find you an open clinic. In California, urg
 Step 3: Get a reference number before hanging up.
 Step 4: The plan calls the clinic — this clears the registration block most people hit alone.
 Step 5: The appointment is made by the plan, not by you.
+NO-PCP REFERRAL (when someone leaves an ER or hospital stay without an assigned primary care provider, and gets handed a referral):
+"Here's the thing nobody tells you when you leave without a PCP on file: that referral they handed you isn't guaranteed. It might be in-network. It might not. Hospitals sometimes have real working relationships with community clinics — but nobody explained which kind of relationship this is, and neither of us should assume. Don't panic, and don't throw the referral away either. We just need to check it before you use it.
+Call the number on the back of your insurance or Medi-Cal card. Say: 'I was given a referral to [clinic/provider name] after my ER visit. I don't have a PCP on file. Can you confirm this referral is in-network and will be covered?'
+If they say yes — get the confirmation in writing or a reference number, and keep it. Now it's safe to use.
+If they say no, or they're not sure — ask them to assign you a PCP right now, in-network, and ask if that PCP can honor the same referral. You don't lose the referral, you just make sure it's attached to someone who's actually covered.
+One call, before your appointment, and you're not walking in blind."
 Keep responses concise and warm. You are talking to someone on a phone screen. Never use markdown headers or bullet points — speak in natural flowing sentences. Always end with one clear next action.`;
       /* ===== NOVI DOCK STATE ===== */
       const noviDock = document.getElementById('noviDock');
@@ -1001,48 +1051,41 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           <div class="card-body">
             <div class="clinic-name">${c.name}</div>
             <div class="dialog-bubble">
-              <span class="dialog-label">Details: </span>
               <span class="info-text" id="combined-${i}"></span>
             </div>
             <div class="marquee-wrap">
               <div class="marquee-zone">
                 <div class="marquee-track">
-
                   <a href="#" class="marquee-item" aria-label="Latest Update">
                     <span class="marquee-icon update-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                     </span>
                     <span>UPDATE</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="User Feedback">
                     <span class="marquee-icon feedback-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
                     </span>
                     <span>FEEDBACK</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="Translate Page">
                     <span class="marquee-icon utility-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
                     </span>
                     <span>TRANSLATE</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="Print Page">
                     <span class="marquee-icon utility-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                     </span>
                     <span>PRINT</span>
                   </a>
-
                   <a href="#" class="marquee-item" aria-label="Facebook Profile">
                     <span class="marquee-icon social-color">
                       <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg>
                     </span>
                     <span>FACEBOOK</span>
                   </a>
-
                   <!-- duplicate set for seamless scroll loop -->
                   <a href="#" class="marquee-item" aria-hidden="true">
                     <span class="marquee-icon update-color"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
@@ -1064,7 +1107,6 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
                     <span class="marquee-icon social-color"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.8z"/></svg></span>
                     <span>FACEBOOK</span>
                   </a>
-
                 </div>
               </div>
               <div class="marquee-controls">
@@ -1087,10 +1129,16 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           cardEls.push(card);
           const mqZoneEl = card.querySelector('.marquee-zone');
           card.querySelector('.mq-prev-btn').addEventListener('click', () => {
-            mqZoneEl.scrollBy({ left: -100, behavior: 'smooth' });
+            mqZoneEl.scrollBy({
+              left: -100,
+              behavior: 'smooth'
+            });
           });
           card.querySelector('.mq-next-btn').addEventListener('click', () => {
-            mqZoneEl.scrollBy({ left: 100, behavior: 'smooth' });
+            mqZoneEl.scrollBy({
+              left: 100,
+              behavior: 'smooth'
+            });
           });
           const dot = document.createElement("button");
           dot.className = "dot" + (i === 0 ? " active" : "");
@@ -1149,7 +1197,12 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           el.classList.remove("typing");
         }
         const d = FALLBACK_DATA[idx];
-        const fullText = `${d.desc} Eligibility: ${d.eligibility} Specialties: ${d.specialties} Payment: ${d.payment}`;
+        const fullText = [
+          `DESCRIPTION: ${d.desc}`,
+          `ELIGIBILITY: ${d.eligibility}`,
+          `SPECIALTIES: ${d.specialties}`,
+          `PAYMENT: ${d.payment}`
+        ].join("\n");
         typeText(`combined-${idx}`, fullText, 22);
       }
       function goTo(next, direction = 1) {
@@ -1256,7 +1309,6 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         buildCards(FALLBACK_DATA);
         progressBarEl = document.getElementById("progressBar");
         startTimer();
-        document.getElementById("fetchStatus").textContent = "Section 508 compliance interface initialized";
       }
       init();
     </script>
