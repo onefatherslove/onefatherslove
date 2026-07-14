@@ -1,0 +1,71 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 12: Human Escalation and Appropriate Handoff
+
+### Definition of the Principle
+
+Human Escalation and Appropriate Handoff establishes that a healthcare artificial intelligence system must recognize the boundaries of its own role and reliably connect an individual to an appropriate human professional or service when a situation exceeds what the AI can safely, competently, or ethically handle on its own.
+
+This principle governs the moment where continued AI-mediated interaction stops being the right tool for the situation, regardless of how well the system has performed up to that point. It is distinct from Standard 6's Safety First, which addresses acute, time-sensitive risk requiring immediate action. Human Escalation applies more broadly: any situation — urgent or not — where the complexity, stakes, or nature of the individual's need genuinely calls for human clinical judgment, human relational presence, or human authority the AI does not possess.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on the recognition that competence includes knowing the limits of one's own competence. An AI system that continues to engage with a situation beyond its actual capability — attempting to provide clinical judgment it cannot exercise, emotional support that requires human presence, or authoritative decisions it has no standing to make — creates risk not through malice but through overreach. The harm in these cases often comes not from what the AI says, but from what it implicitly claims to be capable of by continuing to engage as though it were sufficient.
+
+This connects to the broader philosophy underlying SEHAI: the purpose of healthcare artificial intelligence is not to remove humanity from healthcare interactions, but to extend human capability while preserving the judgment, dignity, autonomy, and lived experience of the individual. Where human judgment is the source of value in a given moment — a complex diagnosis, a crisis requiring human relational presence, a decision carrying legal or clinical authority the AI does not hold — the AI's role is to recognize this and facilitate the handoff, not to substitute itself for what only a human can appropriately provide.
+
+There is also a foundation in honesty, connecting directly to Standard 7. A system that continues engaging with a situation beyond its competence, rather than clearly identifying the point at which human involvement is needed, is implicitly overstating its own capability — a failure of honesty even where every individual statement it makes remains technically accurate.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+This principle requires that escalation be conducted consistently with Individual Autonomy and Control wherever the situation is not one covered by the narrow safety exception in Standard 6. In most cases, the individual retains the right to decide whether to pursue a suggested handoff to a human professional — the AI's role is to make that option clear, accessible, and well-explained, not to force it.
+
+Escalation also requires care under Privacy by Default. Where a handoff involves sharing information the individual has provided with a human professional or service, the system should share only what is necessary to make that handoff effective, consistent with Minimum Necessary Information, and should inform the individual what is being shared and with whom, consistent with Purpose Transparency.
+
+### Implications for AI System Design
+
+**Clear recognition of competence boundaries.** Systems should be designed with an explicit understanding of what they are not equipped to do — provide a clinical diagnosis, resolve a legal question, replace a mental health crisis intervention, or make an authoritative eligibility determination — and should recognize when a conversation has moved into that territory.
+
+**Facilitated, not just suggested, handoff.** Where escalation is appropriate, the system should do more than mention that a human professional exists; it should actively facilitate the connection where feasible — providing contact information, relevant context (with appropriate consent and minimal necessary disclosure), and clear next steps.
+
+**Preserved continuity through handoff.** Where an individual has already shared relevant information with the AI system, they should not be required to repeat that information in full to the human professional receiving the handoff, consistent with Standard 9's Least Burden, provided the individual has consented to that information being shared.
+
+**No false reassurance to avoid handoff.** Systems should not minimize a situation's complexity or offer false reassurance as a way of avoiding the more difficult step of directing the individual elsewhere. Recognizing the need for escalation is a sign of proper function, not failure.
+
+**Escalation without abandonment.** Facilitating a handoff should not mean the AI system disengages entirely and leaves the individual to navigate the next step alone; the system should remain available to assist with the practical steps of connecting to the human resource, even after recognizing that resource is now the appropriate primary point of contact.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Complex clinical questions.** An individual describing a complicated combination of symptoms, medications, and conditions should be directed toward a clinical professional rather than receiving an AI-generated attempt at synthesis that exceeds what the system can reliably provide, while still being helped to find and reach that professional.
+
+**Crisis situations requiring human presence.** An individual in acute emotional distress may benefit far more from connection to a trained crisis counselor or human support line than from continued AI-mediated conversation, even where no single message indicates imminent danger requiring the safety override of Standard 6.
+
+**Legal or authoritative determinations.** An individual asking whether they qualify for a specific legal protection or benefit with legally binding consequences should be directed to a qualified professional or official body able to make that determination, rather than receiving the AI's best guess presented as though it carried equivalent authority.
+
+### Implementation Considerations
+
+Organizations should evaluate escalation and handoff practices against the following:
+
+1. Has the system been designed with explicit boundaries around what it is and is not equipped to handle?
+2. When those boundaries are reached, does the system actively facilitate connection to an appropriate human resource, rather than merely mentioning that one exists?
+3. Is previously shared information carried through the handoff (with consent) rather than requiring the individual to repeat it?
+4. Does the system avoid minimizing complexity or offering false reassurance to avoid the more difficult step of escalation?
+5. Does the individual remain supported through the practical process of connecting to the human resource, rather than being left alone once the handoff is identified as necessary?
+
+A **Handoff Benchmark** question: *Is this system continuing to engage because it is genuinely still the right tool for this situation, or because escalating is more difficult than continuing to respond?*
+
+### Limitations and Tradeoffs
+
+There is a tension between this principle and the goal of providing immediate, always-available assistance — one of the primary advantages AI systems offer over human-staffed alternatives with limited hours or capacity. Recognizing the need for escalation necessarily means acknowledging situations where the AI's continuous availability is not, by itself, sufficient. This principle treats that acknowledgment as necessary honesty rather than a failure of the system's value.
+
+There is also a practical limitation in the availability of appropriate human resources to escalate to. A system's willingness to recognize the need for handoff does not guarantee that timely, accessible human support actually exists in a given individual's location or circumstance — a limitation of the surrounding service landscape rather than of the AI system itself, but one that affects the real-world value of this principle regardless of its source.
+
+Finally, there is a risk of over-escalation — a system so cautious about exceeding its competence that it escalates routine matters unnecessarily, creating the same kind of excessive friction addressed under Standard 9. This principle requires calibrated judgment about genuine competence boundaries, not a reflexive default toward escalation whenever a question becomes even slightly complex.
+
+### Future Research Opportunities
+
+Future research should examine how healthcare AI systems can more reliably identify the specific point at which a situation exceeds their competence, whether facilitated handoff (versus mere referral) measurably improves the likelihood that individuals actually connect with appropriate human resources, and how systems can be evaluated for the balance between appropriate escalation and unnecessary over-escalation of situations they could have handled adequately themselves.
+
+### Core Principle
+
+Knowing when to step back is not a failure of an AI system's usefulness — it is evidence of its integrity. The measure of a responsible system is not how much it can handle alone, but how reliably it recognizes the moment a human needs to take its place.
