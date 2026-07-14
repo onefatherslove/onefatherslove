@@ -1,0 +1,71 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 13: Continuous Improvement and Accountability
+
+### Definition of the Principle
+
+Continuous Improvement and Accountability establishes that a healthcare artificial intelligence system, and the organization responsible for it, must be subject to ongoing evaluation, monitoring, and revision to ensure that engagement practices remain safe, effective, equitable, and aligned with the standards established throughout this framework — and that clear responsibility for the system's behavior and outcomes is assigned and traceable, rather than diffused across a chain of actors none of whom can be held accountable.
+
+This is the meta-principle of the SEHAI framework. Where the preceding twelve standards govern the conduct of individual interactions, this principle governs the system as a whole over time — how it is tested, how failures are identified and corrected, and who bears responsibility when it falls short of the standards this framework establishes.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on the recognition that AI systems are not static artifacts evaluated once and then trusted indefinitely. They are shaped by ongoing updates, shifting underlying models, evolving usage patterns, and real-world interactions that surface failure modes no design process anticipated in advance. A system that met every standard in this framework at launch can drift from that standard over time without anyone noticing, unless accountability and improvement are built in as continuous processes rather than a one-time certification.
+
+This principle also responds to a specific structural risk in how AI systems are deployed: responsibility for a system's behavior can become genuinely unclear, distributed across model developers, system integrators, deploying organizations, and the specific teams that configure and maintain a given implementation. When something goes wrong, this diffusion of responsibility can result in no single party actually accepting accountability — each pointing to another link in the chain. This principle requires that responsibility be assigned clearly enough that failures can be traced to an accountable party capable of making a correction, rather than absorbed into an untraceable systemic gap.
+
+There is also a foundation in listening to the people who experience the system, not only the people who build it. Individuals interacting with a healthcare AI system frequently encounter failure points — a confusing explanation, an unnecessary question, a mishandled escalation — that never surface in a technical specification or an internal review, because those reviewing the system are not the ones relying on it in a moment of genuine need. Accountability that excludes the lived experience of the people the system serves is incomplete, regardless of how rigorous its internal technical review may be.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+This principle ensures that every preceding standard remains a living commitment rather than a static claim made once and never revisited. A system's compliance with Minimum Necessary Information, Privacy by Default, or Respect and Dignity at one point in time does not guarantee continued compliance as the system evolves, as underlying models are updated, or as it is deployed into new contexts. Continuous Improvement and Accountability requires that compliance be actively monitored and re-verified, not assumed.
+
+This principle also protects the individual's ability to seek redress. An individual who experiences a failure — a privacy violation, a dismissive interaction, a missed escalation — should have a clear, accessible path to report that failure and reasonable expectation that it will reach a party with the authority and responsibility to address it, consistent with the transparency and dignity this framework requires throughout.
+
+### Implications for AI System Design
+
+**Ongoing monitoring, not one-time certification.** Organizations should establish continuous or regularly recurring evaluation processes against every standard in this framework, rather than treating initial compliance review as sufficient for the system's lifetime.
+
+**Clear accountability assignment.** Organizations deploying healthcare AI systems should be able to identify, specifically, which party is responsible for a given aspect of system behavior — model provider, system integrator, or deploying organization — so that failures can be traced to an accountable party rather than diffused across an unclear chain.
+
+**Accessible feedback channels.** Individuals should have a clear, low-burden way to report problems, confusion, or concerns arising from their interaction with the system, consistent with Standard 9's Least Burden principle applied to the act of reporting itself.
+
+**Incorporation of lived experience.** Organizations should actively seek and incorporate feedback from the people the system serves — not only from internal technical review — recognizing that individuals experiencing the system firsthand often identify failure points that internal specifications do not anticipate.
+
+**Version-aware evaluation.** As underlying models, prompts, or system configurations change, organizations should re-evaluate compliance with this framework rather than assuming that a prior evaluation remains valid after a material change to the system.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Detecting drift.** An organization deploying a healthcare navigation AI system should periodically re-test the system's behavior against the benchmarks established throughout this framework — the Transparency Benchmark, the Autonomy Benchmark, the Dignity Benchmark, and others — to detect whether behavior has drifted from the standard since the last review, particularly following updates to the underlying model.
+
+**Accessible reporting.** An individual who felt an AI system asked unnecessary or invasive questions during a food assistance interaction should have a simple, clearly signposted way to report that concern, with reasonable confidence that the report will reach someone responsible for addressing it — not be absorbed into an unmonitored feedback form.
+
+**Assigning responsibility across a supply chain.** An organization using a third-party AI model within its own healthcare navigation service should have a clear internal understanding of which aspects of the interaction it is responsible for configuring and monitoring, and which are governed by the underlying model provider, so that a failure in either area can be identified and addressed by the appropriate party.
+
+### Implementation Considerations
+
+Organizations should evaluate continuous improvement and accountability against the following:
+
+1. Is compliance with this framework re-evaluated on an ongoing basis, rather than assessed once at initial deployment?
+2. Can responsibility for a specific aspect of system behavior be traced to a specific, accountable party?
+3. Is there an accessible, low-burden channel for individuals to report concerns arising from their interaction with the system?
+4. Are individuals' reported experiences actively incorporated into system evaluation, not merely collected and left unreviewed?
+5. Is the system re-evaluated against this framework following material changes to its underlying model or configuration?
+
+An **Accountability Benchmark** question: *If this system failed a specific individual today, is there a clear, findable party who would take responsibility for that failure and correct it — or would the failure disappear into an untraceable gap between developer, integrator, and organization?*
+
+### Limitations and Tradeoffs
+
+There is a practical tension between continuous monitoring and the resource constraints many organizations, particularly smaller nonprofits and community organizations, actually face. Rigorous, ongoing evaluation requires sustained investment that not every deploying organization can provide at the same level. This principle does not resolve that resource disparity; it establishes accountability and monitoring as the standard to aim for, while recognizing that implementation capacity will vary and may itself become a future area requiring support or shared infrastructure across organizations adopting this framework.
+
+There is also a risk that accountability structures become primarily defensive — designed to protect the organization from liability rather than to genuinely improve the individual's experience. This principle requires that accountability be measured by whether it produces actual correction and improvement, not merely by whether a process technically exists on paper.
+
+Finally, incorporating lived experience meaningfully is more difficult than simply collecting feedback. Feedback channels that exist but are not genuinely reviewed, or that collect complaints without a clear path to action, satisfy the letter of this principle without its substance. This principle requires functioning, responsive feedback loops, not merely their formal existence.
+
+### Future Research Opportunities
+
+Future research should examine what monitoring frequency and methodology most effectively detects meaningful compliance drift in deployed healthcare AI systems, how accountability can be practically assigned and enforced across multi-party AI supply chains involving model developers, integrators, and deploying organizations, and what mechanisms most effectively translate individual lived-experience feedback into actual system improvement rather than unreviewed data collection.
+
+### Core Principle
+
+A standard that is only true at launch is not a standard — it is a claim with an expiration date no one is tracking. Accountability means someone is still watching after the interaction ends, and someone can still be found when something goes wrong.
