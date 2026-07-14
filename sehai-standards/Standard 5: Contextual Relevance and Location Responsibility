@@ -1,0 +1,69 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 5: Contextual Relevance and Location Responsibility
+
+### Definition of the Principle
+
+Contextual Relevance and Location Responsibility establishes that a healthcare artificial intelligence system should use geographic and situational context only to the extent necessary to provide accurate, relevant assistance, and should handle that information with the same ethical seriousness applied to other sensitive personal information under this framework.
+
+This principle exists as a specific application of Minimum Necessary Information and Privacy by Default to a category of data that is unusually difficult to categorize as either purely administrative or purely sensitive. Location is often functionally necessary for healthcare navigation — access to clinics, shelters, food resources, and transportation is inherently geographic — in a way that many other data categories are not. At the same time, location can reveal sensitive information about an individual's health status, living situation, economic circumstances, or personal safety that the individual never explicitly disclosed and may not have intended to convey.
+
+The principle is not a prohibition on using location. It is a requirement that location be requested at the least precise level sufficient for the task, explained clearly, and never treated as a convenience shortcut that bypasses the scrutiny applied to other personal information.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on the recognition that location functions differently from most data categories: it is simultaneously a practical necessity and a source of inferential risk. A ZIP code alone can suggest socioeconomic status. A pattern of locations visited can reveal a chronic condition, a mental health crisis, a domestic situation, or an immigration concern, even if the individual never stated any of these things directly. This makes location a category where under-protection and over-reliance are both realistic failure modes — the same duality identified for questioning generally under Minimum Necessary Information's Sufficiency of Inquiry provision, but specific here to a single, high-inference data type.
+
+Healthcare navigation AI occupies a different position than most consumer AI systems in this respect: it frequently cannot function at all without some geographic input, because access to services is inherently place-based. This makes it tempting to treat location as exempt from the scrutiny applied elsewhere in this framework, on the reasoning that it is simply required for the system to work. SEHAI rejects that exemption. The fact that location is often necessary does not mean any given level of precision, retention, or use of that location is automatically justified.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+This principle requires that individuals be told, specifically, why location is being requested and at what level of precision, consistent with Purpose Transparency, and that they retain the ability to choose a less precise alternative where one is sufficient, consistent with Individual Autonomy and Control.
+
+Precision matters here in a way it does not for many other fields. A request for "your city" carries different risk than a request for "your exact address," even though both are technically "location." Under this principle, the system bears the burden of justifying the more precise request rather than defaulting to it because it is easier to implement or marginally improves results.
+
+Retention of location data also deserves specific attention beyond the general retention principles of Privacy by Default. Because a history of locations can reveal patterns — repeated visits to a specific type of clinic, a shelter, a treatment facility — location history carries re-identification and inference risk that a single location data point does not. Systems should treat retained location history as a higher sensitivity category than a one-time location request used and discarded.
+
+### Implications for AI System Design
+
+**Least precise sufficient input.** Systems should request the least precise form of location that accomplishes the task — city or ZIP code rather than a full address, a general area rather than continuous device-level location tracking — unless a more precise input is demonstrably necessary (for example, arranging a specific transportation pickup).
+
+**Purpose-specific precision.** The level of precision requested should map to the specific action being taken. Browsing nearby resources requires far less precision than scheduling a home visit or arranging transport, and the system should adjust its request accordingly rather than collecting maximum precision upfront for anticipated future use.
+
+**No default location history.** Systems should not retain a history of locations across sessions by default. Where continuity of location is useful to the individual (returning users who want the system to remember a general area), this should be an intentional exception, not an automatic behavior.
+
+**No inference beyond disclosure.** Systems should avoid drawing or acting on inferences about an individual's health status, living situation, or vulnerability based solely on location, without the individual having disclosed the underlying circumstance directly. Location can inform relevant options; it should not silently substitute for the individual's own account of their situation.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Finding a clinic.** An individual searching for a free clinic needs only a city or ZIP code to receive a relevant list of options. A full street address is not necessary at this stage, even though it might marginally refine the results.
+
+**Arranging transportation.** An individual requesting transportation assistance to a medical appointment has a genuine need for more precise location — a pickup point and destination. This is an example of precision being justified by the specific action requested, not assumed as a general default.
+
+**Domestic safety considerations.** An individual navigating resources related to domestic violence or unsafe housing situations faces particular risk if location data is retained, shared, or used to infer patterns without their explicit awareness. This is an area where the general principle — least precise sufficient input, no default retention — carries especially serious consequences if violated, and where systems should apply extra caution beyond the general standard.
+
+### Implementation Considerations
+
+Organizations should evaluate location handling against the following:
+
+1. What is the least precise form of location that would accomplish the current task, and is that the form being requested?
+2. Is a more precise request justified by a specific, current action rather than anticipated future convenience?
+3. Is location history retained by default, and if so, is that retention justified by an ongoing, disclosed purpose?
+4. Does the system draw or act on inferences from location that the individual has not directly disclosed?
+5. Has the individual been told, specifically, why this level of precision is being requested?
+
+A **Location Responsibility Benchmark** question: *Would this request still make sense if the destination were the individual's only concern — or does the system actually want more precision than the stated purpose requires?*
+
+### Limitations and Tradeoffs
+
+There is a genuine tension between minimizing location precision and the practical effectiveness of navigation assistance. More precise location data can produce more accurate, more relevant results, particularly in areas with dense or unevenly distributed services. This principle accepts some loss of precision-driven accuracy as a justified cost of protecting individuals from the inferential risks that precise, retained location data can carry.
+
+There is also a limitation in how well this principle can be operationalized across varying legal and organizational contexts — for example, mandatory reporting requirements or emergency response situations may create legitimate reasons for a system to require or retain more precise location than this principle would otherwise favor. This standard establishes the default posture; it does not resolve every specific legal or safety-driven exception, which will require case-by-case judgment consistent with the safety principle discussed in Standard 6.
+
+### Future Research Opportunities
+
+Future research should examine whether reduced location precision measurably affects the practical quality of healthcare and social service navigation, whether individuals demonstrate greater willingness to share general location when it is clearly separated from more precise, action-specific requests, and how systems can better identify the point at which increased location precision is genuinely necessary rather than merely convenient.
+
+### Core Principle
+
+Location should enable access, not become a requirement for trust. The more a system can accomplish with less precision, the more it has honored the person behind the coordinates.
