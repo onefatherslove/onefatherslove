@@ -1,0 +1,75 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 3: Individual Autonomy and Control
+
+### Definition of the Principle
+
+Individual Autonomy and Control establishes that the person interacting with a healthcare artificial intelligence system retains final authority over what information they disclose and what actions are taken on their behalf. The AI system's role is to inform, support, and facilitate — never to coerce, pressure, or make disclosure or action a precondition for basic assistance where no genuine necessity exists.
+
+This principle follows directly from Minimum Necessary Information and Purpose Transparency. MNI limits what is asked. Purpose Transparency explains why it is asked. Individual Autonomy and Control governs what happens after both of those have occurred: the individual, now informed, decides. The AI does not get the final word on whether disclosure happens or whether a recommended action is taken. The individual does.
+
+Under SEHAI, autonomy is not a passive absence of interference. It is an active design commitment: systems must be built to visibly preserve the individual's ability to decline, defer, or choose a different path, at every point where a choice genuinely exists.
+
+### Ethical Foundation
+
+The ethical foundation of this principle draws on the bioethical concept of respect for persons — the recognition that individuals have the right to govern their own bodies, information, and decisions, and that this right does not diminish because the party requesting compliance is a machine rather than a human professional.
+
+Autonomy is especially vulnerable in AI-mediated healthcare interactions because AI systems can be designed, intentionally or not, to make compliance the path of least resistance. A system that only proceeds smoothly when the individual answers every question, and stalls, repeats, or withholds assistance when they do not, exerts a coercive pressure even without ever explicitly denying help. The absence of an explicit refusal does not mean the absence of coercion; friction itself can function as a penalty for declining.
+
+This principle also recognizes an asymmetry of power between an AI system representing an institution and an individual seeking help, often at a moment of stress, urgency, or vulnerability. In that imbalance, the system carries the ethical responsibility to actively protect the individual's decision-making capacity, rather than treating the absence of an objection as equivalent to informed agreement.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+Autonomy is the principle that gives the prior two standards their practical force. Minimum Necessary Information and Purpose Transparency together ensure that a request is justified and explained — but justification and explanation do not by themselves guarantee that the individual's decision is respected once made. An individual may understand exactly why information is being requested and still decline. That refusal must be honored as a legitimate outcome, not treated as a problem to be resolved through further persuasion.
+
+This principle also governs the AI's recommendations, not only its data requests. When a system suggests a course of action — a clinic to visit, a program to apply for, a next step to take — the individual retains the right to choose differently, including choosing to do nothing. The AI's role is to make that choice as informed as possible, not to substitute its own judgment for the individual's, and not to frame declining its recommendation as a failure on the individual's part.
+
+Informed choice under this principle also includes the right to reverse a decision. An individual who has disclosed information or agreed to an action should retain the ability to withdraw that consent going forward, to the extent the interaction allows, without being penalized for doing so.
+
+### Implications for AI System Design
+
+**No forced disclosure gates.** Systems should not require an individual to answer a non-essential question before continuing, when the underlying need does not actually require it. Where a field is optional, the interface should make that visibly true — not technically skippable but practically discouraged through repeated prompts or blocked progress.
+
+**Reversible engagement.** Individuals should be able to change their answers, withdraw previously given information where feasible, or exit and restart an interaction without penalty or loss of previously offered assistance.
+
+**Neutral framing of choices.** When a system offers a recommendation, the interface and language should not frame declining as noncompliance, risk-taking, or irresponsibility. Neutral framing might read: "Here is an option that may help. It's your decision whether this is right for you," rather than language implying that declining is a mistake.
+
+**No dark patterns.** Systems must avoid design choices that nudge individuals toward disclosure or a particular action through manipulation — pre-checked boxes, artificially urgent language, or making the "decline" option deliberately harder to find than the "accept" option.
+
+**Escalation without coercion.** Even where a system judges a situation to carry safety implications (addressed more fully under Standard 6, Safety First), autonomy requires that the individual's right to decline still be respected wherever the situation does not rise to the level of imminent, serious harm — with the system instead providing clear information about risk and next steps rather than overriding the individual's choice outright.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Declining a referral.** An individual seeking mental health resources may be offered a referral to a specific counseling service and choose not to pursue it. A SEHAI-compliant system acknowledges the decision, keeps other options available, and does not repeatedly press the same referral or imply the individual is making an unwise choice by declining.
+
+**Choosing not to disclose.** A person seeking housing assistance may decline to share details about their current living situation beyond what is minimally necessary. The system should provide available resources based on what has been shared, rather than gating further assistance behind additional disclosure the individual has chosen not to provide.
+
+**Changing a decision.** An individual who initially agrees to share contact information for follow-up should be able to later withdraw that permission, and the system should honor that withdrawal rather than treating the earlier consent as irrevocable.
+
+### Implementation Considerations
+
+Organizations should evaluate autonomy compliance against questions such as:
+
+1. Can the individual decline any non-essential request without losing access to assistance already available to them?
+2. Does the interface present declining, deferring, or exiting as a neutral and equally valid option, not a penalized one?
+3. Can previously given consent be withdrawn, and is that process at least as easy as giving it?
+4. Are recommendations framed as options rather than directives?
+5. Does friction increase specifically and only in proportion to genuine necessity, rather than as a general deterrent to declining?
+
+An **Autonomy Benchmark** question: *If the individual said no at this exact point, would the system's next action feel like respect or like resistance?*
+
+### Limitations and Tradeoffs
+
+Autonomy exists in tension with Safety First (Standard 6). There are situations — such as indications of imminent self-harm, abuse, or crisis — where an AI system's obligation to protect safety may reasonably limit how far unconditional deference to the individual's stated preference can go. This standard does not resolve that tension in the abstract; it establishes that autonomy is the default, and any departure from it must be justified by a genuine, serious safety concern rather than administrative convenience or institutional risk aversion.
+
+There is also a practical tension between autonomy and system simplicity. Building meaningful reversibility, neutral framing, and non-gated pathways into a system is more complex than a linear, mandatory intake flow. This principle accepts that added complexity as a legitimate cost of respecting the individual, not a reason to default to the simpler, more coercive design.
+
+Finally, excessive options can itself become a burden — a system that surfaces every possible choice at every point may overwhelm rather than empower. Autonomy should be paired with clarity, not volume of options; this connects to Standard 8, Least Burden.
+
+### Future Research Opportunities
+
+Future research should examine whether visibly preserved autonomy — neutral framing, reversible consent, ungated pathways — measurably increases trust and engagement compared to conventional compliance-oriented design, whether individuals report feeling more in control of healthcare-related decisions when interacting with autonomy-preserving systems, and how to design escalation processes for safety concerns that intervene appropriately without undermining the default presumption of autonomy in non-crisis interactions.
+
+### Core Principle
+
+The individual is the decision-maker. The AI is present to inform that decision, not to make it, not to steer it, and not to penalize a decision it would not have made itself.
