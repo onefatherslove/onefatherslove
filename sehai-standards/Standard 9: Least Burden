@@ -1,0 +1,71 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 9: Least Burden
+
+### Definition of the Principle
+
+Least Burden establishes that a healthcare artificial intelligence system must minimize the effort, repetition, and administrative friction it imposes on an individual seeking assistance, reducing paperwork, redundant questioning, and unnecessary procedural steps wherever doing so does not compromise safety, accuracy, or genuine necessity.
+
+This principle governs the cumulative experience of interacting with the system over time, distinct from Standard 1's focus on individual data requests. Minimum Necessary Information asks whether any single request is justified. Least Burden asks whether the overall process — the sequence, repetition, and structure of the interaction as a whole — imposes more effort on the individual than the assistance being provided actually requires.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on the recognition that burden itself functions as a barrier to access, independent of whether any single step in a process is individually justified. An intake process composed entirely of individually reasonable questions can still, in aggregate, become so lengthy, repetitive, or procedurally demanding that an individual abandons the interaction before receiving help — particularly an individual who is stressed, has limited time, lacks reliable technology access, or is managing multiple competing needs simultaneously.
+
+This connects to a documented pattern in healthcare and social service delivery: administrative burden disproportionately affects people who can least afford to spend time and effort navigating it — people working multiple jobs, caring for dependents, lacking transportation, or managing a health condition that makes sustained effort difficult. A system that imposes unnecessary burden does not affect all individuals equally; it functions as a de facto barrier that falls hardest on people already facing the greatest difficulty accessing care.
+
+There is also a foundation in respect for the individual's time and effort as things of real value, not incidental byproducts of a process. Repeating information already provided, navigating unnecessary steps, or completing redundant forms treats the individual's effort as free and inexhaustible, when in fact each additional demand carries real cost to a person who may have limited capacity to spend on the interaction at all.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+Least Burden reinforces Individual Autonomy and Control by ensuring that friction is never used, intentionally or through poor design, as an implicit deterrent against declining a request or choosing a different path. Standard 3 requires that declining be a neutral, respected choice; this principle requires that the process itself not be so burdensome that continuing feels like the only realistic option regardless of the individual's actual preference.
+
+This principle also supports Purpose Transparency. A process that requires repeated justification for the same information, or that asks the individual to re-explain their situation multiple times to different parts of the same system, undermines the sense that the system understood the purpose of its own prior requests. Reducing repetition is, in part, a demonstration that the system retained and used the context the individual already provided.
+
+### Implications for AI System Design
+
+**No redundant requests within a session.** Information provided once during an interaction should not need to be re-provided later in the same interaction, unless a specific, disclosed reason requires reconfirmation (for example, verifying identity before a sensitive action).
+
+**Streamlined pathways.** Systems should be designed to minimize the number of steps between an individual's stated need and actual assistance, removing procedural steps that exist for administrative convenience rather than genuine necessity.
+
+**Save and resume capability.** Where an interaction cannot be completed in a single session, individuals should be able to pause and resume without restarting the entire process, particularly for longer or more complex navigation tasks.
+
+**Format flexibility.** Systems should accommodate varying levels of technology access and comfort, avoiding processes that assume continuous, high-bandwidth connectivity, extended device access, or sustained attention spans that not every individual can reliably provide.
+
+**Burden audits.** System designers should periodically review actual interaction flows to identify steps that have become burdensome over time — through added fields, additional verification requirements, or accumulated administrative requirements — that may no longer reflect genuine necessity even if each was individually justified when introduced.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Avoiding repeated intake.** An individual who has already described their situation while seeking a food resource should not be asked to fully re-describe that situation again when the same interaction moves on to discussing transportation assistance, if the relevant context has already been provided.
+
+**Simplifying eligibility steps.** A system helping an individual apply for a benefit program should minimize the number of separate steps, confirmations, and re-entries required, consolidating what can reasonably be consolidated rather than mirroring an unnecessarily fragmented paper-based process purely because that is how it has traditionally been structured.
+
+**Accommodating interrupted sessions.** An individual navigating a multi-step housing application through an AI system should be able to step away — due to a work shift, childcare interruption, or lack of continued access to a device — and resume later without losing prior progress.
+
+### Implementation Considerations
+
+Organizations should evaluate burden against the following:
+
+1. Is any information requested more than once within the same interaction without a specific, disclosed reason?
+2. How many steps separate the individual's stated need from actual assistance, and can any be removed without compromising safety or necessity?
+3. Can an individual pause and resume a multi-step process without losing prior progress?
+4. Does the process assume a level of technology access, time, or sustained attention that not all individuals can reliably provide?
+5. Has the interaction flow been reviewed recently for accumulated, individually-justified-but-collectively-excessive steps?
+
+A **Burden Benchmark** question: *If this individual had five minutes and significant stress, would this process still be realistically completable?*
+
+### Limitations and Tradeoffs
+
+There is a tension between reducing burden and ensuring sufficiency of inquiry, discussed under Standard 1. Some genuine complexity in healthcare and social service navigation cannot be eliminated without also eliminating necessary accuracy or safety — a thorough eligibility determination or a safety-relevant assessment may legitimately require more steps than a simpler interaction. This principle does not require minimizing steps below what genuine necessity requires; it requires that every step be evaluated against that necessity rather than retained by default or institutional habit.
+
+There is also a risk that reducing burden too aggressively could compromise the goal-first, needs-identification approach established under Standard 1 — an interaction streamlined purely for speed might skip the deeper understanding of an individual's actual situation that a slightly longer process would have captured. Least Burden should be read as a companion to Sufficiency of Inquiry, not a justification for shortcutting it.
+
+Finally, what counts as "burdensome" varies across individuals and circumstances. A process that feels appropriately thorough to one person may feel excessively burdensome to another facing more acute time or capacity constraints. This principle does not assume a single fixed standard of acceptable burden; it requires ongoing attention to whether the process, as actually experienced, is imposing more cost than the assistance justifies.
+
+### Future Research Opportunities
+
+Future research should examine whether reduced administrative burden measurably increases completion rates and successful connection to services, particularly among populations facing the greatest existing barriers to access, whether save-and-resume functionality meaningfully improves outcomes for individuals with unstable technology access, and how systems can distinguish between burden that reflects genuine necessity and burden that has simply accumulated through incremental, individually-reasonable additions over time.
+
+### Core Principle
+
+Every unnecessary step an individual must take to reach help is a barrier the system chose to keep. A responsible system carries that weight itself, rather than passing it on to the person already carrying enough.
