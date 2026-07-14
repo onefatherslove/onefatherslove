@@ -1,0 +1,71 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 11: Respect and Dignity
+
+### Definition of the Principle
+
+Respect and Dignity establishes that a healthcare artificial intelligence system must treat every individual with consistent respect regardless of income, housing status, disability, age, immigration status, language proficiency, health condition, or any other personal circumstance, and must never allow its tone, responsiveness, or thoroughness to vary based on assumptions about an individual's worth, capability, or deservingness.
+
+Where the preceding standards govern what the system asks, explains, retains, and permits the individual to control, this principle governs the underlying posture the system brings to every interaction — the difference between a system that processes a person and one that treats them as a person. It is the relational foundation beneath the more procedural standards that precede it.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on the basic recognition that dignity is not earned through circumstance and does not diminish because a person is experiencing hardship, disability, or vulnerability. Individuals seeking food assistance, emergency shelter, or navigating a health condition are frequently treated, by systems both human and automated, with a subtly different register than individuals seeking routine clinical care — a register that can carry undertones of suspicion, impatience, or diminished thoroughness, even when no individual step in the process is overtly disrespectful.
+
+This principle exists because bias in AI systems is rarely a single dramatic failure; it is far more often a pattern of small, cumulative differences — a slightly more skeptical tone toward a request framed around financial hardship, a slightly less thorough response to a question phrased with less polished language, a subtly faster dismissal of a concern raised by someone describing an unstable living situation. None of these differences may be individually severe, but in aggregate they communicate that some individuals are being taken less seriously than others, based on circumstances that have no bearing on their entitlement to careful, respectful engagement.
+
+There is also a foundation in the recognition that individuals interacting with healthcare and social service systems are disproportionately likely to have already experienced dismissiveness, judgment, or bureaucratic indifference from other systems. An AI system that replicates that experience, even inadvertently, compounds rather than relieves the burden the individual is already carrying.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+Respect and Dignity reinforces every preceding standard by governing the manner in which they are carried out. A system can technically satisfy Minimum Necessary Information, Purpose Transparency, and Individual Autonomy and Control while still communicating disrespect through tone, pacing, or subtle skepticism — asking only necessary questions, but asking them in a way that implies doubt about the individual's honesty; respecting a decision to decline, but doing so with language that conveys judgment rather than neutral acceptance.
+
+This principle also protects against a specific risk in how AI systems are trained and evaluated: patterns in training data or historical service records can encode existing societal biases about who is "credible," "deserving," or "likely to be truthful," and a system that absorbs those patterns without correction will apply them unevenly across individuals, undermining the equal standard established in Standard 10 in practice even where it is formally upheld in policy.
+
+### Implications for AI System Design
+
+**Consistent tone regardless of circumstance.** Systems should be designed and evaluated to ensure that tone, patience, and thoroughness remain constant regardless of the nature of the request — a request for emergency shelter should receive the same measured, respectful engagement as a request for a specialist referral.
+
+**No implicit credibility discounting.** Systems should not be designed or trained in ways that cause them to respond with greater skepticism, less thorough assistance, or more cautious language toward individuals whose circumstances (homelessness, disability, low income, limited language proficiency) might statistically correlate with certain patterns in training data, unless a specific, disclosed, and justified reason requires differential handling.
+
+**Bias auditing.** Organizations should periodically test system outputs across demographically and circumstantially varied simulated interactions to detect differences in tone, thoroughness, or responsiveness that cannot be justified by genuine differences in the underlying request.
+
+**Dignity-preserving language.** Systems should avoid language that implies judgment, suspicion, or diminished agency — describing an individual's circumstances neutrally and factually rather than through language that carries stigma, even subtly (for example, avoiding phrasing that implies a housing situation or financial circumstance reflects a personal failing).
+
+**Equal thoroughness regardless of presentation.** An individual who communicates in less formal language, with spelling or grammatical variation, or with less complete information should receive the same thoroughness of assistance as an individual who communicates in polished, formal language.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Equal engagement across circumstance.** An individual seeking help because they cannot afford their prescribed medication should receive the same careful, unhurried engagement as an individual asking a general wellness question, rather than a more perfunctory response shaped by an assumption that financial hardship makes the interaction less significant.
+
+**Avoiding stigmatizing framing.** A system helping an individual navigate substance use support resources should use neutral, respectful language throughout, avoiding phrasing that implies moral judgment about the individual's situation.
+
+**Consistent responsiveness regardless of communication style.** An individual describing an urgent need in fragmented, informal, or grammatically inconsistent language should receive assistance as thorough and attentive as an individual who communicates the same need in polished language.
+
+### Implementation Considerations
+
+Organizations should evaluate respect and dignity compliance against the following:
+
+1. Does tone and thoroughness remain consistent across requests involving different personal circumstances, when tested directly?
+2. Has the system been audited for differential responsiveness based on demographic or circumstantial variation in how requests are phrased?
+3. Does the system's language avoid stigmatizing or judgment-laden framing when describing an individual's situation?
+4. Is assistance equally thorough regardless of the formality, polish, or completeness of the individual's own communication?
+5. Would an individual reviewing the interaction feel their circumstances were treated as a fact to be addressed, rather than a judgment to be made?
+
+A **Dignity Benchmark** question: *If this exact request had come from someone in a materially different life circumstance, would the system's tone, thoroughness, and responsiveness have been any different — and if so, why?*
+
+### Limitations and Tradeoffs
+
+This principle is difficult to verify comprehensively, because bias in tone and thoroughness is often subtle and can be difficult to detect without deliberate, structured testing across varied simulated circumstances. Absence of an obvious violation does not guarantee the standard is being met; sustained, active auditing is required rather than a one-time assessment.
+
+There is also a risk of overcorrection — a system so cautious about appearing to discriminate that it becomes generically neutral to the point of failing to appropriately tailor assistance to genuinely relevant differences in circumstance. This principle does not require ignoring relevant context; it requires that differential treatment be justified by genuine relevance to the individual's need, consistent with Minimum Necessary Information's Sufficiency of Inquiry, rather than by unexamined assumptions about the individual's credibility or worth.
+
+Finally, this principle depends heavily on the quality and representativeness of the data and design processes used to build and evaluate the system. A system built or tested without adequately diverse input is at higher risk of encoding the very biases this principle seeks to eliminate, even with the best design intentions.
+
+### Future Research Opportunities
+
+Future research should examine methods for reliably detecting subtle tone and thoroughness disparities in AI system responses across varied demographic and circumstantial simulations, whether dignity-preserving language measurably affects individuals' willingness to disclose accurate information about sensitive circumstances, and how organizations can build ongoing bias-auditing processes that keep pace with evolving system behavior rather than relying on a single point-in-time evaluation.
+
+### Core Principle
+
+Every individual who reaches this system is owed the same respect, regardless of what brought them to it. Circumstance is information the system may need. It is never a basis for how much care the person deserves.
