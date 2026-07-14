@@ -1,0 +1,75 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 4: Privacy by Default
+
+### Definition of the Principle
+
+Privacy by Default establishes that a healthcare artificial intelligence system must, absent an affirmative and specific reason to do otherwise, collect the least amount of personal information possible, retain it for the shortest time necessary, and configure every default setting toward the most protective option available — rather than the most convenient, most data-rich, or most commercially useful one.
+
+This principle differs from Minimum Necessary Information in scope. MNI governs what is asked for at the point of collection. Privacy by Default governs what happens structurally, by design, independent of any single request — the system's baseline posture toward retention, storage, sharing, and disposal of information once it exists. Where MNI asks "should this be requested," Privacy by Default asks "given that something has been collected, what is the system's default behavior toward it, absent further justification?"
+
+The core commitment is that privacy protection should not depend on the individual actively seeking it out through settings, opt-outs, or requests. The protective configuration is the starting condition, not an option buried behind additional steps.
+
+### Ethical Foundation
+
+The ethical foundation of Privacy by Default rests on the recognition that default settings carry disproportionate power over outcomes. Most individuals do not change default configurations, whether due to lack of awareness, lack of technical familiarity, urgency of their circumstances, or reasonable trust that a system's defaults reflect its designers' judgment about what is appropriate. A system that sets its defaults toward maximal collection and indefinite retention, while technically offering privacy-protective options somewhere in a settings menu, has effectively made a choice on the individual's behalf — one that favors the convenience of the system over the protection of the person.
+
+This connects to the broader ethical asymmetry discussed under Minimum Necessary Information: the individual bears the risk of data exposure, misuse, or repurposing, while the organization holding the data bears comparatively little immediate risk. Defaults that favor retention and broad use shift additional risk onto the individual without their active participation in that decision. Defaults that favor minimization and protection correct for this asymmetry structurally, rather than relying on the individual to notice and correct it themselves.
+
+There is also a foundation in dignity. An individual seeking healthcare-related assistance — often at a moment of vulnerability — should not be required to anticipate, understand, and actively defend against data practices they did not request and may not be positioned to evaluate. Privacy by Default relieves the individual of that burden by making protection the baseline rather than the exception they must locate and select.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+Privacy by Default operationalizes autonomy at the structural level. Standard 3 establishes that the individual controls what they disclose and what happens with their consent. Privacy by Default ensures that this control is not undermined by a system whose underlying architecture defaults toward broader collection and retention than the individual would have chosen if actually asked.
+
+This principle also strengthens informed choice by narrowing the gap between what an individual assumes is happening and what is actually happening. When defaults favor minimization, an individual's general expectation of privacy is more likely to match reality even without close reading of a privacy policy. When defaults favor broad collection, the individual's ability to make an informed choice depends entirely on their willingness and capacity to seek out and understand non-default configurations — a much higher and less realistic bar.
+
+Consent, under this principle, should never be inferred from inaction. Silence or a failure to change a setting should not be treated as agreement to broader collection, sharing, or retention than the protective default.
+
+### Implications for AI System Design
+
+**Retention limited by purpose.** Information should be retained only as long as necessary to serve the specific purpose for which it was collected, with automatic deletion or de-identification following the completion of that purpose, rather than indefinite retention as the default state.
+
+**Narrowest default scope.** Where a system has a choice between a broad default (e.g., retaining full conversation history indefinitely) and a narrow one (e.g., retaining only what is needed to complete an active task), the narrow default should be the starting configuration.
+
+**No default sharing.** Information should not be shared with third parties, other organizational functions, or unrelated systems by default. Any sharing beyond the immediate purpose of collection should require a specific, affirmative decision — not an unchanged default setting.
+
+**Privacy-protective interfaces.** Where a choice must be presented to the individual, the more protective option should be the pre-selected or more prominent one, rather than requiring the individual to actively locate and select it against a less protective pre-set default.
+
+**Aggregation and re-identification risk.** Systems should default toward storing information in forms that resist re-identification or aggregation into broader profiles, treating de-identification as the standard practice rather than an enhancement applied only on request.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Session-based assistance.** An individual using an AI system to locate a homeless shelter for the night should, by default, have that interaction treated as transient — not retained as part of a persistent profile linked to their identity unless they take an affirmative action indicating they want continuity (for example, wanting the system to remember them for a follow-up).
+
+**Cross-purpose data use.** Information collected to help an individual find food assistance should not, by default, become available to a separate function of the same organization handling unrelated services (such as fundraising or program evaluation) without the individual's specific awareness and agreement.
+
+**Sensitive category handling.** Health-related disclosures — such as a mention of a specific diagnosis or a mental health concern — should default to the highest level of protection and the shortest justified retention window available within the system, reflecting the heightened sensitivity of that category of information relative to general navigational data like a ZIP code.
+
+### Implementation Considerations
+
+Organizations should evaluate their systems against the following:
+
+1. What is retained by default, and can each element be justified as necessary beyond the immediate interaction?
+2. What is the default retention period, and is it tied to an actual ongoing purpose rather than indefinite storage?
+3. Is any information shared by default with other systems, functions, or third parties, and if so, is that clearly justified and disclosed?
+4. Where privacy-related choices are presented to the individual, is the more protective option the default, pre-selected, or more prominent choice?
+5. Does inaction by the individual ever result in broader data use than the protective default, and if so, why?
+
+A **Privacy Default Benchmark** question: *If the individual took no action at all beyond the minimum needed to receive help, would the system's data practices still be the most protective ones reasonably available?*
+
+### Limitations and Tradeoffs
+
+Privacy by Default can be in tension with continuity of care. An individual returning to a system for ongoing support — such as chronic condition management — may benefit from the system remembering prior context rather than starting from nothing each time. This principle does not require erasing all continuity; it requires that continuity be an intentional, justified exception the individual is aware of and has reason to expect, rather than an unexamined default applied to every interaction regardless of whether continuity serves the individual's actual need.
+
+There is also tension with system efficiency and cost. Automatic deletion, narrow retention windows, and default-protective configurations may increase technical complexity or reduce data available for system improvement, personalization, or research. This standard treats that added cost as an acceptable and necessary tradeoff, not a reason to default toward broader collection for the system's convenience.
+
+Finally, defaults cannot anticipate every individual's actual preference. Some individuals may genuinely prefer broader retention or sharing for their own convenience. Privacy by Default does not prohibit this — it requires that broader use be the result of the individual's specific, informed choice to move away from the protective default, not the unexamined starting condition.
+
+### Future Research Opportunities
+
+Future work should examine whether privacy-protective defaults measurably affect individuals' willingness to engage with healthcare navigation systems, whether default configuration (rather than the mere availability of privacy options) is the primary driver of actual privacy outcomes, and how retention and deletion practices under this principle affect both individual trust and the practical utility of systems intended to support ongoing, longitudinal care relationships.
+
+### Core Principle
+
+Privacy should not be something an individual has to find. It should be the condition they are already standing in, unless they choose, knowingly, to step out of it.
