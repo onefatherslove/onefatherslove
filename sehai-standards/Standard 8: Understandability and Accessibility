@@ -1,0 +1,71 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 8: Understandability and Accessibility
+
+### Definition of the Principle
+
+Understandability and Accessibility establishes that a healthcare artificial intelligence system must communicate in language an average individual can comprehend without medical, technical, or legal training, and must actively accommodate variation in literacy, language, disability, and cognitive circumstance rather than assuming a single, idealized user as the default audience.
+
+This principle governs the form of communication, distinct from Standard 7's focus on its truthfulness. Accuracy and Honesty ensures that what the system says is calibrated to its actual certainty. Understandability and Accessibility ensures that what the system says can actually be understood by the person receiving it. A statement can be perfectly accurate and still fail this standard if it is expressed in language the individual cannot parse, absorb, or act on.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on the recognition that information which cannot be understood functions, for practical purposes, as information that was never actually given. Purpose Transparency and Accuracy and Honesty both depend on the individual's capacity to comprehend what is communicated; without Understandability and Accessibility, both of those principles can be technically satisfied while substantively failing the person they exist to protect.
+
+Healthcare communication has a long-documented history of excluding people through language — clinical terminology, legal disclaimers, and bureaucratic phrasing that function, whether intentionally or not, as a barrier to genuine understanding. This exclusion falls disproportionately on individuals with lower literacy, limited English proficiency, cognitive or developmental disabilities, and those under acute stress that reduces processing capacity regardless of baseline ability. An AI system that communicates in the same register as a clinical document or a legal disclaimer inherits and potentially amplifies this exclusion, at a moment when AI's capacity for adaptive, plain-language communication could instead correct for it.
+
+This principle also connects to equity. A system that communicates clearly for a well-educated, native-language speaker under low stress, but not for someone without those advantages, is not providing an equal standard of engagement — it is providing a better standard of engagement to people who already tend to have more access to healthcare resources through other means.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+Understandability and Accessibility is what makes every preceding principle actually functional rather than theoretical. Purpose Transparency requires an explanation the individual can understand. Individual Autonomy and Control requires that consent be genuinely informed, which is impossible if the information behind it was not comprehensible. Accuracy and Honesty requires that calibrated uncertainty be communicated in a way that registers as uncertain to the person hearing it, not just to a reader trained to parse hedging language.
+
+This principle also affects the practical availability of autonomy. An individual who does not understand what they are being asked, or what an option actually means, cannot meaningfully exercise the right to decide discussed under Standard 3. Comprehension is not a nicety layered on top of autonomy — it is a structural requirement for autonomy to exist in practice rather than only on paper.
+
+### Implications for AI System Design
+
+**Plain language by default.** Systems should default to everyday vocabulary and short, direct sentence structures, avoiding clinical, legal, or technical jargon unless the individual has indicated familiarity with or preference for more technical language.
+
+**Adaptive complexity.** Where a system can detect that an individual is asking for more detail, more technical precision, or is demonstrating familiarity with clinical terminology, it should be able to adjust upward — but the default, unprompted register should remain accessible rather than requiring the individual to request simplification.
+
+**Language accessibility.** Systems serving individuals who may not be fluent in the system's default language should offer accurate translation or multilingual support, recognizing that a system only accessible in one language systematically excludes individuals who may have equal or greater need.
+
+**Disability and cognitive accommodation.** Systems should be designed to accommodate common accessibility needs — compatibility with screen readers, avoidance of communication that relies solely on visual or spatial cues, and tolerance for slower or non-linear interaction patterns — rather than assuming a uniform pace and mode of engagement.
+
+**Stress-aware communication.** Systems should account for the likelihood that individuals seeking healthcare-related assistance may be under acute stress, which measurably reduces processing capacity regardless of baseline literacy or education. This favors shorter, more direct communication, especially at the start of an interaction, over dense or lengthy explanation.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Avoiding clinical register.** Rather than stating "this symptom presentation may indicate a condition requiring urgent evaluation," a system should say something closer to "these symptoms together can sometimes be serious — it would be a good idea to get checked soon."
+
+**Explaining eligibility plainly.** Rather than "eligibility is determined based on household adjusted gross income relative to the federal poverty guideline," a system should explain: "Whether you qualify usually depends on how much money your household makes — I can help you figure out if you're likely to qualify."
+
+**Accommodating limited language proficiency.** An individual who communicates in a language other than the system's default should receive accurate, equally clear communication in their own language, rather than a degraded or partial experience compared to individuals using the default language.
+
+### Implementation Considerations
+
+Organizations should evaluate understandability and accessibility against the following:
+
+1. Is the system's default language free of unnecessary clinical, legal, or technical jargon?
+2. Can the system adapt its complexity upward for individuals who demonstrate familiarity with more technical language, without making that the default?
+3. Is meaningful support available for individuals who are not fluent in the system's default language?
+4. Is the system compatible with common accessibility tools and accommodation needs?
+5. Does the system's communication remain clear and direct for individuals likely to be under acute stress, particularly early in an interaction?
+
+An **Understandability Benchmark** question: *Could this explanation be understood by someone with no medical, legal, or technical background, reading it once, under stress?*
+
+### Limitations and Tradeoffs
+
+There is a tension between simplicity and completeness. Plain language sometimes requires omitting nuance or caveats that a more technical explanation would include. This principle does not require sacrificing accuracy for simplicity — consistent with Standard 7 — but it does require that any necessary complexity be introduced progressively, rather than presented all at once in a form that overwhelms comprehension in the name of completeness.
+
+There is also a practical limitation in serving every possible accessibility need equally well within a single system design. Full accommodation of every language, disability, and literacy level requires ongoing investment and cannot be assumed to be complete at any given point. This principle establishes accessibility as a continuous design commitment rather than a one-time feature, consistent with the accountability standard discussed later in this framework.
+
+Finally, adaptive complexity carries a risk of misjudging an individual's actual preference or capability — assuming someone wants a more technical explanation when they do not, or vice versa. Systems should err toward the more accessible default and allow the individual to request more complexity, rather than the reverse.
+
+### Future Research Opportunities
+
+Future research should examine which specific plain-language strategies most reliably improve comprehension across varying literacy levels and stress conditions, how effectively real-time translation preserves both accuracy and accessibility in healthcare-related communication, and whether adaptive complexity — adjusting register based on detected user familiarity — measurably improves outcomes compared to a fixed, universally simple communication style.
+
+### Core Principle
+
+Information that cannot be understood has not actually been given. An AI system's responsibility does not end at saying something true — it ends when the person it was said to actually understands it.
