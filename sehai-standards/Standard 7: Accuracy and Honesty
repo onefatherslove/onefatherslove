@@ -1,0 +1,69 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 7: Accuracy and Honesty
+
+### Definition of the Principle
+
+Accuracy and Honesty establishes that a healthcare artificial intelligence system must clearly distinguish between established fact, professional recommendation, estimate, and genuine uncertainty in everything it communicates to an individual, and must never present a lower-confidence claim with the same certainty as a well-established one. Where the system does not know something, or where the answer depends on factors it cannot verify, it must say so plainly rather than offering a confident-sounding response that overstates what it actually knows.
+
+This principle governs the content of what the system says, distinct from Standard 2's focus on why information is being requested. Purpose Transparency addresses the honesty of the system's requests. Accuracy and Honesty addresses the honesty of the system's answers, recommendations, and claims — including claims about its own capabilities and limitations.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on the recognition that healthcare-related decisions — whether clinical, social, or navigational — are frequently made under conditions where the individual cannot independently verify what they are told. A person asking an AI system whether a symptom is serious, whether a resource will actually be available, or whether a program covers their situation is often relying entirely on the system's answer to guide a real decision. Overstating certainty in that context is not a minor communication flaw; it directly increases the risk of harm from a decision made on a false premise.
+
+This connects to the broader duty of honesty in professional healthcare relationships, where practitioners are expected to disclose the limits of their knowledge rather than project false confidence to appear more capable or authoritative. An AI system inherits an analogous obligation: its usefulness to the individual depends on the individual being able to trust not just what it says, but how confidently it says it. A system that is right most of the time but never signals when it might be wrong ultimately damages trust more than one that is candid about its limitations, because the individual has no way to know which of the system's statements to double-check.
+
+There is also a foundation in respect for the individual's decision-making capacity, discussed under Standard 3. An individual can only exercise genuine autonomy if the information they are given accurately reflects its own reliability. Confident-sounding but unsupported claims deprive the individual of the ability to weigh a recommendation appropriately against their own judgment.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+Accuracy and Honesty is a precondition for the kind of informed choice this framework builds toward in every prior standard. Purpose Transparency ensures the individual knows why something is being asked; Individual Autonomy and Control ensures the individual retains the final decision; Accuracy and Honesty ensures that the information underlying that decision is presented with an honest account of its own reliability. Without this principle, the previous two become hollow — an individual can be fully informed about the system's intentions and still be misled about the substance of what it tells them.
+
+This principle also protects against a specific and consequential failure mode of conversational AI: the tendency to produce fluent, confident-sounding language regardless of the underlying certainty of the claim. Fluency is not the same as accuracy, and a system that is equally articulate about things it knows well and things it does not creates a false signal that the individual has no reliable way to detect without independent expertise.
+
+### Implications for AI System Design
+
+**Explicit confidence signaling.** Systems should be designed to differentiate, in the language they use, between statements of established fact ("this clinic is open until 6 PM, according to its listed hours"), professional recommendation ("many people in your situation choose to consult a doctor before stopping a medication"), and uncertainty ("I don't have reliable information about whether this specific program is currently accepting new applicants — it would be worth calling to confirm").
+
+**No fabrication under pressure to answer.** Systems should be designed to resist producing a confident-sounding answer simply because a direct question was asked. Where the honest answer is "I don't know" or "I can't verify that," the system should say so rather than generating a plausible-sounding but unverified response.
+
+**Disclosure of system limitations.** Systems should be able to state clearly what they are not able to do — for example, that they cannot access real-time availability, cannot make a clinical diagnosis, or cannot guarantee that a listed resource is still operating — rather than allowing the individual to assume broader capability than actually exists.
+
+**Correction mechanisms.** Where a system later learns that something it told an individual was inaccurate, there should be a mechanism to correct that information and, where the individual is still reachable within the interaction, to communicate the correction directly rather than leaving the inaccurate statement uncorrected.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Resource availability.** A system directing an individual to a specific shelter should distinguish between "this shelter is listed as operating in this area" (a fact about the listing) and "this shelter has beds available tonight" (a claim it likely cannot verify in real time) — rather than implying the second when it only knows the first.
+
+**Health-related questions.** An individual asking whether a symptom warrants urgent care should receive an answer that distinguishes general guidance from a diagnosis: "This combination of symptoms is sometimes serious and is often recommended to be checked by a professional promptly — I can't tell you what's causing it, but here's how to find urgent care nearby."
+
+**Eligibility uncertainty.** A system uncertain whether an individual qualifies for a specific program should say so directly — "based on what you've told me, you may qualify, but the final decision is made by the program, not by me" — rather than stating outcomes with unwarranted certainty.
+
+### Implementation Considerations
+
+Organizations should evaluate accuracy and honesty practices against the following:
+
+1. Does the system consistently distinguish fact, recommendation, and uncertainty in its language, or does it default to a uniformly confident tone regardless of actual reliability?
+2. Is the system designed to say "I don't know" or "I can't verify that" when appropriate, rather than always producing an answer?
+3. Are the system's own limitations disclosed clearly, rather than left for the individual to discover through experience?
+4. Is there a mechanism to correct previously stated inaccurate information?
+5. Would an individual, reviewing a transcript of the interaction, be able to identify which statements were factual, which were recommendations, and which were uncertain?
+
+An **Honesty Benchmark** question: *If this specific statement turned out to be wrong, would the individual have been able to tell, from how it was phrased, that it was not a guarantee?*
+
+### Limitations and Tradeoffs
+
+There is a tension between candor about uncertainty and usefulness. A system that qualifies every statement heavily risks becoming difficult to use or anxiety-inducing, particularly for individuals seeking clear, actionable guidance in a stressful moment. This principle does not require exhaustive hedging on every sentence; it requires that the level of confidence communicated actually match the level of confidence the system has, calibrated to be as clear and usable as the underlying certainty allows.
+
+There is also a technical limitation: AI systems, including large language models, can produce fluent and confident-sounding text even when the underlying information is incorrect or unverifiable, a known failure mode sometimes referred to as hallucination. This principle does not claim systems can perfectly self-assess their own reliability in every case; it requires that system design actively work to minimize this failure mode and to default toward disclosed uncertainty rather than confident fabrication wherever the distinction can be identified.
+
+Finally, honesty about limitations can, in some cases, reduce an individual's confidence in a system even when that honesty is exactly the right response. This principle treats that reduced confidence as an acceptable and appropriate cost — a system that is trusted because it hides its limitations is not actually trustworthy, even if it feels that way in the moment.
+
+### Future Research Opportunities
+
+Future research should examine which specific language patterns most effectively communicate calibrated confidence to individuals without technical or clinical backgrounds, whether disclosed uncertainty measurably reduces harmful reliance on incorrect AI-generated healthcare information, and how systems can be evaluated or audited for the accuracy of their own confidence signaling, not merely the accuracy of their factual claims.
+
+### Core Principle
+
+An AI system's obligation is not only to be right. It is to be honest about how sure it actually is — because the individual's decision depends on knowing which one it's getting.
