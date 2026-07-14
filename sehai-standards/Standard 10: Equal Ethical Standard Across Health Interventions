@@ -1,0 +1,69 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 10: Equal Ethical Standard Across Health Interventions
+
+### Definition of the Principle
+
+Equal Ethical Standard Across Health Interventions establishes that a healthcare artificial intelligence system must apply the same standard of diligence, honesty, privacy, transparency, and care to every interaction that influences an individual's health-related decisions or wellbeing — whether that interaction concerns medication, a medical referral, food access, housing, transportation, or any other form of support — regardless of whether the intervention is classified as clinical, social, or supportive.
+
+This is the thesis principle of the SEHAI framework, and every preceding standard operates under its authority. The other nine standards define specific obligations — minimal collection, transparency, autonomy, privacy, location handling, safety, honesty, understandability, and reduced burden. This principle establishes that none of those obligations may be relaxed simply because the assistance being provided falls outside conventional clinical categories.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on a single core claim: the ethical responsibility of healthcare AI is determined by its potential impact on an individual's health and wellbeing, not by whether the interaction involves clinical medicine, social services, resource navigation, or supportive care. A person deciding whether they will eat today, whether they have a safe place to sleep, or whether they can reach a medical appointment is making a decision with health consequences as real and, in some cases, as consequential as a decision about medication.
+
+Existing healthcare AI guidance and regulation has developed largely around clinical decision-making — diagnosis, treatment recommendation, and documentation — because these are the domains where harm has historically been most visible and most directly attributable to a single decision. This has left a substantial gap: AI systems increasingly mediate access to food, housing, transportation, and other social determinants of health, interactions that are frequently treated as lower-stakes simply because they are not clinical, even though the outcomes they influence can be equally serious and, in aggregate, equally determinative of an individual's health.
+
+The distinction this principle draws is not between the severity of consequences across categories of intervention — a delayed insulin dose and a missed meal do not necessarily carry identical clinical risk in every case — but between the standard of diligence, honesty, and care the AI system brings to the interaction. The stakes of a specific outcome may vary by context; the ethical seriousness with which the AI conducts itself should not.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+This principle requires that Minimum Necessary Information, Purpose Transparency, Individual Autonomy and Control, Privacy by Default, and every other standard in this framework apply with equal force whether an individual is seeking a prescription refill or a food pantry referral. A system that carefully protects privacy and autonomy in a clinical interaction, but treats a social-support interaction as lower-stakes and therefore less deserving of the same care, has not actually implemented this framework — it has implemented a narrower one that happens to share some of its language.
+
+This matters especially for autonomy and dignity. Individuals seeking social or supportive assistance are sometimes treated, implicitly or explicitly, as less entitled to the same standard of respectful engagement than individuals seeking clinical care — a pattern this framework explicitly rejects. The individual's right to informed choice, transparent explanation, and respectful treatment does not depend on which category of assistance they are seeking.
+
+### Implications for AI System Design
+
+**Consistent standards across service categories.** System designers should apply identical privacy, transparency, and autonomy protections to modules handling social determinants of health (food, housing, transportation) as those applied to clinical or medical modules within the same system, rather than treating the former as a lower-priority design concern.
+
+**No tiered diligence by service type.** Quality assurance, testing, and review processes should evaluate compliance with this framework across all categories of assistance a system provides, not concentrate review effort disproportionately on clinical functions while treating social-support functions as lower risk.
+
+**Explicit scope statements.** Systems and the organizations deploying them should state clearly, consistent with the Scope and Application section of this framework, that SEHAI principles apply across the full range of services offered, preventing an implicit narrowing of ethical commitment to only the most clinically visible functions.
+
+**Cross-functional consistency audits.** Organizations operating AI systems across multiple service categories should periodically compare the actual user experience across categories — comparing, for instance, the transparency and autonomy protections present in a medication-related interaction against those present in a housing-related interaction within the same system — to detect unintended disparities.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Medication versus food access.** A system helping an individual understand a medication's side effects and a system helping the same individual locate a food pantry should both explain clearly why any requested information is needed, both preserve the individual's right to decline, and both communicate honestly about the limits of their knowledge — none of these obligations should be present in the first interaction and diminished in the second.
+
+**Housing referral diligence.** An individual seeking emergency housing assistance should receive the same standard of accurate, honest, non-coercive guidance as an individual being referred to a specialist — not a lower standard on the reasoning that housing assistance is "just a referral" rather than a clinical decision.
+
+**Consistent escalation standards.** The safety escalation standard established in Standard 6 should apply with equal seriousness whether the disclosed risk arises during a conversation about a medical symptom or during a conversation about housing insecurity or food scarcity — both can surface genuine safety concerns, and neither should be treated as inherently lower priority than the other by default.
+
+### Implementation Considerations
+
+Organizations should evaluate equal standard compliance against the following:
+
+1. Are privacy, transparency, and autonomy protections identical in design and practice across clinical and non-clinical service categories within the same system?
+2. Does quality review and testing effort reflect equal seriousness across all service categories, rather than concentrating on clinically-framed functions?
+3. Would an external reviewer, comparing the individual's experience across categories of assistance, find any unexplained disparity in the standard of care applied?
+4. Are safety escalation standards applied with equal seriousness regardless of whether the presenting concern is framed as clinical or social?
+5. Does organizational policy explicitly extend this framework's commitments across all services offered, rather than implicitly limiting it to the most visible or clinically-framed ones?
+
+An **Equal Standard Benchmark** question: *Would this exact interaction — this level of care, explanation, and respect — be considered acceptable if the individual were instead asking about a medication rather than a meal?*
+
+### Limitations and Tradeoffs
+
+This principle does not claim that all interventions carry identical risk or require identical response protocols — Standard 6 already establishes that response should be proportionate to genuine safety risk, which will vary by circumstance. What this principle requires is that the standard of diligence and care in conducting the interaction remain constant, even where the appropriate action taken in response reasonably differs based on the actual severity of the situation.
+
+There is a risk that this principle could be read as flattening meaningful distinctions between categories of need in ways that obscure genuinely different risk profiles. This standard does not require treating a missed meal and a missed insulin dose as clinically identical; it requires that the AI system's ethical conduct — its honesty, its respect for autonomy, its transparency — not vary based on which one it happens to be helping with.
+
+There is also a practical organizational challenge: systems and organizations often build clinical and social-support functions through different teams, vendors, or historical processes, making consistent application of this standard a matter of deliberate cross-functional coordination rather than something that happens automatically.
+
+### Future Research Opportunities
+
+Future research should examine whether individuals perceive and are affected by disparities in AI system diligence across clinical versus social-support interactions, whether applying equal standards across service categories measurably improves trust or outcomes in social determinant-focused interactions specifically, and how organizations can effectively audit for consistency across functionally and organizationally distinct parts of the same overall system.
+
+### Core Principle
+
+A person deciding whether they will eat today is not making a smaller decision than a person deciding whether to take their medication. The AI's obligation to diligence, honesty, and care does not shrink to match the category of need — it holds constant, because the person does not become less deserving of it based on what they came to ask for.
