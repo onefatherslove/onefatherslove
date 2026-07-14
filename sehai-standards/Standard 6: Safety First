@@ -1,0 +1,73 @@
+# Standard of Engagement for Healthcare Artificial Intelligence (SEHAI)
+
+## Standard 6: Safety First
+
+### Definition of the Principle
+
+Safety First establishes that a healthcare artificial intelligence system must never sacrifice an individual's physical, psychological, or situational safety for the sake of convenience, speed, automation, or adherence to any other principle in this framework. Where a genuine conflict arises between safety and another SEHAI standard — autonomy, minimal intervention, privacy, or otherwise — safety takes precedence, but only to the degree the actual risk requires, and never as a blanket justification for overriding the individual's role in the interaction.
+
+This principle is deliberately narrow in its override power. It does not grant an AI system general license to prioritize its own judgment over the individual's whenever it perceives risk. It establishes a specific, bounded exception: when there is a genuine and serious safety concern — indications of imminent self-harm, abuse, medical emergency, or comparable acute risk — the system's obligation to protect that safety may limit how far deference to autonomy, minimal intervention, or non-escalation can reasonably extend. Outside of that boundary, safety does not expand to justify routine overriding of individual choice.
+
+### Ethical Foundation
+
+The ethical foundation of this principle rests on non-maleficence — the obligation to avoid causing harm — applied specifically to the moment where a system must choose between respecting an individual's stated preference and addressing a risk that preference may not fully account for. Individuals in crisis, under acute stress, or facing an emergency may not always be in a position to make the decision that best protects them, and a system that treats autonomy as absolute in every circumstance risks becoming complicit in preventable harm through inaction.
+
+At the same time, this framework does not treat safety as a trump card that can be invoked loosely to justify paternalism. The asymmetry of harm matters: overriding an individual's stated preference in a genuine emergency prevents serious, often irreversible harm; overriding it in an ordinary interaction merely because a system judges its own recommendation superior causes a different kind of harm — the erosion of the individual's standing as the decision-maker, which every other principle in this framework works to protect. Safety First is written narrowly because its power, once loosely applied, corrodes autonomy far beyond the cases it was meant to address.
+
+There is also a foundation in the asymmetry of consequence versus the asymmetry of frequency. Genuine emergencies are comparatively rare; the temptation to treat ordinary caution as an emergency is comparatively common, particularly for systems designed with institutional risk-aversion in mind. This principle requires that the threshold for overriding autonomy remain high, precisely because the alternative — a low threshold applied broadly — would quietly convert a safety exception into a general erosion of the standard this framework establishes elsewhere.
+
+### Relationship to Privacy, Autonomy, and Informed Choice
+
+Safety First is the one principle in this framework explicitly positioned to limit Individual Autonomy and Control under narrow, defined conditions. Standard 3 establishes autonomy as the default; this principle establishes the single, bounded exception to that default — not a competing default, but an exception that must be justified by the presence of serious, specific, imminent risk.
+
+This relationship also affects privacy. Information that would ordinarily be protected under Privacy by Default — for example, details suggesting an active safety concern — may need to be shared with an appropriate human professional as part of addressing that risk. This principle does not suspend privacy obligations generally; it permits the minimum disclosure necessary to address the specific safety concern identified, consistent with the same "necessity" standard applied throughout this framework.
+
+Importantly, safety concerns do not eliminate the individual's right to be informed about what is happening. Even where a system determines that escalation or intervention is warranted, it should, wherever possible without increasing risk, tell the individual what it is doing and why, rather than acting unilaterally and silently.
+
+### Implications for AI System Design
+
+**High threshold for override.** Systems should be designed to distinguish between routine caution and genuine acute risk, with override of individual preference reserved only for the latter — indications of imminent self-harm, abuse, medical emergency, or comparably serious and immediate danger.
+
+**Escalation, not replacement.** When a genuine safety concern is identified, the system's role is to facilitate escalation to an appropriate human professional or emergency resource — not to attempt to resolve the crisis itself through further automated interaction. This connects directly to Standard 12, Human Escalation and Appropriate Handoff.
+
+**Transparency about escalation.** Where feasible without increasing risk to the individual, the system should communicate what action it is taking and why, rather than silently triggering an external process the individual is unaware of.
+
+**Calibrated response, not maximum response.** The scale of the system's response should be proportionate to the actual risk identified. A system should not apply crisis-level intervention to situations of ordinary difficulty, nor should its threshold for "safety concern" be calibrated so broadly that routine expressions of stress or difficulty consistently trigger disproportionate responses.
+
+**No use of safety as a collection justification.** Safety concerns should not be used as a rationale to expand data collection or reduce autonomy protections beyond what the specific risk actually requires. A general safety rationale cannot substitute for the specific, demonstrable necessity required elsewhere in this framework.
+
+### Examples in Healthcare Navigation and Social Care
+
+**Indications of self-harm.** An individual expressing thoughts of self-harm while seeking an unrelated resource — such as housing assistance — should prompt the system to prioritize connecting them with appropriate crisis support, even if that means temporarily setting aside the original request, while still communicating clearly with the individual about what is happening and why.
+
+**Situations of ongoing abuse.** An individual describing an unsafe living situation may need the system to provide safety-specific resources rather than proceeding with a routine housing search as though no risk had been disclosed — while still respecting, wherever the situation is not immediately dangerous, the individual's own judgment about their circumstances and their right to decide how to proceed.
+
+**Ordinary hesitation is not a safety concern.** An individual who is simply reluctant to provide certain information, or who declines a recommended next step for reasons unrelated to acute risk, should not trigger safety-based override. This is a case for Standard 3's autonomy protections, not this principle's narrow exception.
+
+### Implementation Considerations
+
+Organizations should evaluate safety-related design against the following:
+
+1. Does the system distinguish clearly between routine caution and genuine, specific, imminent risk?
+2. When override of autonomy occurs, is it justified by a specific identified risk, documented and reviewable, rather than a general policy of caution?
+3. Does escalation route to an appropriate human professional rather than attempting automated resolution of the crisis itself?
+4. Is the individual informed of what action is being taken, wherever this does not itself increase risk?
+5. Is the system's threshold for "safety concern" calibrated narrowly enough to avoid routine erosion of autonomy protections?
+
+A **Safety Threshold Benchmark** question: *Is this specific situation one a reasonable, trained human professional would treat as an emergency requiring intervention — or is it being treated as one because caution is easier to justify than trust?*
+
+### Limitations and Tradeoffs
+
+This principle exists in direct and acknowledged tension with Individual Autonomy and Control, and that tension is not fully resolvable in the abstract. Reasonable disagreement will exist about where the threshold for override sits in specific cases, and different organizations may calibrate that threshold differently based on their population, legal obligations, and available escalation resources. This standard does not eliminate that judgment call — it requires that the threshold be deliberately narrow, documented, and reviewable, rather than left to ad hoc or overly cautious defaults.
+
+There is also a risk that safety-based override, even when narrowly applied, damages trust if individuals experience it as unwarranted paternalism. Systems should weigh the value of narrow, well-explained escalation against the risk that individuals disengage entirely from a system they perceive as unpredictable or controlling.
+
+Finally, AI systems face a genuine limitation in reliably distinguishing serious risk from ordinary distress, particularly through text-based interaction alone. This principle does not assume perfect detection; it requires that systems be designed conservatively with respect to false negatives on genuine emergencies while remaining disciplined against false positives that would erode autonomy in ordinary interactions — an inherently difficult balance that will require ongoing refinement rather than a one-time design decision.
+
+### Future Research Opportunities
+
+Future work should examine how healthcare AI systems can more reliably distinguish genuine safety risk from ordinary hesitation or distress, whether narrowly calibrated escalation preserves individual trust better than broader precautionary approaches, and how transparency about escalation actions affects individuals' willingness to continue engaging honestly with a system after a safety-related intervention has occurred.
+
+### Core Principle
+
+Safety is the one reason this framework allows the AI to set the individual's stated preference aside — and precisely because that power is so consequential, it must be used rarely, narrowly, and only where the risk genuinely demands it.
