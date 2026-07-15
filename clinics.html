@@ -90,8 +90,9 @@
         font-size: 9px;
       }
       .phone {
-        width: 300px;
-        height: 350px;
+        width: 100%;
+        max-width: 340px;
+        aspect-ratio: 300 / 350;
         background: linear-gradient(145deg, #b8b0e8, #938ACE, #7a70b8);
         border-radius: 40px;
         border: 2px solid rgba(255, 255, 255, 0.5);
@@ -609,27 +610,27 @@
         font-family: Verdana, sans-serif;
       }
       .novi-dock-avatar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 90px;
-  height: 110px;
-  border-radius: 0;
-  background: #fff;
-  border: none;
-  border-right: 2px solid #1BD488;
-  border-bottom: 2px solid #1BD488;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  overflow: hidden;
-  background-size: cover;
-  background-position: center top;
-  object-fit: cover;
-  object-position: center top;
-  animation: novi-breathe 3.5s ease-in-out infinite;
-}
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 90px;
+        height: 110px;
+        border-radius: 0;
+        background: #fff;
+        border: none;
+        border-right: 2px solid #1BD488;
+        border-bottom: 2px solid #1BD488;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 40px;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center top;
+        object-fit: cover;
+        object-position: center top;
+        animation: novi-breathe 3.5s ease-in-out infinite;
+      }
       @keyframes novi-breathe {
         0%,
         100% {
@@ -797,6 +798,62 @@
         margin-top: 8px;
         font-family: Verdana, sans-serif;
       }
+      .translate-picker-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        z-index: 1000;
+        align-items: center;
+        justify-content: center;
+      }
+      .translate-picker-overlay.open {
+        display: flex;
+      }
+      .translate-picker {
+        background: #fff;
+        border-radius: 14px;
+        padding: 16px;
+        width: 260px;
+        max-height: 70vh;
+        overflow-y: auto;
+        font-family: Verdana, sans-serif;
+      }
+      .translate-picker h3 {
+        font-size: 13px;
+        color: #2e1065;
+        margin-bottom: 10px;
+        text-align: center;
+      }
+      .translate-lang-btn {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: rgba(147, 138, 206, 0.12);
+        border: 1px solid #938ACE;
+        border-radius: 8px;
+        padding: 8px 10px;
+        margin-bottom: 6px;
+        font-size: 12px;
+        color: #1a0a3a;
+        cursor: pointer;
+      }
+      .translate-lang-btn:hover {
+        background: rgba(147, 138, 206, 0.25);
+      }
+      .translate-picker-close {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin-top: 4px;
+        background: #eee;
+        border: none;
+        border-radius: 8px;
+        padding: 8px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
@@ -827,12 +884,12 @@
       <div class="novi-dock" id="noviDock">
         <button class="novi-dock-header" id="noviDockHeader" aria-expanded="false" aria-controls="noviDockBody">
           <video class="novi-dock-avatar" id="noviVideo" autoplay muted playsinline>
-  <source src="https://cdn.jsdelivr.net/gh/onefatherslove/onefatherslove@main/lv_7566671535839137029_20260703224922.mp4" type="video/mp4">
-</video>
+            <source src="https://cdn.jsdelivr.net/gh/onefatherslove/onefatherslove@main/lv_7566671535839137029_20260703224922.mp4" type="video/mp4">
+          </video>
           <div class="novi-dock-text">
-            <div class="novi-dock-name">Hello, I'm Novi</div>
+            <div class="novi-dock-name">Hello, I'm Novi.MNI</div>
             <div class="novi-dock-preview" id="noviPreview">I'm your resource coordinator.</div>
-            <div class="novi-dock-hint">Tap to chat</div>
+            <div class="novi-dock-hint">Tap for personalized guidence</div>
           </div>
           <div class="novi-dock-chevron" id="noviChevron">▾</div>
         </button>
@@ -856,6 +913,20 @@
       </div>
       <div class="fetch-status" id="fetchStatus"></div>
     </main>
+    <div class="translate-picker-overlay" id="translatePickerOverlay">
+      <div class="translate-picker">
+        <h3>Translate this page to:</h3>
+        <button class="translate-lang-btn" data-lang="es">Español (Spanish)</button>
+        <button class="translate-lang-btn" data-lang="zh-CN">中文 (Chinese)</button>
+        <button class="translate-lang-btn" data-lang="vi">Tiếng Việt (Vietnamese)</button>
+        <button class="translate-lang-btn" data-lang="tl">Tagalog</button>
+        <button class="translate-lang-btn" data-lang="ru">Русский (Russian)</button>
+        <button class="translate-lang-btn" data-lang="ar">العربية (Arabic)</button>
+        <button class="translate-lang-btn" data-lang="ko">한국어 (Korean)</button>
+        <button class="translate-lang-btn" data-lang="hmn">Hmoob (Hmong)</button>
+        <button class="translate-picker-close" id="translatePickerClose">Cancel</button>
+      </div>
+    </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
       /* ===== MAP ===== */
@@ -1068,12 +1139,16 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
                     </span>
                     <span>FEEDBACK</span>
                   </a>
-                  <a href="#" class="marquee-item" aria-label="Translate Page">
-                    <span class="marquee-icon utility-color">
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-                    </span>
-                    <span>TRANSLATE</span>
-                  </a>
+                  <a href="#" class="marquee-item" aria-label="Translate Page" id="translateBtn">
+  <span class="marquee-icon utility-color">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="10"></circle>
+      <line x1="2" y1="12" x2="22" y2="12"></line>
+      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+    </svg>
+  </span>
+  <span>TRANSLATE</span>
+</a>
                   <a href="#" class="marquee-item" aria-label="Print Page">
                     <span class="marquee-icon utility-color">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
@@ -1311,6 +1386,33 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         startTimer();
       }
       init();
+      /* ===== TRANSLATE PICKER ===== */
+      const translateOverlay = document.getElementById('translatePickerOverlay');
+      document.addEventListener("click", function (e) {
+        const btn = e.target.closest("#translateBtn");
+        if (btn) {
+          e.preventDefault();
+          translateOverlay.classList.add('open');
+          return;
+        }
+        const langBtn = e.target.closest(".translate-lang-btn");
+        if (langBtn) {
+          const tl = langBtn.dataset.lang;
+          translateOverlay.classList.remove('open');
+          const loc = window.location;
+          const translatedHost = loc.hostname.replace(/\./g, '-') + '.translate.goog';
+          const url = "https://" + translatedHost + loc.pathname + loc.search +
+            "?_x_tr_sl=auto&_x_tr_tl=" + tl + "&_x_tr_hl=en&_x_tr_pto=wapp";
+          window.open(url, "_blank");
+          return;
+        }
+        if (e.target.id === 'translatePickerOverlay') {
+          translateOverlay.classList.remove('open');
+        }
+      });
+      document.getElementById('translatePickerClose').addEventListener('click', () => {
+        translateOverlay.classList.remove('open');
+      });
     </script>
   </body>
 </html>
