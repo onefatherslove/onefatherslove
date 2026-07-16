@@ -600,7 +600,7 @@
       .novi-dock {
         width: 100%;
         max-width: 340px;
-        height: 200px;
+        height: 120px;
         background: #a2ccd3;
         border: 4px solid #1baec6;
         border-radius: 20px;
@@ -615,7 +615,9 @@
       }
       .novi-dock-header {
         position: relative;
-        display: block;
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
         width: 100%;
         padding: 8px 10px 8px 100px;
         background: none;
@@ -644,6 +646,26 @@
         object-fit: cover;
         object-position: center top;
         animation: novi-breathe 3.5s ease-in-out infinite;
+      }
+      .novi-crisis-btn {
+        background: rgba(220, 38, 38, 0.15);
+        border: 1px solid #dc2626;
+        color: #7f1d1d;
+        border-radius: 10px;
+        padding: 4px 6px;
+        font-size: 8px;
+        font-weight: 800;
+        text-transform: uppercase;
+        cursor: pointer;
+        flex-shrink: 0;
+        width: 50px;
+        text-align: center;
+        align-self: center;
+        font-family: Verdana, sans-serif;
+        line-height: 1.2;
+      }
+      .novi-crisis-btn:hover {
+        background: rgba(220, 38, 38, 0.3);
       }
       @keyframes novi-breathe {
         0%,
@@ -686,12 +708,11 @@
         margin-top: 2px;
       }
       .novi-dock-chevron {
-        position: absolute;
-        top: 10px;
-        right: 12px;
         font-size: 12px;
         color: #2e1065;
         transition: transform 0.3s;
+        flex-shrink: 0;
+        margin-left: auto;
       }
       .novi-dock.expanded .novi-dock-chevron {
         transform: rotate(180deg);
@@ -907,14 +928,13 @@
             <div class="novi-dock-name">Hello, I'm Novi.MNI</div>
             <div class="novi-dock-preview" id="noviPreview">I'm your resource coordinator.</div>
             <div class="novi-dock-hint">Tap for personalized guidence</div>
+            <span class="novi-crisis-btn" data-msg="I'm in a health crisis right now and don't know what to do">I'm in crisis</span>
           </div>
           <div class="novi-dock-chevron" id="noviChevron">▾</div>
         </button>
         <div class="novi-dock-body" id="noviDockBody">
           <div class="novi-messages" id="noviMessages"></div>
-          <div class="novi-quick-replies" id="quickReplies">
-            <button class="quick-reply" data-msg="I'm in a health crisis right now and don't know what to do">I'm in crisis</button>
-          </div>
+          <div class="novi-quick-replies" id="quickReplies"></div>
           <div class="novi-input-row">
             <input class="novi-input" id="noviInput" type="text" placeholder="Ask Novi anything..." />
             <button class="novi-send-btn" id="noviSendBtn">➔</button>
@@ -1099,7 +1119,7 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         if (e.key === 'Enter') sendToNovi(noviInput.value);
       });
       noviInput.addEventListener('click', e => e.stopPropagation());
-      document.querySelectorAll('.quick-reply').forEach(btn => {
+      document.querySelectorAll('.novi-crisis-btn').forEach(btn => {
         btn.addEventListener('click', e => {
           e.stopPropagation();
           sendToNovi(btn.dataset.msg);
@@ -1431,4 +1451,5 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
     </script>
   </body>
 </html>
+
 
