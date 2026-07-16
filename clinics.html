@@ -130,18 +130,6 @@
         pointer-events: none;
         z-index: 25;
       }
-      .phone-top {
-        position: absolute;
-        top: 10px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 10px;
-        height: 10px;
-        background: radial-gradient(circle at 35% 35%, #2a2a4a, #000);
-        border-radius: 50%;
-        z-index: 30;
-        box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.15), 0 0 4px rgba(0, 0, 0, 0.8);
-      }
       .phone-btn-r {
         position: absolute;
         right: -5px;
@@ -222,7 +210,7 @@
         font-size: 16px;
         font-weight: 800;
         line-height: 1.2;
-        color: #ffffff;
+        color: #;
         margin-bottom: 8px;
         text-align: center;
         text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
@@ -310,7 +298,7 @@
         font-family: Verdana, sans-serif;
         font-size: 9px;
         font-weight: 700;
-        color: #ffffff;
+        color: #000000;
         text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
         text-decoration: none;
       }
@@ -354,8 +342,8 @@
       }
       .utility-color {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.1) 100%);
-        color: #ffffff;
-        stroke: #ffffff;
+        color: #000000;
+        stroke: #000000;
       }
       .social-color {
         background: linear-gradient(135deg, rgba(147, 138, 206, 0.45) 0%, rgba(46, 16, 101, 0.2) 100%);
@@ -380,7 +368,7 @@
         border: 1px solid rgba(147, 138, 206, 0.6);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
-        color: #ffffff;
+        color: #000000;
         border-radius: 50%;
         width: 26px;
         height: 26px;
@@ -405,12 +393,12 @@
         transform: scale(0.9);
       }
       .progress-bar-wrap {
-        width: 100%;
-        position: absolute;
-        bottom: 22px;
-        left: 0;
-        z-index: 41;
-      }
+  width: 100%;
+  position: absolute;
+  bottom: 26px;
+  left: 0;
+  z-index: 41;
+}
       .progress-label {
         position: absolute;
         top: -10px;
@@ -428,11 +416,11 @@
         background: rgba(0, 0, 0, 0.3);
       }
       .progress-bar-fill {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(to right, #9d4edd, #ff8c00);
-        transition: width 0.1s linear;
-      }
+  height: 100%;
+  width: 0%;
+  background: #000000;
+  transition: width 0.1s linear;
+}
       .controls {
         width: 100%;
         height: 22px;
@@ -446,7 +434,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0 6px;
+        padding: 0 20px;
         position: absolute;
         bottom: 0;
         left: 0;
@@ -898,23 +886,22 @@
     <main class="main-content-area">
       <!-- 1. CLINIC CARD -->
       <div class="phone" id="phone">
-        <div class="phone-top"></div>
         <div class="phone-btn-r"></div>
         <div class="phone-btn-l1"></div>
         <div class="phone-btn-l2"></div>
         <div class="screen" id="screen">
           <div class="card-stage" id="stage"></div>
           <div class="progress-bar-wrap">
-            <div class="progress-label">Until Next Clinic 🏥</div>
+            <div class="progress-label">Next 🏥</div>
             <div class="progress-bar-track">
               <div class="progress-bar-fill" id="progressBar"></div>
             </div>
           </div>
           <div class="controls">
-            <button class="ctrl-btn" id="prevBtn" aria-label="Previous clinic">← Prev Clinic</button>
+            <button class="ctrl-btn" id="prevBtn" aria-label="Previous">← Previous</button>
             <div class="dots" id="dots"></div>
-            <button class="ctrl-btn" id="nextBtn" aria-label="Next clinic">Next Clinic →</button>
-            <button class="pause-btn" id="pauseBtn">▮▮ Pause Clinics</button>
+            <button class="ctrl-btn" id="nextBtn" aria-label="Next">Next →</button>
+            <button class="pause-btn" id="pauseBtn">▮▮ Pause</button>
           </div>
         </div>
       </div>
@@ -1378,9 +1365,13 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
         progressValue = 0;
       }
       function startTimer() {
-        timer = setInterval(next, FLIP_DELAY);
-        startProgress();
-      }
+  timer = setInterval(() => {
+    next();
+    startProgress();
+  }, FLIP_DELAY);
+
+  startProgress();
+}
       function stopTimer() {
         clearInterval(timer);
         stopProgress();
