@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -49,6 +48,26 @@
       #map {
         width: 100%;
         height: 100%;
+      }
+      /* Dashboard Pin Styling */
+      #dashboard-pin-container {
+        width: 160px;
+        height: 160px;
+        background: #111;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        overflow: hidden;
+      }
+      .dashboard-content {
+        padding: 10px;
+        text-align: center;
+        color: white;
+        font-family: Arial, sans-serif;
       }
       .leaflet-popup-content-wrapper {
         background: #fff !important;
@@ -216,22 +235,22 @@
         text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
       }
       .dialog-bubble {
-  position: relative;
-  background: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 14px;
-  border-bottom-left-radius: 4px;
-  padding: 11px 1px;
-  margin-bottom: 1px;
-  box-shadow: 0 4px 12px rgba(30, 10, 60, 0.15);
-  font-size: 11px;
-  line-height: 1.35;
-  font-family: Verdana, sans-serif;
-  height: 240px;
-  overflow-y: auto;
-}
+        position: relative;
+        background: rgba(255, 255, 255, 0.72);
+        border: 1px solid rgba(255, 255, 255, 0.9);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-radius: 14px;
+        border-bottom-left-radius: 4px;
+        padding: 11px 1px;
+        margin-bottom: 1px;
+        box-shadow: 0 4px 12px rgba(30, 10, 60, 0.15);
+        font-size: 11px;
+        line-height: 1.35;
+        font-family: Verdana, sans-serif;
+        height: 240px;
+        overflow-y: auto;
+      }
       .info-text {
         display: inline;
         white-space: pre-line;
@@ -898,7 +917,6 @@
   </head>
   <body>
     <main class="main-content-area">
-      <!-- 1. CLINIC CARD -->
       <div class="phone" id="phone">
         <div class="phone-btn-r"></div>
         <div class="phone-btn-l1"></div>
@@ -919,7 +937,6 @@
           </div>
         </div>
       </div>
-      <!-- 2. NOVI — persistent dock -->
       <div class="novi-dock" id="noviDock">
         <button class="novi-dock-header" id="noviDockHeader" aria-expanded="false" aria-controls="noviDockBody">
           <video class="novi-dock-avatar" id="noviVideo" autoplay muted playsinline>
@@ -942,7 +959,6 @@
           </div>
         </div>
       </div>
-      <!-- 3. MAP -->
       <div id="map-container">
         <div id="map" role="region" aria-label="Resource Coordinates Map"></div>
       </div>
@@ -968,6 +984,30 @@
       const map = L.map('map', {
         zoomControl: true
       }).setView([38.5816, -121.4944], 14);
+      // Define the independent Leaflet control for the Dashboard Pin
+      var DashboardPinControl = L.Control.extend({
+        options: {
+          position: 'topright'
+        },
+        onAdd: function(map) {
+          var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+          container.id = 'dashboard-pin-container';
+          // Prevent map interactions when clicking the dashboard
+          L.DomEvent.disableClickPropagation(container);
+          // Populate the container with the collapsed layout
+          container.innerHTML = `
+                  <div class="dashboard-content">
+                      <div style="font-size: 10px; font-weight: bold; margin-bottom: 5px;">TAP FOR TODAY</div>
+                      <div style="font-size: 18px; font-weight: bold;">${new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' })}</div>
+                      <div style="font-size: 20px; margin: 5px 0;">☀️ 82°</div>
+                  </div>
+              `;
+          return container;
+        }
+      });
+      // Create and add the control to the map
+      var dashboardPin = new DashboardPinControl();
+      // ;
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
       }).addTo(map);
@@ -987,7 +1027,7 @@
         }).addTo(map).bindPopup("<b>You are here</b>").openPopup();
         else userMarker.setLatLng(e.latlng);
       });
-      /* ===== DATA ===== */
+      /* ... Rest of your existing script code continues below ... */
       const FALLBACK_DATA = [{
           name: "WellSpace Health Clinic",
           lat: 38.5816,
@@ -1435,33 +1475,66 @@ Keep responses concise and warm. You are talking to someone on a phone screen. N
           }
         }
         drawCharacter();
+      }function skipTypewriter(idx) {
+  if (currentAnimationThread) {
+    clearTimeout(currentAnimationThread);
+    currentAnimationThread = null;
+  }
+  const activeCard = cardEls[idx];
+  if (!activeCard) return;
+  const visibleTarget = activeCard.querySelector('.animated-text');
+  if (visibleTarget) {
+    visibleTarget.textContent = getCompiledText(idx);
+    visibleTarget.classList.remove('typing');
+  }
+  const accessibleTarget = activeCard.querySelector('.accessible-text');
+  if (accessibleTarget) {
+    accessibleTarget.textContent = getCompiledText(idx);
+  }
+}
+
+function runTypewriterSequence(idx) {
+  const fullText = getCompiledText(idx);
+  updateDynamicScraperContent(fullText, idx);
+}
+
+function init() {
+  const sanitizedData = FALLBACK_DATA
+    .map(normalizeClinic)
+    .filter(c => {
+      if (!hasValidCoordinates(c)) {
+        console.warn(`Dropped clinic "${c.name}" — missing or invalid lat/lng.`, c);
+        return false;
       }
-      function skipTypewriter(idx) {
-        if (currentAnimationThread) {
-          clearTimeout(currentAnimationThread);
-          currentAnimationThread = null;
-        }
-        const activeCard = cardEls[idx];
-        if (!activeCard) return;
-        const visibleTarget = activeCard.querySelector('.animated-text');
-        if (visibleTarget) {
-          visibleTarget.textContent = getCompiledText(idx);
-          visibleTarget.classList.remove('typing');
-        }
-        const accessibleTarget = activeCard.querySelector('.accessible-text');
-        if (accessibleTarget) {
-          accessibleTarget.textContent = getCompiledText(idx);
-        }
-      }
-      function runTypewriterSequence(idx) {
-        const fullText = getCompiledText(idx);
-        updateDynamicScraperContent(fullText, idx);
-      }
-      function init() {
-        buildCards(FALLBACK_DATA);
-        progressBarEl = document.getElementById("progressBar");
-        startTimer();
-      }
+      return true;
+    });
+
+  progressBarEl = document.getElementById("progressBar");
+  buildCards(sanitizedData);
+  startTimer();
+}
+      function normalizeClinic(c) {
+  const fallback = "Not specified";
+  return {
+    name: c.name || fallback,
+    gradient: c.gradient || "linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 100%)",
+    desc: c.desc || fallback,
+    eligibility: c.eligibility || fallback,
+    specialties: c.specialties || fallback,
+    payment: c.payment || fallback,
+    address: c.address || fallback,
+    lat: c.lat,
+    lng: c.lng,
+    phone: c.phone || fallback,
+    website: c.website || fallback,
+    hours: c.hours || fallback,
+    source: c.source || "Direct Entry"
+  };
+}
+
+function hasValidCoordinates(c) {
+  return Number.isFinite(c.lat) && Number.isFinite(c.lng);
+}
       init();
       /* ===== TRANSLATE PICKER ===== */
       const translateOverlay = document.getElementById('translatePickerOverlay');
