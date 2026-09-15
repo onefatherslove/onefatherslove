@@ -1,143 +1,666 @@
-# Resource Map Widget — Build Spec
 
-**Status:** Phase 1 design, ready to build
-**Author context:** One Father's Love resource directory
-**Last updated:** 2026-09-13
+Resource Map Widget — Build Specification
 
-## 1. Purpose
-
-A repeatable widget attached to each resource listing (clinic, shelter, food bank, etc.) that shows:
-- Where the resource is, on a map
-- Roughly how far the person is from it, and how they'd get there
-- Basic contextual info (time, weather, calendar) alongside it
-
-This widget is designed to appear **dozens to hundreds of times on a single page**, and to be **reused across ~50 sites**. Every decision below is filtered through that constraint.
+Status: Phase 1 design, ready to build
+Author context: One Father's Love resource directory
+Last updated: September 15, 2026
 
 ---
 
-## 2. Interaction Design
+1. Purpose
 
-### 2.1 Three controls, three jobs
+The Resource Map Widget is a repeatable component attached to individual resource listings such as clinics, shelters, food banks, and other community resources.
 
-Earlier prototypes conflated controls — the dashboard's own scrollbar secretly moved the map, which tested badly (see Section 6, "Rejected approaches"). The corrected model gives each control exactly one job:
+It provides:
 
-| Control | Job |
-|---|---|
-| **Map** | Shows geography. Normal pan/zoom behavior, untouched. |
-| **Journey slider** | Moves the location dot along the route from the person to the resource. |
-| **Info panel scroll** | Scrolls through info (hours, eligibility, payment, etc.). Behaves like a normal scroll area, because it is one. |
+- Where the resource is on a map
+- A rough visual representation of the distance between the person and the resource
+- Basic contextual information such as time, weather, and calendar information
 
-### 2.2 Journey slider: horizontal, below the map
+Phase 1 represents the relationship between one person and one resource. It does not provide real street routing.
 
-- Positioned **below the map**, spanning its width — not beside it, not on top of it.
-- This is a **1D scrubber along a single fixed route** (user location → resource location), not freeform 2D dragging and not a draggable pin on the map itself.
-  - Rationale: with only two points, there's no 2D placement ambiguity a slider could get wrong. Direct-manipulation dragging on the map itself was tested and rejected — a thumb dragging on a small map occludes the very thing the user is trying to watch move, and conflicts with the map's native pan gesture.
-- Works identically for touch (thumb) and mouse — implement with Pointer Events so one code path covers both.
-- As the slider moves 0% → 100%, the dot interpolates from the person's location to the resource's location, and the distance/time readout updates in step (see 3.2).
+The widget is designed to appear dozens to hundreds of times on a single page and to be reused across approximately 50 sites. Every architectural and interaction decision must therefore account for that scale.
 
-### 2.3 Map itself
+Phase 1 implementation experience
 
-- Native Leaflet pan/zoom stays fully functional. Nothing about the slider should disable or fight with normal map interaction.
-- Zoom controls (+/-) remain visible and usable at all times.
+Several AI systems were used during development and evaluation.
 
----
+Claude.ai and Gemini were each unable to successfully produce the complete map-and-dashboard result after several attempts.
 
-## 3. Honesty Requirements
+Claude did, however, contribute accurate specification conditions, particularly around interaction behavior, architectural constraints, and requirements that should not be violated.
 
-These are non-negotiable, carried over from earlier discussion in this project. Anything that violates them should be treated as a bug, not a style choice.
+ChatGPT was ultimately able to produce the working map-and-dashboard result that established the current Phase 1 design.
 
-### 3.1 Location source must be labeled explicitly
+This distinction is important:
 
-The widget must always show **how** the starting point was obtained. Never let a dot appear on the map without this label:
+«A system's ability to describe correct conditions and a system's ability to successfully implement those conditions are not the same capability.»
 
-- `Your current location` — GPS permission granted
-- `Your entered location` — manually typed address
-- `Location unavailable` — map still shows the resource, but no dot, no distance/time claim
-
-**Never** default to a fake or shared "downtown" starting point. If location is unavailable, the widget degrades gracefully (show the resource, hide the "distance from you" claims) rather than substituting a fake position.
-
-### 3.2 Distance/time must be labeled as an estimate
-
-Current implementation interpolates a straight line between two coordinates — it is not a real route. The display must reflect that:
-
-- ✅ `Estimated distance: 2.4 miles` / `Estimated travel time: about 5 minutes` / `Based on straight-line distance`
-- ❌ `2.4 mi — 5 min 37 sec` (false precision; reads as a real routing calculation)
-
-**No seconds-level precision** until a real directions API (Google, Mapbox, or OSRM) is actually wired in. This is a hard rule, not a nice-to-have — false precision is more misleading than no number at all.
+The resulting specification therefore preserves the accurate conditions established during the design process while documenting the implementation experience separately.
 
 ---
 
-## 4. Scale Architecture
+2. Phase 1 Design
 
-This is the part that makes "hundreds of these on one page, times 50 sites" survivable.
+2.1 Three controls, three jobs
 
-### 4.1 One shared location fetch per page
+The widget deliberately separates its controls by function.
 
-- Geolocation is requested **once per page load**, not once per widget.
-- Result (or manual-address fallback) is stored in one shared, in-memory object that every widget instance reads from.
-- Same rule for weather: **one weather fetch per page**, shared across all widgets, not one API call per card.
-- Rationale: hundreds of simultaneous GPS prompts or weather API calls is both a bad user experience and a fast way to hit free-tier rate limits (Open-Meteo, Nominatim).
+Control| Job
+Map| Shows geography. Native pan and zoom remain available.
+Journey slider| Moves the person's location indicator along the single person-to-resource path.
+Information panel| Scrolls through resource information such as hours, eligibility, payment, and other decision information.
 
-### 4.2 Lazy map initialization
+Earlier prototypes conflated these functions. In particular, a dashboard scrollbar was used to secretly move the map position. That approach was rejected because the control's appearance did not match its function.
 
-- A card's Leaflet map instance is **not created until that card scrolls into view** (Intersection Observer).
-- Off-screen widgets show a lightweight placeholder (static preview or empty frame) instead of a live map.
-- For very long pages, consider tearing down / suspending maps that scroll far out of view, so memory doesn't grow unbounded down a page with hundreds of cards.
-
-### 4.3 One shared script, not 50 copies
-
-- This widget should ship as **one shared JS/CSS module** that all ~50 sites include (e.g. a single `resource-map-widget.js` + stylesheet), not copy-pasted per site.
-- A bug fix or improvement made once should propagate everywhere, not require re-patching 50 separate copies.
-- Each site's per-card data (resource lat/lng/name/hours) stays as simple data attributes or a small config object — the logic itself doesn't change per site.
-
-### 4.4 What's cheap vs. what's expensive
-
-| Feature | Cost | Rule |
-|---|---|---|
-| Calendar rendering | Free (pure arithmetic) | Fine to run independently per card |
-| Distance/time math | Free (pure arithmetic) | Fine to run independently per card |
-| Geolocation | Expensive (permission prompt, one real GPS fix) | Once per page, shared |
-| Weather API call | Expensive (rate-limited free tier) | Once per page, shared |
-| Leaflet map instance | Expensive (memory, tile requests) | Lazy-loaded per card, on scroll-into-view |
+Each control must have one understandable job.
 
 ---
 
-## 5. Explicitly Deferred (Phase 2 — do not build yet)
+2.2 Journey slider
 
-- **Resource Path / multi-stop journeys** (e.g. food locker → shower → ID assistance → bus stop). This is a real, exciting direction, but must not shape or complicate the Phase 1 single-resource widget.
-- **Real routing** (actual street-based path, turn-by-turn, accurate drive/walk time) — requires a directions API (Google, Mapbox, or OSRM) and is a deliberate upgrade path once Phase 1 is stable, not a Phase 1 requirement.
+The journey slider is:
+
+- Horizontal
+- Positioned below the map
+- Full width of the map/card
+- A 1D scrubber
+- Restricted to the single path between the person's location and the resource
+- Operable by both mouse and touch
+
+The slider is not a freeform map control and does not move a map pin independently.
+
+Behavior
+
+At:
+
+- 0% — the indicator represents the person's location
+- 100% — the indicator represents the resource location
+- Intermediate values — the indicator is interpolated between those two coordinates
+
+Pointer Events should provide the common mouse/touch interaction path.
+
+Rationale
+
+There are only two meaningful endpoints in an individual resource card:
+
+Person → Resource
+
+A 1D control is therefore sufficient.
+
+Direct manipulation of the marker on the map was rejected because:
+
+1. A finger or cursor can obscure the marker being manipulated.
+2. It conflicts with Leaflet's native map-pan gesture.
+3. It introduces unnecessary 2D interaction when only one dimension of movement is meaningful.
 
 ---
 
-## 6. Rejected Approaches (for context — don't re-litigate these)
+3. Map Behavior
 
-- **Dashboard-scroll-secretly-controls-map**: worked technically, but the control's appearance didn't match its function. Rejected for violating basic affordance expectations (a scrollbar should scroll, not relocate a map marker).
-- **Full-page scroll (GSAP ScrollTrigger pin)**: reasonable for a single hero section, but doesn't make sense once the widget repeats dozens of times down one page — there's no single "page scroll" to hijack per instance.
-- **Freeform drag directly on the map**: caused thumb occlusion (finger blocks the exact thing being watched) and fought with the map's native pan gesture. Replaced by the horizontal journey slider (Section 2.2).
-- **Fake shared starting point** (e.g., every visitor's dot starting from the same "downtown" location): rejected outright as misleading for a resource-finder serving people who need accurate information.
+3.1 Native map interaction
+
+The map must remain a normal interactive Leaflet map.
+
+Users must be able to:
+
+- Pan
+- Zoom
+- Use the visible zoom controls
+- Inspect the resource's geographic position
+
+The journey slider must not disable or interfere with native map interaction.
+
+3.2 Resource coordinates
+
+Every resource using the widget must provide, at minimum:
+
+- Resource name
+- Latitude
+- Longitude
+
+Optional resource configuration may include:
+
+- Address
+- Hours
+- Service information
+- Other information required by the resource card
+
+The widget should not geocode every resource card. Resource coordinates should normally be provided as part of the resource's data.
 
 ---
 
-## 7. Open Questions for Later
+4. Location Honesty
 
-- Exact visual treatment of the journey slider (track style, handle size, whether it shows route progress as a filled bar).
-- Whether off-screen widgets should fully unmount their Leaflet instance or just pause tile loading.
-- Which directions API to adopt for Phase 1.5 (real routing) — Google, Mapbox, and free OSRM all remain open options with different cost/accuracy tradeoffs.
-FOR LATER USE IN BUILDING A MAP FOR MULTI RESOURCE LINE UP BY THE USER.
-Keep the individual resource map strictly focused on its single route, and put the multi-choice feature in a second, dedicated comparison map.
-Mixing multi-choice logic into the individual card map creates cognitive overload and unnecessary technical complexity.
-Comparison Matrix
-| Consideration | Multi-Choice in Individual Map | Dedicated Second Map |
-|---|---|---|
-| User Focus | Confusing: A tiny card map suddenly showing 5 different pins ruins the simple "get to this place" focus. | Clear: The card map does one job (Card A route); the comparison map handles broader context. |
-| UI Constraints | Cramped: Trying to fit route selection, multi-pins, and your slider control in a small card box breaks touch targets. | Spacious: Gives full screen width to visualize multiple destinations, travel radiuses, and complex routes. |
-| API Load Impact | Unpredictable: If every card starts requesting routing options for neighboring resources, API calls scale exponentially. | Controlled: Extra routing API calls only execute when the user explicitly triggers the second "Compare" view. |
-Recommended UX Flow
- * Primary State (Individual Card Map):
-   * Stays 100% simple.
-   * Shows Point A (User) \rightarrow Point B (Card Resource Address).
-   * Features your custom slider to scrub along that single route.
- * Secondary State (Dedicated Comparison View / Modal Map):
-   * Triggered by a button like "Compare with nearby options" or a selection checklist.
-   * Opens a larger, second map showing the user and all selected resource pins simultaneously.
-   * Lets users toggle or scrub between targets without cluttering the initial card layout.
+Location handling is a non-negotiable requirement.
+
+The widget must never imply that a person's location is known when it is not.
+
+4.1 Location states
+
+The widget recognizes these states:
+
+"location-pending"
+
+The system has not yet established whether a usable person location is available.
+
+"gps-location"
+
+The person has granted permission and a usable GPS location is available.
+
+Display label:
+
+Your current location
+
+"manual-location"
+
+The person has supplied an address manually and that address has been successfully resolved to coordinates.
+
+Display label:
+
+Your entered location
+
+"location-unavailable"
+
+No usable person location is available.
+
+Display label:
+
+Location unavailable
+
+In this state:
+
+- The resource remains visible on the map.
+- The resource remains usable.
+- No person-location marker is shown.
+- No distance-from-person claim is shown.
+- No travel-time claim is shown.
+- The system must not substitute a fake location.
+
+Absolute rule
+
+Never use a shared, default, downtown, city-center, or otherwise fabricated starting location to represent the person.
+
+A missing location is preferable to a misleading location.
+
+---
+
+5. Distance and Travel-Time Honesty
+
+5.1 Phase 1 calculation
+
+Phase 1 uses the geographic coordinates of two points and calculates straight-line distance.
+
+It does not calculate an actual street route.
+
+Therefore the interface must describe the result as an estimate.
+
+Example:
+
+«Estimated distance: 2.4 miles
+Based on straight-line distance»
+
+The system must not present straight-line distance as though it were driving, walking, or transit distance.
+
+5.2 Travel time
+
+Phase 1 does not claim a real travel time unless a legitimate travel-time calculation has been implemented.
+
+No false precision is permitted.
+
+For example:
+
+Not acceptable:
+
+«2.4 mi — 5 min 37 sec»
+
+That presentation implies a routing calculation that did not occur.
+
+A real directions/routing service must be connected before the widget presents route-based travel time.
+
+Hard rule
+
+No seconds-level travel-time precision until an actual routing/directions API is providing the calculation.
+
+---
+
+6. Shared Page Architecture
+
+The widget must be designed for repeated use.
+
+A page may contain hundreds of resource cards. Expensive operations therefore cannot be performed independently by every card.
+
+6.1 Shared location state
+
+Geolocation should be requested once per page load.
+
+The result should be stored in shared in-memory state and made available to every widget instance.
+
+Individual cards must not independently trigger their own GPS request.
+
+6.2 Shared manual location state
+
+A manually entered location should likewise become shared page state after successful resolution.
+
+The goal is:
+
+One person's location → available to every resource widget on the page.
+
+6.3 Shared weather state
+
+Weather should be fetched once for the relevant location and shared across widget instances.
+
+The implementation should also prevent duplicate simultaneous requests while the first weather request is still in progress.
+
+---
+
+7. Lazy Map Architecture
+
+Leaflet maps are relatively expensive compared with ordinary HTML information.
+
+A page containing hundreds of cards must therefore avoid creating hundreds of active map instances immediately.
+
+7.1 Intersection Observer
+
+A resource map should not initialize until its card approaches the user's viewport.
+
+Intersection Observer should be used to detect when the map needs to become active.
+
+Before initialization, the card may display a lightweight map placeholder.
+
+7.2 Map lifecycle
+
+The production implementation should establish a lifecycle strategy for maps that move far outside the viewport.
+
+Possible approaches include:
+
+- Suspending unnecessary map activity
+- Removing distant Leaflet instances and recreating them when needed
+- Another bounded-memory strategy
+
+The final approach remains an implementation decision.
+
+The requirement is that a page containing hundreds of resources must not accumulate unnecessary active map resources indefinitely.
+
+---
+
+8. Shared Widget Module
+
+The widget should exist as a single shared JavaScript/CSS implementation.
+
+For example:
+
+- "resource-map-widget.js"
+- Shared widget stylesheet
+
+The approximately 50 participating sites should use the same underlying component rather than maintaining separate copied versions.
+
+8.1 Per-resource configuration
+
+Individual cards provide data such as:
+
+- Resource name
+- Latitude
+- Longitude
+- Address
+- Hours
+- Other resource-specific information
+
+The component's behavior should remain centralized.
+
+Principle
+
+Resource data varies. Widget logic does not.
+
+A bug fix or architectural improvement should be made once and then applied across participating sites.
+
+---
+
+9. Accessibility
+
+The map is an enhancement. It must never be the only way a person can understand or use the resource information.
+
+The widget must support:
+
+- Keyboard operation of the journey slider
+- Visible keyboard focus
+- An accessible slider label
+- Accessible map labeling
+- Explicit button names
+- Text-based presentation of important map-derived information
+- Usable resource information when JavaScript, map tiles, GPS, or an external API fails
+
+The journey slider must remain understandable without relying solely on visual movement of a marker.
+
+The resource's address and other essential decision information must remain available through normal text content.
+
+---
+
+10. Map as an Enhancement
+
+The map is not the resource itself.
+
+If:
+
+- Leaflet fails
+- Map tiles fail
+- GPS is unavailable
+- Weather is unavailable
+- An external API fails
+- JavaScript functionality is partially unavailable
+
+the underlying resource information must remain usable whenever possible.
+
+The resource card's:
+
+- Identity
+- Services
+- Eligibility information
+- Access information
+- Contact information
+- Address
+- Other decision information
+
+must not depend on the map functioning.
+
+Principle
+
+«The map enhances resource discovery. It does not control whether resource discovery works.»
+
+---
+
+11. Cost and Request Budget
+
+The widget is specifically designed for large-scale repetition.
+
+Feature| Relative Cost| Phase 1 Rule
+Calendar| Minimal| Local calculation per card
+Distance calculation| Minimal| Local calculation
+GPS| Expensive/user-sensitive| Once per page, shared
+Manual geocoding| External request| Only when the person requests it
+Weather| External/rate-limited| Once per relevant page/location, shared
+Leaflet map| Memory/tile overhead| Lazy initialization per card
+Real routing| External/API cost| Deferred
+
+The architecture must prevent accidental multiplication of expensive operations by the number of resource cards.
+
+---
+
+12. Current Phase 1 Visual Structure
+
+The current successful layout is intentionally simple:
+
+Map
+
+↓
+
+Journey slider
+
+↓
+
+Compact information/dashboard area
+
+The map occupies the upper portion of the widget.
+
+The dashboard is below the map rather than beside it.
+
+The map may be expanded through normal user interaction when additional map space is desired.
+
+The dashboard remains compact because the widget may appear repeatedly on a page.
+
+The exact visual treatment of individual dashboard elements remains subject to later tuning.
+
+---
+
+13. Contextual Information
+
+The dashboard may provide lightweight contextual information including:
+
+- Current time
+- Weather
+- Calendar information
+
+These elements are supporting context, not substitutes for resource decision information.
+
+The calendar is intentionally compact.
+
+Further dashboard refinement should occur after the resource-card relationship is established rather than expanding the dashboard unnecessarily.
+
+---
+
+14. What Phase 1 Does Not Claim
+
+Phase 1 is not a navigation system.
+
+It does not yet provide:
+
+- Actual street routing
+- Turn-by-turn directions
+- Accurate walking distance
+- Accurate driving distance
+- Transit routing
+- Traffic-aware travel time
+- Multi-stop routing
+
+The visual path between the person and resource represents a geographic relationship, not an actual road route.
+
+---
+
+15. Deferred Phase 2 / Phase 1.5
+
+15.1 Real routing
+
+A future routing layer may provide:
+
+- Street-based routes
+- Walking routes
+- Driving routes
+- Transit routes where supported
+- Real travel time
+- More accurate distance
+
+Possible services include Google, Mapbox, or OSRM.
+
+The routing provider should be selected deliberately based on:
+
+- Accuracy
+- Coverage
+- Cost
+- API limits
+- Privacy implications
+- Licensing
+- Long-term scalability
+
+15.2 Resource Path
+
+A future Resource Path may allow a person to move through multiple resources or service steps.
+
+Example:
+
+Food locker → Shower → ID assistance → Bus stop
+
+This is intentionally excluded from the individual resource map.
+
+It should not influence or complicate the Phase 1 single-resource architecture.
+
+---
+
+16. Multi-Resource Comparison Map
+
+The individual resource map must remain strictly focused on:
+
+Person → One Resource
+
+Multi-resource comparison belongs in a separate, dedicated map.
+
+This is a future feature and must not be mixed into the individual resource card.
+
+16.1 Rationale
+
+Consideration| Multi-Choice in Individual Map| Dedicated Second Map
+User focus| Confusing; multiple destinations undermine the simple "get to this place" purpose| Clear; individual card remains focused
+UI constraints| Small card becomes crowded with pins and controls| Larger map provides room for comparison
+Touch interaction| Multiple controls compete for limited space| Larger interaction targets
+API load| Potentially multiplied across every resource card| Triggered only when comparison is requested
+Cognitive load| High| Lower
+
+16.2 Recommended future flow
+
+Primary state: Individual Resource Map
+
+The card remains simple.
+
+Point A: Person → Point B: Resource
+
+It provides:
+
+- Resource location
+- Person location when available
+- Single journey slider
+- Estimated straight-line distance
+- Relevant contextual information
+
+Secondary state: Comparison Map
+
+Triggered by an action such as:
+
+Compare with nearby options
+
+or a resource-selection checklist.
+
+The comparison view opens a larger map showing:
+
+- The person's location
+- Multiple selected resource locations
+- Potentially multiple routes in a future routing implementation
+
+The user can then compare or select destinations without complicating the individual resource cards.
+
+Architectural rule
+
+Do not put multi-choice logic into the individual resource map.
+
+The individual map represents one decision.
+
+The comparison map represents multiple decisions.
+
+---
+
+17. Rejected Approaches
+
+These approaches have been tested or evaluated and are not part of the Phase 1 design.
+
+Dashboard scrollbar secretly controlling the map
+
+Rejected because the control's appearance and behavior did not correspond.
+
+A scrollbar should scroll information.
+
+It should not secretly relocate a map indicator.
+
+Full-page GSAP ScrollTrigger pinning
+
+Rejected because the widget is intended to repeat many times on a page.
+
+A single page-level scroll interaction does not scale naturally to hundreds of independent resource widgets.
+
+Freeform map dragging of the journey marker
+
+Rejected because:
+
+- The user's finger can obscure the marker.
+- It conflicts with native map panning.
+- It introduces unnecessary 2D interaction.
+
+The horizontal journey slider replaces it.
+
+Fake shared starting point
+
+Rejected outright.
+
+Every visitor must not appear to originate from a shared downtown or other arbitrary location.
+
+A false starting point produces false distance information.
+
+---
+
+18. Implementation Experience and AI Evaluation
+
+The development process demonstrated an important distinction between specification quality and implementation capability.
+
+Claude.ai and Gemini were both given multiple opportunities to produce the map-and-dashboard implementation but were unable to successfully produce the final working result after several attempts.
+
+Claude nevertheless produced several accurate specification conditions that are retained in this document.
+
+ChatGPT ultimately produced the successful Phase 1 map-and-dashboard implementation.
+
+This should not be interpreted as a general ranking of AI systems. It is a record of the actual development experience for this particular component.
+
+The practical lesson for this project is:
+
+«Correct architectural conditions must eventually become working behavior. A specification is successful only when its important conditions can be implemented and tested.»
+
+The specification therefore separates:
+
+1. Required behavior
+2. Architectural constraints
+3. Implementation decisions
+4. Deferred capabilities
+5. Observed implementation results
+
+This separation should be maintained as the widget evolves.
+
+---
+
+19. Open Questions
+
+The following remain intentionally open:
+
+1. Exact visual treatment of the journey slider:
+   
+   - Track design
+   - Handle size
+   - Progress indication
+   - Labels
+
+2. Final off-screen Leaflet lifecycle:
+   
+   - Suspend
+   - Unmount
+   - Reinitialize
+   - Other bounded-memory strategy
+
+3. Final shared-state implementation for multiple widget instances.
+
+4. Routing provider for the future routing layer.
+
+5. Exact design of the future dedicated comparison map.
+
+6. Whether the comparison map should be a modal, expanded page section, or separate view.
+
+---
+
+20. Phase 1 Architectural Principle
+
+The Resource Map Widget is not primarily a map feature.
+
+It is a resource-decision enhancement.
+
+The resource remains the center of the experience.
+
+The map answers:
+
+Where is it?
+
+The person's location answers:
+
+Where am I relative to it?
+
+The journey slider answers:
+
+What does that distance look like?
+
+The resource information answers:
+
+Can I use it, and how do I access it?
+
+Phase 1 deliberately keeps those functions separate so the widget can remain understandable, honest, accessible, and scalable when repeated across hundreds of resources.
