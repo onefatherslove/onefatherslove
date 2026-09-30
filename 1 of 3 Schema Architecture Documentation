@@ -1,0 +1,404 @@
+Table of Contents
+
+Schema Architecture Documentation
+
+Human-Centered Resource Directory Schema
+
+1. Plain-Language Standard
+
+
+2. The Core Structure of a Resource Listing
+
+The Resource
+
+Operational Information
+
+Decision Information
+
+
+
+3. What Is a Schema?
+
+
+4. The Resource
+
+4.1 Resource Information
+
+
+
+5. Operational Information
+
+5.1 Access
+
+5.2 Eligibility
+
+5.3 Cost and Payment
+
+5.4 Insurance
+
+5.5 Location
+
+5.6 Hours and Availability
+
+5.7 Languages
+
+5.8 Services
+
+5.9 Contact Information
+
+5.10 Provider
+
+5.11 ServiceChannel
+
+
+
+6. Decision Information
+
+6.1 Resource Match
+
+6.2 Eligibility and Requirements
+
+6.3 Availability
+
+6.4 Intake and Referral
+
+6.5 Other Decision Information
+
+6.6 Contextual Decision Information
+
+6.7 additionalProperty and PropertyValue
+
+
+
+7. Purpose of the Three-Part Structure
+
+
+8. Technical Implementation and Mapping
+
+8.1 Determine What a Person Needs to Know
+
+8.2 Find the Corresponding Schema.org Property
+
+8.3 Add the Schema.org Properties as Fields
+
+8.4 Populate the Fields
+
+8.5 Review and Validate the Resource Information
+
+8.6 Use the Completed Resource Listing
+
+8.7 The Process
+
+9. The Resource Card Fields
+
+9.1 Resource Identification
+
+9.2 Resource Contact and Location
+
+9.3 Service Information
+
+9.4 Services Offered
+
+9.5 Accessibility
+
+9.6 Decision Information
+
+9.7 Resource Information Quality
+
+9.8 Resource Relationships
+
+9.9 Purpose of the Fields
+
+
+
+10. The Standard for a Living Resource
+
+
+
+10.1 Listen to the Person
+
+10.2 Treat Missing Information as a Requirement
+
+10.3 Find and Verify the Answer
+
+10.4 Improve the Resource Listing
+
+10.5 Make the Answer Available to the Next Person
+
+The Living Resource
+
+The Standard
+
+
+11. Reference
+
+
+Schema Architecture Documentation
+
+
+Human-Centered Resource Directory Schema
+What Gets Included in the Resource Listing
+Plain-Language Standard
+This documentation follows the principles of the federal Plain Writing Act of 2010 (Public Law 111-274). The Act directs covered federal agencies to use clear, concise, and well-organized communication that the public can understand and use. This project is not subject to the Act; the project follows the same plain-language principles as a professional standard.
+The Core Structure of a Resource Listing
+A resource listing is the information the website provides about a community resource and the services available from that resource.
+The project organizes a resource listing into three basic parts:
+The Resource — The resource itself, what it offers, and who it serves.
+Operational Information — Where, when, and how a person can access the resource or service and what requirements apply.
+Decision Information — Why the resource or service may be appropriate for a person's particular need.
+The three parts allow the same resource information to be understood by people, Happi.mni, AI systems, and search engines.
+What Is a Schema?
+A schema is a standard way to describe and label information so computer systems can understand the information.
+This website uses Schema.org, a shared vocabulary for describing information on websites.
+For a resource listing, the schema identifies information such as:
+What the resource is.
+What the resource offers.
+Who the resource is intended to help.
+Where the resource or its services are available.
+When the resource or its services are available.
+How a person can access the resource or its services.
+What requirements a person must meet.
+Why the resource or its services may be a good match for a particular need.
+1.1 The Resource
+The Resource section identifies the resource itself, what it offers, and who it serves.
+Information can include:
+Resource name.
+Description of the service.
+Type of service.
+Population served.
+Services or specialties offered.
+The Schema.org Service type identifies a service provided by an organization or other provider.
+The Schema.org hasOfferCatalog property can identify several services or specialties offered by the same provider.
+1.2 Operational Information
+Operational Information explains where, when, and how a person can use the service and what requirements apply.
+Information can include:
+How can a person get the service? Online, in person, walk-in, telephone, or referral.
+Who qualifies for the service? Eligibility requirements.
+What does the service cost? Payment requirements or whether the service is free.
+What insurance does the provider accept? Insurance accepted for the service.
+Where can a person receive the service? Service location and address.
+When can a person receive the service? Hours and availability.
+What languages are available? Languages supported by the provider.
+What kind of help does the provider offer? Medical, dental, housing, food, transportation, behavioral health, or another service.
+How can a person contact the provider? Telephone, website, email, or another available method.
+A provider is the organization, business, agency, or other entity that provides the service.
+A ServiceChannel describes a way a person can access or receive a service. Examples include a website, telephone service, or physical location.
+1.3 Decision Information
+Decision Information explains why a person may choose one resource instead of another for a particular need.
+Information can include:
+Why the resource is a good match.
+How closely the service matches the person's need.
+How urgent the need is.
+What the person must do to get started.
+Whether a referral is required.
+What eligibility requirements must be met.
+Whether the service is currently available.
+Other information that could affect the person's decision.
+Decision Information can be contextual. Information such as selectionReason, match, ranking, urgency, and alternativeResources may depend on a particular person's need, search, or comparison set rather than being permanent characteristics of the resource.
+Some decision information does not have a specific Schema.org property.
+When Schema.org does not provide a specific property for information the project needs to record, additionalProperty and PropertyValue provide a structured way to include that information.
+Purpose of the Three-Part Structure
+The three-part structure provides the minimum information necessary for a person, Happi.mni, an AI system, or a search engine to determine whether a resource is:
+Relevant — Accessible — Appropriate — Affordable — Worth pursuing.
+Technical Implementation and Mapping
+How the Resource Information Is Mapped to Schema.org
+The technical process begins with the information a person needs to know before deciding whether a resource is useful.
+The project then identifies the Schema.org type or property that best represents each piece of required resource information.
+The selected Schema.org types and properties become the fields used to describe the resource.
+2.1 Determine What a Person Needs to Know
+For each resource, determine what information a person needs to decide whether the resource is:
+Relevant.
+Accessible.
+Appropriate.
+Affordable.
+Worth pursuing.
+The required information may include basic resource information, services offered, eligibility, access methods, hours, location, intake procedures, referral requirements, availability, and other decision information.
+2.2 Find the Corresponding Schema.org Property
+For each required piece of information, find the corresponding Schema.org property or type when one exists.
+For example:
+Resource name → name
+Website → url
+Telephone number → telephone
+Address → address
+Service area → areaServed
+Population served → audience
+Service access → availableChannel
+Service hours → hoursAvailable
+The project uses the Schema.org property that most appropriately represents the information being recorded.
+2.3 Add the Schema.org Properties as Fields
+The selected Schema.org properties become fields in the resource listing.
+The resource listing therefore contains fields based on what a person needs to know, rather than starting with a predetermined list of business-directory fields.
+When Schema.org provides an appropriate property, the project uses that property.
+When the project needs information that does not have an appropriate Schema.org property, the project can use a structured project-specific field for that information.
+2.4 Populate the Fields
+The fields can be populated from different sources.
+A field may be populated by:
+An API.
+A scraper.
+A person conducting research.
+Another verified source.
+The source does not change what the field means. The source provides the value that belongs in the field.
+2.5 Review and Validate the Resource Information
+The completed resource information must be reviewed so the resource listing represents the resource accurately.
+Validation can include checking:
+Whether the resource still provides the listed service.
+Whether the contact information is current.
+Whether the location is correct.
+Whether the hours are current.
+Whether eligibility and access requirements are accurate.
+When the information was last checked.
+Where the information came from.
+The resource listing can also record the source and validation information so the reliability of the recorded information can be understood.
+2.6 Use the Completed Resource Listing
+The completed resource listing provides the structured resource information that will ultimately be used on the webpage.
+The exact method for turning the completed resource listing into the webpage has not yet been determined.
+The project does not currently assume a particular backend, database, JavaScript process, or other technical implementation for generating the webpage.
+Those implementation decisions can be made after the resource-information and Schema.org structure have been established.
+The Process
+The process can therefore be summarized as:
+What does a person need to know?
+→ Find the corresponding Schema.org type or property.
+→ Add the type or property as a field.
+→ Populate the field from an API, scraper, or person.
+→ Review and validate the resource information.
+→ Use the completed resource listing on the webpage.
+The purpose of the technical mapping is to make sure the resource information needed by people is also represented in a structure that Happi.mni, AI systems, and search engines can understand.
+The Resource Card Fields
+The resource card contains the fields used to record the information needed about a resource.
+Each field represents a specific piece of resource information.
+The fields use Schema.org types and properties whenever an appropriate Schema.org term exists. Project-specific decision fields are included when the information is necessary for choosing or evaluating a resource.
+3.1 Resource Identification
+identifier — unique resource ID.
+name — name of the resource.
+description — description of the resource.
+additionalType — specific type of resource.
+serviceType — services provided.
+category — specialties or service categories.
+url — resource website.
+3.2 Resource Contact and Location
+telephone — telephone number.
+address — physical address.
+streetAddress — street address.
+addressLocality — city.
+addressRegion — state.
+postalCode — ZIP code.
+addressCountry — country.
+contactPoint — additional contact information.
+sameAs — other websites representing the same resource.
+3.3 Service Information
+areaServed — geographic area served.
+providerMobility — whether the service is mobile or tied to a fixed location.
+hoursAvailable — when the service is available.
+availableChannel — how the service can be accessed.
+availableLanguage — languages available through the service.
+serviceLocation — location where the service is provided.
+maximumAttendeeCapacity — maximum number of people the service location can accommodate when applicable.
+geo — geographic coordinates.
+audience — population served.
+serviceOutput — what the person receives from the service.
+3.4 Services Offered
+hasOfferCatalog identifies the services offered by the resource.
+Each service can include:
+name — name of the service.
+description — description of the service.
+This allows one resource card to identify multiple services offered by the same resource.
+3.5 Accessibility
+amenityFeature identifies important features of the resource location.
+Examples include:
+Wheelchair-accessible entrance.
+Other accessibility features relevant to using the resource.
+3.6 Decision Information
+The resource card also contains information that helps a person determine whether the resource is a good choice for the person's need.
+These fields include:
+selectionReason — why the resource was selected as a possible match.
+eligibilityRequirements — requirements a person must meet.
+availability — current availability when known.
+match — how closely the resource matches the person's need.
+ranking — the resource's position among other possible resources in a particular search or comparison context.
+intake — what a person needs to do to begin receiving the service.
+urgency — how quickly the service may be needed.
+referralRequired — whether a referral is required.
+goodToKnow — other information that could affect the person's decision.
+alternativeResources — other resources that may meet the same need in a particular search or decision context.
+Decision Information may change depending on the person's need, search, or comparison set. It does not necessarily represent a permanent characteristic of the resource.
+3.7 Resource Information Quality
+The resource card also records information about the source and reliability of the resource information.
+These fields include:
+source — where the resource information came from.
+sourceType — type of source used.
+validationDate — date the resource information was checked.
+confidence — confidence in the accuracy of the recorded resource information.
+3.8 Resource Relationships
+The resource card can identify relationships with other resources.
+isSimilarTo — resources that provide similar services.
+isRelatedTo — resources that are related to the resource.
+aggregateRating — available rating information.
+Purpose of the Fields
+Together, the fields provide the information needed to understand, access, compare, and choose a resource.
+The resource card is therefore designed to answer the questions that matter to the person using the directory:
+Who? What? Who is it for? Where? When? How? What does the person need to do? And why might this resource be the right choice?
+The Standard for a Living Resource
+A resource listing must never settle for being a fixed collection of facts.
+The person using the directory comes first.
+When a person asks a question about a resource, the question tells us what that person needs to know. If the resource listing does not answer the question, the listing is incomplete.
+We do not blame the person for asking.
+We do not tell the person to search somewhere else when we can find the answer.
+We do not accept missing information simply because other directories leave the same information out.
+We find the answer. We verify the answer. We add the answer.
+That is the standard.
+4.1 Listen to the Person
+A person's question matters.
+Questions such as these identify information a person needs before deciding whether to pursue a resource:
+Do I need an appointment?
+Can I walk in?
+Do I need a referral? If so, who can make the referral and where do I get the referral?
+What documents do I need?
+Is the service available now?
+Does this resource serve my particular situation?
+Does this resource serve my location?
+What do I need to do first?
+Every question deserves an answer when the answer can be found.
+4.2 Treat Missing Information as a Requirement
+When a person asks a question that the resource listing cannot answer, the missing information becomes a required need for the resource listing.
+We do not call the missing information optional simply because the original listing did not include it.
+We do not wait for another person to ask the same question.
+One person's unanswered question can become the information that helps everyone who comes after that person.
+4.3 Find and Verify the Answer
+We find the answer using the best available source.
+Sources may include:
+The resource itself.
+An official government source.
+An API.
+A reliable scraper.
+Person-conducted research.
+Other appropriate sources that provide verifiable information.
+We verify the answer before we add it to the resource listing.
+We do not turn guesses into resource information.
+4.4 Improve the Resource Listing
+We add the verified answer to the resource listing so the listing meets the need identified by the person's question.
+When Schema.org provides an appropriate property, we use that Schema.org property.
+When Schema.org does not provide an appropriate property, we create a structured project-specific field for the information.
+The resource listing changes because a person needed it to change.
+4.5 Make the Answer Available to the Next Person
+Once we add and verify the answer, the next person can find the answer without having to ask the same question.
+Happi.mni can use the answer when helping a person evaluate the resource.
+AI systems can use the structured resource information to understand the resource and its services.
+Search engines can use the information to make stronger connections between searches and resources.
+A question from one person can therefore improve the experience for thousands of people who come later.
+The Living Resource
+A living resource follows this behavior:
+Person asks a question → We identify the missing information → We find the answer → We verify the answer → We add the answer → The next person benefits.
+The directory must continue this cycle.
+We do not measure success by how many resources we list.
+We measure success by whether a person can find what they need to know to make a good decision about using a resource.
+The Standard
+When we discover that a person needs information, we have a responsibility to pursue that information.
+Leaving known questions unanswered means knowingly leaving the next person with the same problem.
+Doing less is not the standard.
+The person using the directory is the most important person in the directory.
+Every resource listing, every field, every answer, and every improvement exists to serve that person.
+We will live up to that standard.
+Reference
+U.S. Congress. Plain Writing Act of 2010. Public Law 111-274, 124 Stat. 2861, 13 Oct. 2010.
+I kept the four-part architecture and all unaffected wording intact; the corrections are limited to resource as the umbrella concept, provider as a role rather than a universal listing model, and contextual Decision Information.
+
