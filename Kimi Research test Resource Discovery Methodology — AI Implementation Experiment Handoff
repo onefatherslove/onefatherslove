@@ -1,0 +1,208 @@
+Resource Discovery Methodology — AI Implementation Experiment Handoff
+
+TABLE OF CONTENTS
+
+1. Purpose
+
+2. Experiment
+
+3. Kimi Result
+
+4. What Kimi Implemented Directly From the Documentation
+
+5. What Kimi Had to Infer
+
+6. What the First Test Run Discovered
+
+7. Correction
+
+8. Second Test Run
+
+9. End-to-End Behavior Tested
+
+10. What Could Not Be Tested
+
+11. What This Experiment Demonstrates
+
+12. Significance
+
+13. Current Status
+
+14. Source
+
+---
+
+INDEXED TEXT
+
+1. Purpose
+
+This handoff records the first experiment in translating the OneFathersLove Resource Discovery methodology from a conceptual/documentation framework into a working, testable system using an AI coding and research model.
+
+The experiment asked:
+
+Can an AI take a research-style methodology, determine what is codeable, build an implementation, test it, discover problems, correct them, and test again?
+
+2. Experiment
+
+The Schema Architecture Documentation was submitted to Kimi.ai as the specification.
+
+Kimi was instructed to treat the documentation as a complete methodology and implementation specification, rather than merely summarizing it.
+
+The requested process was:
+
+Documentation → implementation → testing → failure analysis → correction → retesting
+
+3. Kimi Result
+
+Kimi reported:
+
+39 automated tests, 0 failures on the final test run.
+
+It produced:
+
+- "schema_architecture.py" — implementation
+- "test_schema_architecture.py" — 39 automated tests
+- "REPORT.md" — implementation record
+
+4. What Kimi Implemented Directly From the Documentation
+
+Kimi reported implementing:
+
+- The three-part resource structure as a field registry.
+- Every resource-card field from the documentation, preserving the field names.
+- The eight decision questions from the documentation.
+- "additionalProperty" / "PropertyValue" structures for project-specific decision information.
+- The living-resource cycle: ask → missing information becomes a requirement → verified answer added → next person's question is answered.
+- Rejection of unverified information when an answer lacked the required source, source type, validation date, or confidence information.
+
+5. What Kimi Had to Infer
+
+Kimi identified several areas where the documentation describes a requirement but does not explicitly define the technical implementation.
+
+It reported that it had to infer:
+
+- "provider"
+- "priceRange"
+- Per-field value types.
+- The mapping between questions and fields.
+- Question-to-field mappings for the eight decision questions.
+
+Importantly, Kimi identified these as inferences rather than silently treating them as requirements from the documentation.
+
+6. What the First Test Run Discovered
+
+The first test run produced:
+
+39 tests — 1 genuine failure.
+
+A "referralRequired" value containing an invalid dictionary shape:
+
+"{"bad": "shape"}"
+
+was accepted.
+
+The implementation therefore constrained which fields existed but did not adequately constrain the expected shape of their values.
+
+This was a real implementation defect.
+
+7. Correction
+
+Kimi added value-type constraints to the field specifications and enforced those constraints during listing validation.
+
+Kimi identified the value-type rules as inferred implementation decisions because the original methodology did not specify value types.
+
+8. Second Test Run
+
+After the correction:
+
+39 tests — 0 failures.
+
+9. End-to-End Behavior Tested
+
+Kimi reported that a sparse clinic listing initially answered:
+
+5 of 8 decision questions.
+
+A person then asked:
+
+««Do I need a referral?»»
+
+The system:
+
+1. Identified the missing information.
+2. Registered it as a requirement.
+3. Accepted a verified answer with provenance.
+4. Added the information to the resource listing.
+5. Used the newly added information to answer the same question for the next person.
+
+The listing therefore moved from:
+
+5/8 answered → 6/8 answered.
+
+The Schema.org export also emitted the resource as a "Service", with the project-specific decision information represented through "additionalProperty".
+
+10. What Could Not Be Tested
+
+Kimi explicitly reported that the documentation alone was not sufficient to test:
+
+- Live API data sourcing.
+- Scraper-based data collection.
+- Person-conducted real-world research.
+- Official Schema.org vocabulary validation.
+- Webpage generation.
+- A real Happi.mni consumer.
+- A real search-engine consumer.
+
+These were not simulated as completed capabilities.
+
+11. What This Experiment Demonstrates
+
+The experiment does not prove that the Resource Discovery methodology is correct or superior.
+
+It demonstrates something different:
+
+A conceptual methodology can contain enough defined behavior to be translated by an AI into a computational model that can be executed and tested.
+
+More importantly, the implementation process can expose parts of the methodology that were not sufficiently specified.
+
+The first failed test exposed one such gap:
+
+The documentation identified the information that needed to exist, but did not fully specify the allowable technical shape of every value.
+
+The AI therefore had to make an implementation decision in order to make the concept executable.
+
+That creates a useful research loop:
+
+Concept → formalization → implementation → test → discovered gap → refinement → retest
+
+12. Significance
+
+The experiment is significant because the original Resource Discovery methodology was not created as an existing software system.
+
+It was a conceptual framework describing:
+
+- What information a person needs.
+- How resource information should be structured.
+- How missing information should become a requirement.
+- How answers should be found and verified.
+- How resource listings should improve over time.
+
+An AI was nevertheless able to convert those behavioral requirements into executable logic and tests.
+
+This suggests that the methodology is sufficiently structured to serve as a basis for computational experimentation even though the complete system had not previously been implemented.
+
+13. Current Status
+
+The first AI implementation experiment is complete.
+
+Final reported test result: 39 tests passed, 0 failures.
+
+The next question is not whether the AI can make the concept run.
+
+It can.
+
+The next question is what happens when the methodology is tested against more realistic resource information, real research workflows, competing resources, incomplete data, changing information, and actual resource-selection decisions.
+
+14. Source
+
+Experiment performed by Kimi.ai using the OneFathersLove Schema Architecture Documentation as the implementation specification.
