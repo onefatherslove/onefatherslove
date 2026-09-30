@@ -1,0 +1,279 @@
+Human-Centered Resource Directory Schema
+
+TABLE OF CONTENTS
+
+1. Schema Foundation
+
+- 1.1 "@context"
+- 1.2 "@type"
+- 1.3 "identifier"
+- 1.4 "name"
+- 1.5 "description"
+- 1.6 "additionalType"
+- 1.7 "serviceType"
+- 1.8 "category"
+- 1.9 "url"
+
+2. Provider
+
+- 2.1 "provider"
+- 2.2 "@type"
+- 2.3 "@id"
+- 2.4 "name"
+- 2.5 "telephone"
+
+3. Provider Address
+
+- 3.1 "address"
+- 3.2 "@type"
+- 3.3 "streetAddress"
+- 3.4 "addressLocality"
+- 3.5 "addressRegion"
+- 3.6 "postalCode"
+- 3.7 "addressCountry"
+
+4. Provider Contact
+
+- 4.1 "contactPoint"
+- 4.2 "@type"
+- 4.3 "telephone"
+- 4.4 "contactType"
+- 4.5 "sameAs"
+
+5. Accessibility
+
+- 5.1 "amenityFeature"
+- 5.2 "@type"
+- 5.3 "name"
+- 5.4 "value"
+
+6. Service Area & Mobility
+
+- 6.1 "areaServed"
+- 6.2 "providerMobility"
+
+7. Hours of Operation
+
+- 7.1 "hoursAvailable"
+- 7.2 "@type"
+- 7.3 "opens"
+- 7.4 "closes"
+- 7.5 "dayOfWeek"
+
+8. Service Access Channel
+
+- 8.1 "availableChannel"
+- 8.2 "@type"
+- 8.3 "availableLanguage"
+- 8.4 "serviceLocation"
+
+9. Service Location
+
+- 9.1 "@type"
+- 9.2 "name"
+- 9.3 "maximumAttendeeCapacity"
+- 9.4 "geo"
+- 9.5 "@type"
+- 9.6 "latitude"
+- 9.7 "longitude"
+
+10. Population Served
+
+- 10.1 "audience"
+- 10.2 "@type"
+- 10.3 "audienceType"
+
+11. Service Output
+
+- 11.1 "serviceOutput"
+
+12. Resource Relationships
+
+- 12.1 "isSimilarTo"
+- 12.2 "isRelatedTo"
+
+13. Resource Rating
+
+- 13.1 "aggregateRating"
+- 13.2 "@type"
+- 13.3 "ratingValue"
+- 13.4 "reviewCount"
+- 13.5 "bestRating"
+- 13.6 "worstRating"
+
+14. Services Offered
+
+- 14.1 "hasOfferCatalog"
+- 14.2 "@type"
+- 14.3 "name"
+- 14.4 "itemListElement"
+- 14.5 "@type"
+- 14.6 "itemOffered"
+- 14.7 "@type"
+- 14.8 "name"
+- 14.9 "description"
+
+15. Decision Information
+
+- 15.1 "selectionReason"
+- 15.2 "eligibilityRequirements"
+- 15.3 "availability"
+- 15.4 "match"
+- 15.5 "ranking"
+- 15.6 "intake"
+- 15.7 "urgency"
+- 15.8 "referralRequired"
+- 15.9 "goodToKnow"
+- 15.10 "alternativeResources"
+
+16. Information Quality & Validation
+
+- 16.1 "source"
+- 16.2 "sourceType"
+- 16.3 "validationDate"
+- 16.4 "confidence"
+
+---
+
+INDEXED SCHEMA
+
+ 1.1  "@context": "https://schema.org",
+ 1.2  "@type": "Service",
+ 1.3  "identifier": "RESOURCE ID",
+ 1.4  "name": "RESOURCE NAME",
+ 1.5  "description": "DESCRIPTION",
+ 1.6  "additionalType": "TYPE OF RESOURCE",
+ 1.7  "serviceType": "SERVICES",
+ 1.8  "category": "SPECIALTIES",
+ 1.9  "url": "WEBSITE",
+
+ 2.1  "provider": {
+ 2.2    "@type": "LocalBusiness",
+ 2.3    "@id": "https://example.com",
+ 2.4    "name": "RESOURCE NAME",
+ 2.5    "telephone": "PHONE NUMBER",
+
+ 3.1    "address": {
+ 3.2      "@type": "PostalAddress",
+ 3.3      "streetAddress": "STREET ADDRESS",
+ 3.4      "addressLocality": "CITY",
+ 3.5      "addressRegion": "STATE",
+ 3.6      "postalCode": "ZIP",
+ 3.7      "addressCountry": "US"
+        },
+
+ 4.1    "contactPoint": {
+ 4.2      "@type": "ContactPoint",
+ 4.3      "telephone": "PHONE NUMBER",
+ 4.4      "contactType": "customer service"
+        },
+ 4.5    "sameAs": [
+          "https://example.com",
+          "https://example.com"
+        ],
+
+ 5.1    "amenityFeature": [
+          {
+ 5.2        "@type": "LocationFeatureSpecification",
+ 5.3        "name": "Wheelchair Accessible Entrance",
+ 5.4        "value": true
+          },
+          {
+            "@type": "LocationFeatureSpecification",
+            "name": "ACCESSIBILITY",
+            "value": true
+          }
+        ]
+      },
+
+ 6.1  "areaServed": "SERVICE AREA",
+ 6.2  "providerMobility": "SERVICE MOBILITY",
+
+ 7.1  "hoursAvailable": {
+ 7.2    "@type": "OpeningHoursSpecification",
+ 7.3    "opens": "09:00:00",
+ 7.4    "closes": "17:00:00",
+ 7.5    "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ]
+      },
+
+ 8.1  "availableChannel": {
+ 8.2    "@type": "ServiceChannel",
+ 8.3    "availableLanguage": [
+          "en",
+          "es"
+        ],
+ 8.4    "serviceLocation": {
+
+ 9.1      "@type": "Place",
+ 9.2      "name": "SERVICE LOCATION",
+ 9.3      "maximumAttendeeCapacity": 100,
+ 9.4      "geo": {
+ 9.5        "@type": "GeoCoordinates",
+ 9.6        "latitude": 0.000000,
+ 9.7        "longitude": 0.000000
+        }
+      }
+    },
+
+10.1  "audience": {
+10.2    "@type": "Audience",
+10.3    "audienceType": "POPULATION SERVED"
+      },
+
+11.1  "serviceOutput": "WHAT THE USER RECEIVES",
+
+12.1  "isSimilarTo": "SIMILAR RESOURCES",
+12.2  "isRelatedTo": "RELATED RESOURCES",
+
+13.1  "aggregateRating": {
+13.2    "@type": "AggregateRating",
+13.3    "ratingValue": "0",
+13.4    "reviewCount": "0",
+13.5    "bestRating": "5",
+13.6    "worstRating": "1"
+      },
+
+14.1  "hasOfferCatalog": {
+14.2    "@type": "OfferCatalog",
+14.3    "name": "RESOURCE NAME - Services Offered",
+14.4    "itemListElement": [
+          {
+14.5        "@type": "Offer",
+14.6        "itemOffered": {
+14.7          "@type": "Service",
+14.8          "name": "SUB-SERVICE NAME 1",
+14.9          "description": "SUB-SERVICE DESCRIPTION 1"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "SUB-SERVICE NAME 2",
+            "description": "SUB-SERVICE DESCRIPTION 2"
+          }
+        }
+      ]
+    },
+
+15.1  "selectionReason"
+15.2  "eligibilityRequirements"
+15.3  "availability"
+15.4  "match"
+15.5  "ranking"
+15.6  "intake"
+15.7  "urgency"
+15.8  "referralRequired"
+15.9  "goodToKnow"
+15.10 "alternativeResources"
+
+16.1  "source"
+16.2  "sourceType"
+16.3  "validationDate"
+16.4  "confidence"
