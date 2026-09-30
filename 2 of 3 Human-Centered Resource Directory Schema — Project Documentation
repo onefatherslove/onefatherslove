@@ -1,0 +1,703 @@
+Human-Centered Resource Directory Schema — Project Documentation
+
+Schema Authority: [Your Name/Project]
+
+---
+
+Table of Contents
+
+Part 1 — Project Foundation
+
+1. Core Problem
+2. The Missing Piece: Accountability
+3. Project Purpose
+
+Part 2 — Schema Development
+
+4. The Schema Solution
+5. User Need and AI Need
+6. Schema Architecture Documentation
+7. Kimi Development and Testing
+
+Part 3 — Resource Directory Research
+
+8. Existing Directory Models
+9. The Taxonomy Problem
+10. Human-Centered Resource Discovery
+11. Accountability Research
+
+Part 4 — iCarol and Resource Data
+
+12. iCarol Resource Harvester
+13. Resource Data Extraction and Mapping
+14. Validation and Verification
+15. Relationship Between the Harvester and the Schema
+
+Part 5 — Accountability as Data
+
+16. Accountability Built Into the Data Structure
+17. Proposed Accountability Fields
+18. Measurable and Auditable Resource Information
+
+Part 6 — Federal Standards and Interoperability
+
+19. Federal Standards Alignment
+20. HSDS as the Structural Container
+21. Innovation Within the Container
+22. Federal Design Standards and AI
+
+Part 7 — Living Resource Development
+
+23. The Living Resource Standard
+24. Missing Information as a Requirement
+25. Continuous Verification and Improvement
+
+Part 8 — Longer-Term Vision
+
+26. A Proposed Community Standard
+27. A Community of Practice
+28. Human Need as the Entry Point
+29. Accountability as a Data Structure
+30. AI Navigability as a Design Requirement
+31. Interoperability With Federal Standards
+
+Part 9 — Current Status and Open Questions
+
+32. Completed Work
+33. Work in Development
+34. Open Research Questions
+35. Next Development Priorities
+
+---
+
+Part 1 — Project Foundation
+
+1. Core Problem
+
+Existing resource directories, including 211, iCarol, and AIRS-based systems, are organized primarily around how agencies categorize services, not how people actually seek help.
+
+People generally do not begin with an agency taxonomy. They begin with a need.
+
+The result is chronic inaccuracy, outdated information, and little or no accountability for the quality of the information presented.
+
+The person seeking help bears the consequences when the information is wrong.
+
+A resource directory should therefore be designed around the information a person needs to determine:
+
+- What is available?
+- Does it meet my need?
+- Can I actually access it?
+- What do I need to do?
+- What happens when I contact them?
+- Is the information current and reliable?
+
+The Human-Centered Resource Directory Schema is intended to address that gap.
+
+---
+
+2. The Missing Piece: Accountability
+
+Current directory standards such as AIRS describe a system in which resource information is accurate, current, and unbiased.
+
+The field reality can be very different.
+
+Examples include:
+
+- Wrong phone numbers
+- Outdated hours
+- Services that no longer exist
+- Nobody answers
+- Vague or missing eligibility criteria
+- Dead links
+- Disconnected telephone numbers
+- Information that has not been verified recently
+
+The fundamental problem is not simply that inaccurate information exists.
+
+The problem is that there is often no structured mechanism for measuring, reporting, or demonstrating the accuracy of the information.
+
+A directory can therefore present information as authoritative without providing the person using it with meaningful evidence of its reliability.
+
+Accountability needs to become part of the resource information itself.
+
+---
+
+3. Project Purpose
+
+The purpose of this project is to develop a resource-directory data structure that is:
+
+- Human-centered
+- AI-readable
+- Action-oriented
+- Interoperable
+- Verifiable
+- Accountable
+- Capable of representing the operational reality of accessing a resource
+
+The objective is not simply to create another directory taxonomy.
+
+The objective is to create a structure that allows information about resources to be understood by both people and machines while preserving the information a person actually needs to make a decision.
+
+---
+
+Part 2 — Schema Development
+
+4. The Schema Solution
+
+A 20-field resource card schema was developed and tested extensively in Kimi.
+
+The testing went beyond the initial expectations for the schema and helped demonstrate that the structure could support both human information needs and machine-readable decision-making.
+
+The schema is formally documented in the project repository, including the Kimi test results.
+
+The schema establishes a structured representation of a resource while allowing the information to be used in different environments.
+
+The same underlying resource information can support:
+
+- A human-facing resource directory
+- A resource card
+- A submission or intake process
+- Staff research
+- A researcher
+- An AI system
+- Hapi.mni
+- Another AI
+- A search engine
+- Other interoperable systems
+
+The objective is one underlying information structure rather than separate schemas for every user or application.
+
+---
+
+5. User Need and AI Need
+
+The schema is designed to serve two simultaneous needs.
+
+User Need
+
+What a person actually requires to access a service or resource.
+
+This includes information such as:
+
+- What the resource is
+- What it provides
+- Who it is intended to help
+- Where it is available
+- When it is available
+- How it can be accessed
+- What requirements apply
+- Whether a referral is required
+- What a person should expect
+
+AI Need
+
+What structured information an AI requires to accurately navigate a person to an appropriate resource.
+
+An AI cannot reliably determine whether a resource is appropriate from a name and telephone number alone.
+
+It needs structured information describing the resource, its operational reality, access requirements, and relevant decision information.
+
+This creates a shared data structure between human understanding and machine reasoning.
+
+---
+
+6. Schema Architecture Documentation
+
+The formal architecture of the resource listing is documented separately in:
+
+Schema Architecture Documentation
+
+That document defines the structure of the resource information, including:
+
+1. The Resource
+2. Operational Information
+3. Decision Information
+
+The architecture establishes the distinction between information about the resource itself, information about how the resource can be accessed, and information used to understand whether the resource may be appropriate in a particular context.
+
+The architecture is intended to be broadly applicable rather than tied to one type of service, provider, agency, or organizational model.
+
+---
+
+7. Kimi Development and Testing
+
+Kimi was used extensively during schema development as a testing environment for the resource-card structure.
+
+The schema was subjected to repeated examination and refinement to determine whether the proposed fields could support the information necessary for both people and AI.
+
+The testing helped establish that the schema could function beyond a simple directory record.
+
+The Kimi test results are formally documented in the project repository.
+
+Status: Kimi testing completed and documented.
+
+---
+
+Part 3 — Resource Directory Research
+
+8. Existing Directory Models
+
+The project examines existing resource-directory systems and standards, including:
+
+- 211
+- AIRS-based directory structures
+- iCarol
+- Other resource-information systems
+- Federal interoperability standards
+
+These systems provide important structural and operational precedents.
+
+However, the project is specifically examining where existing models fail to represent the actual experience of a person seeking assistance.
+
+The purpose is not to discard existing standards.
+
+It is to identify what they already solve and where additional human-centered structure is necessary.
+
+---
+
+9. The Taxonomy Problem
+
+A major research question concerns taxonomy.
+
+AIRS taxonomy and 211 systems are organized around established categories for human services and agency operations.
+
+People do not necessarily think in those categories.
+
+People ask questions such as:
+
+«“What can you do for me?”»
+
+«“Does such and such have what I need?”»
+
+«“How can you help me?”»
+
+The central research question is:
+
+«What existing taxonomy most accurately represents how a person actually seeks help, rather than how social-service organizations are accustomed to categorizing services?»
+
+This remains an open and important question.
+
+AIRS is not being treated as the final answer to this question.
+
+A human-centered taxonomy needs to be developed or identified.
+
+---
+
+10. Human-Centered Resource Discovery
+
+The project treats resource discovery as a question of matching human need to available assistance.
+
+The starting point is not necessarily:
+
+“What category does this service belong to?”
+
+The starting point is:
+
+“What does this person need?”
+
+The schema therefore needs to contain enough structured information for a system, human or AI, to move from a person's need toward resources that may actually address that need.
+
+This is a central distinction between an agency-centered directory and a human-centered resource directory.
+
+---
+
+11. Accountability Research
+
+Accountability is being treated as a structural research problem rather than merely a policy statement.
+
+The project examines how resource directories can demonstrate:
+
+- When information was verified
+- Who verified it
+- Whether the resource actually responds
+- Whether contact information works
+- Whether information reported by users agrees with directory information
+- Whether a resource continues to exist
+- Whether operational information remains current
+
+The objective is to determine which accountability measures can become formal data elements within the resource structure.
+
+---
+
+Part 4 — iCarol and Resource Data
+
+12. iCarol Resource Harvester
+
+The iCarol Resource Harvester is a separate technical project that supports the broader schema project.
+
+Its purpose is to obtain resource information from an existing iCarol-based resource system and transform that information into structured data that can be examined, mapped, validated, and incorporated into the broader resource architecture.
+
+The harvester is therefore a data acquisition and transformation project, not the definition of the Human-Centered Resource Directory Schema itself.
+
+The schema is the broader project.
+
+The iCarol harvester is one source and implementation pathway within that project.
+
+---
+
+13. Resource Data Extraction and Mapping
+
+The harvester work examines how existing resource information can be extracted and mapped into the schema.
+
+The process includes:
+
+- Identifying available source fields
+- Extracting resource information
+- Mapping source information to schema concepts
+- Preserving source information where appropriate
+- Identifying missing information
+- Identifying ambiguous information
+- Preparing information for validation
+
+The objective is not simply to copy an existing directory.
+
+It is to determine what existing resource information can support the human-centered model and what information is missing.
+
+---
+
+14. Validation and Verification
+
+Information obtained from an existing directory is not automatically considered accurate simply because it came from that directory.
+
+Source provenance and information validity are separate concepts.
+
+Information can originate from:
+
+- An API
+- A scraper
+- A person conducting research
+- Another verified source
+- An existing resource directory
+
+Regardless of origin, information may require review and validation before being treated as reliable resource information.
+
+This distinction is fundamental to the accountability model.
+
+---
+
+15. Relationship Between the Harvester and the Schema
+
+The iCarol Resource Harvester demonstrates how the broader schema can interact with an existing resource-information system.
+
+The relationship is:
+
+Existing resource data → Extraction → Mapping → Validation → Human-Centered Resource Structure
+
+The harvester does not define the schema.
+
+The schema provides the structure against which the extracted information can be understood.
+
+This allows the same methodology to be applied to additional resource-data sources in the future.
+
+---
+
+Part 5 — Accountability as Data
+
+16. Accountability Built Into the Data Structure
+
+Accountability should not depend solely on a policy statement that nobody is required to enforce.
+
+It should be embedded in the data structure itself.
+
+If the system claims that a telephone number, eligibility requirement, service, or operating hour is current, the structure should provide a way to determine how that claim was established.
+
+This transforms accountability from a promise into information that can be examined.
+
+---
+
+17. Proposed Accountability Fields
+
+Proposed accountability fields include:
+
+- Last verified date
+- Verified by whom
+- Response rate data
+- User-reported accuracy scoring
+- Dead-link flags
+- Disconnected-number flags
+
+These fields are currently conceptual and require further formalization.
+
+The project will need to determine:
+
+- Exact field definitions
+- Acceptable values
+- Verification methods
+- Who can provide verification
+- How conflicting reports are handled
+- How verification history is maintained
+- How accountability information is presented to users and AI systems
+
+---
+
+18. Measurable and Auditable Resource Information
+
+The long-term objective is to make resource information measurable and auditable.
+
+A person should not have to assume that a directory is accurate merely because the directory presents the information.
+
+The data should provide evidence about its own reliability.
+
+This creates the possibility of a resource directory in which accuracy is not simply asserted but documented.
+
+---
+
+Part 6 — Federal Standards and Interoperability
+
+19. Federal Standards Alignment
+
+The project is intended to work with established interoperability standards rather than creating an isolated data ecosystem.
+
+Human services already have standards that provide an important structural foundation.
+
+The project therefore examines how human-centered resource information can operate within existing federal interoperability work.
+
+---
+
+20. HSDS as the Structural Container
+
+HSDS — the Human Services Data Specification — is adopted as a federal ONC Interoperability Standards Advisory production standard.
+
+It provides an established structural container for human-services resource information.
+
+The project views HSDS as an important interoperability foundation.
+
+The objective is not to replace the structural container.
+
+---
+
+21. Innovation Within the Container
+
+The central opportunity is what happens inside the structural container.
+
+The taxonomy, decision information, accountability information, and human-centered interpretation of resources are where additional innovation is needed.
+
+In simplified form:
+
+HSDS provides the container.
+
+The Human-Centered Resource Directory Schema explores what information and relationships should exist inside that container to better represent human need and real-world access.
+
+This approach allows innovation while maintaining interoperability.
+
+---
+
+22. Federal Design Standards and AI
+
+A question was posted to the federal design standards online community regarding the inclusion of AI in federal design standards.
+
+The purpose was to begin moving the conversation toward the role of AI in future public-information and human-service systems.
+
+The broader question is how federal information standards can accommodate systems in which AI helps people navigate structured public information while maintaining accuracy, transparency, accountability, and appropriate information minimization.
+
+---
+
+Part 7 — Living Resource Development
+
+23. The Living Resource Standard
+
+A resource directory should not be considered complete simply because a record exists.
+
+The standard for a living resource is:
+
+A person asks a question → We identify the missing information → We find the answer → We verify the answer → We add the answer → The next person benefits.
+
+This creates a continuous improvement model.
+
+The resource listing becomes a living body of information rather than a static database record.
+
+---
+
+24. Missing Information as a Requirement
+
+Missing information is itself information.
+
+If a person needs to know whether a resource accepts their insurance, and the listing does not contain that information, the absence should be recognized as a gap.
+
+If a person needs to know whether an organization is currently accepting applications, and that information is unavailable, the absence represents another gap.
+
+The system should therefore identify missing information rather than silently treating incomplete records as complete.
+
+---
+
+25. Continuous Verification and Improvement
+
+The Living Resource model creates an ongoing cycle:
+
+Question → Missing Information → Research → Verification → Update → Future Benefit
+
+This process can be applied regardless of whether the missing information was identified by:
+
+- A person using the directory
+- A staff member
+- A researcher
+- An AI system
+- A resource provider
+- Another verified information source
+
+The goal is continuous improvement of the information available to the next person.
+
+---
+
+Part 8 — Longer-Term Vision
+
+26. A Proposed Community Standard
+
+The Human-Centered Resource Directory Schema has the potential to become a proposed community standard for AI-readable, human-centered resource directories.
+
+The objective is not necessarily to create another proprietary directory system.
+
+The longer-term objective is to establish a shared approach to representing resource information.
+
+---
+
+27. A Community of Practice
+
+The project could help trigger a community of practice around a new schema-style language for resource directories.
+
+Such a community could bring together:
+
+- Resource-directory developers
+- Human-service organizations
+- Researchers
+- Government agencies
+- Data-standard organizations
+- AI developers
+- People who use community resources
+
+The purpose would be to develop and test common approaches to human-centered resource information.
+
+---
+
+28. Human Need as the Entry Point
+
+The first principle is:
+
+Human need as the entry point.
+
+The structure should begin with what a person needs to know and do rather than assuming that the agency's organizational taxonomy is the best representation of the person's problem.
+
+---
+
+29. Accountability as a Data Structure
+
+The second principle is:
+
+Accountability as a data structure.
+
+Accuracy, verification, responsiveness, and information quality should be capable of being represented, measured, and audited within the data.
+
+---
+
+30. AI Navigability as a Design Requirement
+
+The third principle is:
+
+AI navigability as a design requirement.
+
+AI systems increasingly function as intermediaries between people and information.
+
+For an AI to navigate a person to an appropriate resource, the underlying resource information must be structured in a way that supports accurate interpretation and decision-making.
+
+AI readability should therefore be considered a design requirement rather than an afterthought.
+
+---
+
+31. Interoperability With Federal Standards
+
+The fourth principle is:
+
+Interoperability with federal standards.
+
+The project should build on established standards wherever possible.
+
+The goal is to introduce human-centered and AI-readable improvements without unnecessarily creating another incompatible data structure.
+
+---
+
+Part 9 — Current Status and Open Questions
+
+32. Completed Work
+
+- 20-field schema formally documented and tested ✓
+- Kimi test results documented in the project repository ✓
+- Schema Architecture Documentation established ✓
+- iCarol resource-harvesting work established as a separate implementation project ✓
+- Federal standards community engagement initiated ✓
+
+---
+
+33. Work in Development
+
+- Human-centered taxonomy
+- Accountability field definitions
+- Resource verification methodology
+- Integration of accountability into the schema
+- Continued testing with real-world resource data
+- AI navigation and interpretation
+- Broader interoperability implementation
+
+---
+
+34. Open Research Questions
+
+Taxonomy
+
+What existing taxonomy most accurately represents how a person actually seeks help, rather than how social-service organizations are accustomed to categorizing services?
+
+Accountability
+
+What specific fields and methodologies can make resource-directory accuracy measurable and auditable?
+
+Verification
+
+What constitutes sufficient verification for different types of resource information?
+
+AI
+
+What structured information does an AI require to accurately navigate a person from need to an appropriate resource?
+
+Interoperability
+
+How can the human-centered schema operate within established standards such as HSDS?
+
+Human Experience
+
+How should resource information be structured so that it reflects the actual questions and decisions people face when seeking help?
+
+---
+
+35. Next Development Priorities
+
+The immediate priorities are:
+
+1. Continue development of the human-centered taxonomy.
+2. Formalize the proposed accountability fields.
+3. Test accountability concepts against real resource data.
+4. Continue documenting Kimi and other schema testing.
+5. Continue developing the iCarol Resource Harvester as a separate data-acquisition implementation.
+6. Map the human-centered schema against HSDS and other relevant standards.
+7. Continue research into AI-readable resource information.
+8. Develop the evidence and documentation necessary to support a proposed community standard.
+
+---
+
+Project Position
+
+The Human-Centered Resource Directory Schema is larger than an individual resource directory, scraper, or application.
+
+It is an attempt to define a better way to represent community-resource information:
+
+Human need as the entry point.
+
+Resource information as the foundation.
+
+Operational reality as necessary information.
+
+Accountability as part of the data.
+
+AI navigability as a design requirement.
+
+Federal interoperability as the structural foundation.
+
+The long-term objective is a resource-information standard that works for the person seeking help, the people maintaining the information, and the AI systems increasingly being used to help people find it.
