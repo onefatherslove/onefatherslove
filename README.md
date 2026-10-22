@@ -1,71 +1,83 @@
 Hi there 👋
 
-OneFathersLove.com and Hapi.mni
+ OneFathersLove.com and Hapi.mni
 
-Addressing the AI layer between people and AI in digital interfaces for community resources.
+Addressing the AI layer between people and digital interfaces for community resources, beginning in Sacramento, California, with an architecture designed to scale nationally.
 
-Overview
+OneFathersLove.com
 
-This repository is part of OneFathersLove.com, a dignity-first community resource directory designed to help people in crisis, or at risk of entering a crisis, move toward clear, immediate action and greater self-sufficiency through structured access to public resources.
+OneFathersLove.com is a user-first, dignity-centered resource directory that connects each person with the resource best suited to their needs, clearly explains what it offers and its eligibility requirements, and provides accurate, up-to-date information to support confident self-referral.
 
-The system begins in Sacramento with a clinic and resource prototype and is designed to scale nationally.
+Hapi.mni
 
-
-## Working Development Model
+Hapi.mni is an AI developed for OneFathersLove.com, built on the MNI Standards and informed by user experience to demonstrate the standards in practice. It focuses on making information and services easier to understand and access while protecting dignity, autonomy, and informed choice.
 
 Human Role
 
-This project is writren, drafted and guided by a human vision: making community resources easier to find, understand, and access while preserving people's dignity, autonomy, and ability to make their own decisions.
+Conceived, written, and developed by the founder, this project is guided by a human vision and remains under the founder's direction and responsibility. Human judgment, community needs, and an understanding of the challenges people face guide the development of technology that makes appropriate resources easier to find, understand, and access while preserving dignity and individual autonomy.
 
-The founder establishes the mission, defines priorities, directs development, and makes the final decisions about the project's direction and implementation. Human judgment, lived realities, and community needs guide the work, ensuring that technology serves people rather than requiring people to adapt to technology.
+AI Collaboration Roles
 
-Specifically, this MNI Standards address the AI gatekeepers and digital intakes by AI. AI is becoming a standard in digital communication and that needs to be addressed, which is what this is doing. 
-Working Development Model
+ChatGPT — System Architecture
 
-This project uses a multi-AI support workflow to assist with research, analysis, documentation, and implementation while keeping the project's vision, decisions, and direction under human control.
+Overall system design
 
-This project is being developed through a **multi-AI support workflow**, used to maintain continuity, reduce overload, and accelerate structured implementation.
+Data pipeline: Ingest → Normalize → Rank → Render
 
-### AI Collaboration Roles
+User experience logic and civic system architecture
 
-- **ChatGPT (System Architect)**
-  - Overall system design
-  - Data pipeline structure (Ingest → Normalize → Rank → Render)
-  - UX logic and civic system architecture
-  - Accessibility-first enforcement (Section 508)
-  - Long-range scalability planning
+Accessibility and scalability
 
-- **Claude (Implementation Support)**
-  - Code refinement and synthesis
-  - Structural debugging assistance
-  - Alternative implementation approaches
 
-- **Gemini (UX + External Review Layer)**
-  - Interface feedback
-  - UX critique and alternative reasoning
-  - External perspective validation
+Claude — Implementation Support
 
----
+Code refinement and synthesis
 
-## Core Design Principles
+Structural debugging
 
-### 1. Dignity-First UX
-Users are never treated as broken or deficient.  
-The system removes friction and restores agency.
+Alternative implementation approaches
 
-### 2. Portal Psychology Model
-UX flow is structured as:
 
-Need → Emotional State → Clarity → Action Readiness → Solution
+Gemini — User Experience and External Review
 
-### 3. Single-Focus Interaction
-- One resource at a time
-- One primary action per resource:
-  - CALL
-  - NAVIGATE
-  - APPLY
-  - VISIT
-  - SAVE
+Interface feedback
+
+User experience critique
+
+Independent perspectives and alternative reasoning
+
+
+Project direction and final decisions remain under human control.
+
+Minimum Necessary Information (MNI) Standards
+
+The MNI Standards establish requirements for how AI systems request, collect, and use information from people seeking services.
+
+The central principle is that information requests should be limited to what is necessary for a person's stated purpose. People should not have to disclose unnecessary personal information to connect with a resource.
+
+The MNI Standards work alongside standards addressing purpose transparency, individual autonomy and control, privacy by default, accuracy and honesty, understandability and accessibility, least burden, and respect and dignity. Together, these standards establish testable expectations for AI systems operating between people and the resources they need.
+
+The MNI principle also applies to AI-generated intake forms and scripts used by call-center staff.
+
+Design Principles
+
+Respect people's dignity, present one clear next step, make the site accessible, and minimize unnecessary information requests.
+
+Technical Architecture
+
+Static-first website using HTML, CSS, minimal JavaScript, and GitHub Pages.
+
+Data Pipeline
+
+Ingest → Normalize → Rank → Render
+
+Development Status
+
+Public prototype in active development.
+
+Development Approach
+
+One change at a time. One validation at a time.
 
 ### 4. Accessibility by Default
 - Section 508 compliance required
@@ -73,7 +85,6 @@ Need → Emotional State → Clarity → Action Readiness → Solution
 - Keyboard navigation support
 - Mobile-first design
 
----
 
 ## Technical Architecture
 
