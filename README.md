@@ -1,15 +1,28 @@
-## Hi there 👋
-# OneFathersLove — Development Context & AI Collaboration Layer
+Hi there 👋
 
-## Overview
+OneFathersLove.com and Hapi.mni
 
-This repository is part of **OneFathersLove.com**, a dignity-first civic assistance platform designed to help people move from confusion and crisis into clear, immediate action through structured access to public resources.
+Addressing the AI layer between people and AI in digital interfaces for community resources.
 
-The system begins in Sacramento (clinic/resource prototype) and is designed to scale nationally.
+Overview
 
----
+This repository is part of OneFathersLove.com, a dignity-first community resource directory designed to help people in crisis, or at risk of entering a crisis, move toward clear, immediate action and greater self-sufficiency through structured access to public resources.
+
+The system begins in Sacramento with a clinic and resource prototype and is designed to scale nationally.
+
 
 ## Working Development Model
+
+Human Role
+
+This project is writren, drafted and guided by a human vision: making community resources easier to find, understand, and access while preserving people's dignity, autonomy, and ability to make their own decisions.
+
+The founder establishes the mission, defines priorities, directs development, and makes the final decisions about the project's direction and implementation. Human judgment, lived realities, and community needs guide the work, ensuring that technology serves people rather than requiring people to adapt to technology.
+
+Specifically, this MNI Standards address the AI gatekeepers and digital intakes by AI. AI is becoming a standard in digital communication and that needs to be addressed, which is what this is doing. 
+Working Development Model
+
+This project uses a multi-AI support workflow to assist with research, analysis, documentation, and implementation while keeping the project's vision, decisions, and direction under human control.
 
 This project is being developed through a **multi-AI support workflow**, used to maintain continuity, reduce overload, and accelerate structured implementation.
 
@@ -77,54 +90,6 @@ Ingest → Normalize → Rank → Render
 All external data sources are normalized into a structured schema before rendering:
 
 ```json
-{
-  "id": "",
-  "name": "",
-  "location": "",
-  "contact": "",
-  "services": "",
-  "tags": [],
-  "urgency_score": 0,
-  "primary_action": ""
-}
-
-
----
-
-UX Constraints
-
-No cognitive overload design
-
-Flip cards preferred over sliders
-
-Returning users skip hero section (localStorage state)
-
-Map and card systems are synchronized
-
-Motion is secondary to clarity and action
-
-
-
----
-
-Current Focus
-
-Sacramento clinic/resource directory (prototype system)
-
-Leaflet map integration
-
-Card-based resource navigation system
-
-Stable API/data rendering pipeline
-
-
-Known issue:
-
-Clinic rendering pipeline stabilization still in progress
-
-
-
----
 
 Development Philosophy
 
@@ -134,12 +99,7 @@ It is treated as:
 
 > A civic guidance system that reduces friction between people and essential services.
 
-
-
 The goal is not aesthetic complexity, but functional clarity under real-world constraints.
-
-
----
 
 Status
 
@@ -147,16 +107,12 @@ Early-stage public prototype
 Active development
 Small commit history (intentional early-phase build)
 
-
----
-
 Note on Collaboration
 
 This project is intentionally structured for iterative improvement using constrained, step-by-step development. Stability is prioritized over expansion.
 
 One change at a time. One system at a time. One validation at a time.
 
-<!--
 **onefatherslove/onefatherslove** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
 Here are some ideas to get you started:
