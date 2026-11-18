@@ -1,0 +1,80 @@
+**SEHAI — Condensed Shareable Version**  
+Standard of Engagement for Healthcare Artificial Intelligence  
+Version: Condensed representation of the mapped thesis (based on MNI Testable Requirements Matrix v1.0 and full-suite mapping)  
+Author: Victor Stark  
+
+### What this document is
+This is a single, self-contained summary of the SEHAI framework. It preserves the exact names and order of all 13 standards, states the 30 Minimum Necessary Information (MNI) requirements in their original wording, and records only findings established by the source mapping work. It is intended for sharing by email, web page, or with another AI.
+
+**Definitions**  
+- **SEHAI**: Standard of Engagement for Healthcare Artificial Intelligence — a suite of 13 standards governing how AI systems should interact with people seeking healthcare and social-care assistance.  
+- **MNI**: Minimum Necessary Information — Standard 1 of SEHAI and the metric core of the framework. It defines what information an AI may request, when, and under what conditions.
+
+### The 13 Standards (exact names, correct order)
+1. Minimum Necessary Information (MNI)  
+2. Purpose Transparency  
+3. Individual Autonomy and Control  
+4. Privacy by Default  
+5. Location Responsibility  
+6. Safety First  
+7. Accuracy and Honesty  
+8. Understandability and Accessibility  
+9. Least Burden  
+10. Equal Ethical Standard  
+11. Respect and Dignity  
+12. Human Escalation and Appropriate Handoff  
+13. Continuous Improvement and Accountability  
+
+### The 30 MNI Requirements (original wording)
+1. The system requests, processes, and retains only information required to (a) provide the individual's immediate requested assistance, (b) improve safety, or (c) complete a clearly defined healthcare-related action.  
+2. The system determines what help the individual is seeking before identifying what information is needed; assistance, not collection, is the starting point.  
+3. The system bears the burden of justifying why information is necessary; the individual is never required to justify why they do not want to disclose.  
+4. More information is not presumed to produce better outcomes; personalization or accuracy gains must be specific and evidenced, never generic, to justify a new data element.  
+5. Comprehensive assessment is permitted when required for safe and appropriate care; the test is whether each element has a clear relationship to the individual's need, not the amount collected.  
+6. For every requested element the system can answer: has the system established why this information is necessary for the individual's stated goal, safety, or appropriate next step?  
+7. Questioning must be sufficient to identify the individual's actual need, not merely administrative, billing, or eligibility necessity. Extensive administrative intake that never asks what the person came for is a violation.  
+8. Both failure modes are violations: over-collection and under-inquiry. Neither excuses the other.  
+9. Information gathering is progressive, not comprehensive: begin with the least intrusive interaction; expand only when additional information becomes demonstrably necessary.  
+10. Engagement follows: individual need, understanding, relevant collection, appropriate assistance, confirmation of outcome. No personal data is collected before the goal is understood.  
+11. For every requested data point the system can clearly explain, in relation to the individual's immediate goal, why it needs this information at this moment; if it cannot, the request must not occur.  
+12. The mere technical ability to collect information creates no obligation for the individual to provide it; the system is designed from a position of restraint.  
+13. The fundamental privacy decision is whether to collect at all; uncollected information cannot be exposed, misused, or repurposed. Minimization is applied at the collection point, not only via post-collection controls.  
+14. The individual can communicate their need before being required to provide extensive personal information; the interaction opens with goal-surfacing, not data collection.  
+15. At or before each request the individual can learn: (1) why the information is requested, (2) how it will help their stated need, (3) whether it is required or optional, (4) what happens if they decline, (5) whether it will be retained after the immediate purpose ends.  
+16. Basic assistance or direction is provided without requiring unnecessary disclosure; the individual is not forced to exchange personal disclosure for access to help.  
+17. The system requests the least precise information that suffices for the purpose (for example ZIP or city rather than full street address).  
+18. Consent is a continuing process, not a single transaction; a new or expanded purpose triggers fresh, contextual consent rather than reuse of blanket consent.  
+19. Every requested information field has a defined purpose, and designers can identify what action each piece of information enables.  
+20. For each sensitive request the system can explain why a less sensitive or less precise alternative would not be sufficient.  
+21. Information collection expands only as the individual's chosen path requires; the AI adapts to the goal rather than imposing one uniform process.  
+22. Information collected for one purpose is not automatically available for unrelated purposes; no indefinite retention, unrelated profiling, or transfer without appropriate justification. The system's responsibility continues after the interaction ends.  
+23. General food assistance options are provided first; eligibility details are requested only if the individual selects a specific program requiring verification.  
+24. A person can view available healthcare options without providing a complete medical history; only the least precise location needed is requested.  
+25. A system demonstrates compliance when, per interaction: the goal was identified first; each requested element had a clear connection to the outcome; information was requested at the appropriate point; the system explained why additional information was necessary; assistance was provided without requiring unnecessary disclosure.  
+26. “Would this information request be considered appropriate if asked by a trusted healthcare or human service professional at this exact point in the conversation?”  
+27. The organization operates a measurable review process for MNI compliance, with defined cadence, owners, and metrics.  
+28. Each requested data element is periodically reviewed against five questions concerning necessity, less-sensitive alternatives, purpose explanation, ability to continue without it, and retention.  
+29. The organization tracks, at minimum: unnecessary information requests; user understanding of data requests; completion rates; privacy outcomes; user trust; successful connection to services.  
+30. The system is evaluated by how well it helps the individual while respecting what the person chooses to share, and by whether it asked what was needed to actually understand them — not by how much it knows about the person.
+
+### Relationship of Standards 2–13 to MNI
+Standards 2–13 were each mapped requirement-by-requirement against the 30 MNI rows. The established result of that mapping is:
+
+- Zero contradictions were found across 360 requirement-level comparisons.  
+- MNI functions as the metric core: it defines what compliance is.  
+- Standard 10 functions as the scope authority (the standards apply with equal force to clinical and social-support interactions).  
+- Standard 13 functions as the temporal authority (compliance must be maintained over time and across system changes).  
+- Later standards either operationalize MNI for specific data types or interaction layers, supply communicative or refusal mechanisms, or add governance and accountability requirements. They do not override MNI’s necessity rules.
+
+### Established architecture findings
+- The framework uses a bounded-exception design: when later standards create exceptions (especially Safety First), those exceptions are written in MNI’s own necessity language, preventing contradiction.  
+- MNI-30 (core effectiveness measured by help + understanding, not data volume) is supported across the full suite.  
+- Several standards identify the need for calibrated judgment (safety probing, escalation thresholds, bias detection) and explicitly leave the calibration method to future work.  
+- The suite distinguishes procedural compliance (the 30 MNI requirements) from relational compliance (tone, dignity, cumulative burden). Both layers are required for full evaluation.
+
+### Traceability note
+Every major architectural claim above is grounded in the completed mapping of Standards 2–13 against the MNI matrix. The full row-level evidence remains in the source mapping reports; this document records only the established aggregate results.
+
+---
+
+End of condensed shareable version.
